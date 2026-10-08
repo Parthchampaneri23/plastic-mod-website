@@ -197,8 +197,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute top-2 left-1/2 -translate-x-1/2 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-center ${activeIdx === 0 ? 'bg-white/95 backdrop-blur-md border border-blue-300 shadow-lg shadow-blue-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#0056b3] block">01 — PRECISION</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Accuracy in every detail</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#0056b3] block">01 — PRECISION</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Accuracy in every detail</span>
         </div>
 
         {/* 02 INTEGRITY (Top Right) */}
@@ -208,8 +208,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute top-16 right-10 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-left ${activeIdx === 1 ? 'bg-white/95 backdrop-blur-md border border-blue-300 shadow-lg shadow-blue-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#0056b3] block">02 — INTEGRITY</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Transparent partnerships</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#0056b3] block">02 — INTEGRITY</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Transparent partnerships</span>
         </div>
 
         {/* 03 INNOVATION (Top Left) */}
@@ -219,8 +219,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute top-16 left-10 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-right ${activeIdx === 2 ? 'bg-white/95 backdrop-blur-md border border-blue-300 shadow-lg shadow-blue-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#0056b3] block">03 — INNOVATION</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Advanced tooling technology</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#0056b3] block">03 — INNOVATION</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Advanced tooling technology</span>
         </div>
 
         {/* 04 RELIABILITY (Bottom Left) */}
@@ -230,8 +230,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute bottom-16 left-10 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-right ${activeIdx === 3 ? 'bg-white/95 backdrop-blur-md border border-orange-300 shadow-lg shadow-orange-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#ff6b00] block">04 — RELIABILITY</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Built for production</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#ff6b00] block">04 — RELIABILITY</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Built for production</span>
         </div>
 
         {/* 05 CUSTOMER FOCUS (Bottom Center) */}
@@ -241,8 +241,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute bottom-2 left-1/2 -translate-x-1/2 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-center ${activeIdx === 4 ? 'bg-white/95 backdrop-blur-md border border-blue-300 shadow-lg shadow-blue-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#0056b3] block">05 — CUSTOMER FOCUS</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Engineered around requirements</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#0056b3] block">05 — CUSTOMER FOCUS</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Engineered around requirements</span>
         </div>
 
         {/* 06 EXCELLENCE (Bottom Right) */}
@@ -252,8 +252,8 @@ const CoreValuesCompass: React.FC = () => {
           className={`absolute bottom-16 right-10 z-20 cursor-pointer p-3.5 rounded-xl transition-all duration-300 text-left ${activeIdx === 5 ? 'bg-white/95 backdrop-blur-md border border-orange-300 shadow-lg shadow-orange-500/10 -translate-y-1' : 'bg-white/70 backdrop-blur-xs hover:bg-white border border-slate-200/80 shadow-2xs'
             }`}
         >
-          <span className="text-[11px] font-mono font-bold text-[#ff6b00] block">06 — EXCELLENCE</span>
-          <span className="text-xs text-slate-700 font-semibold block mt-0.5">Quality-driven manufacturing</span>
+          <span className="text-[11px] font-mono font-extrabold text-[#ff6b00] block">06 — EXCELLENCE</span>
+          <span className="text-xs text-slate-900 font-bold block mt-0.5">Quality-driven manufacturing</span>
         </div>
 
       </div>

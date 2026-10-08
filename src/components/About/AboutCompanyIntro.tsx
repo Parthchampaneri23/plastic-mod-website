@@ -131,7 +131,6 @@ const TimelineSection: React.FC = () => {
   // Compute animated line width percentage based on hover index or default in-view progression
   const getLineWidth = () => {
     if (hoveredIdx !== null) {
-      // 5 items -> index 0=10%, 1=32.5%, 2=55%, 3=77.5%, 4=100%
       return `${((hoveredIdx + 1) / TIMELINE_MILESTONES.length) * 100}%`;
     }
     return isInView ? '100%' : '0%';
@@ -353,7 +352,7 @@ const CapabilityExplorer: React.FC = () => {
                   className="absolute bottom-4 left-4 right-4 z-20 p-4 rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 text-slate-900 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="p-2.5 bg-[#0056b3] rounded-lg text-white font-mono text-xs font-semibold shrink-0">
+                    <div className="p-2.5 bg-[#0056b3] rounded-lg text-white font-mono text-xs font-bold shrink-0">
                       {activeItem.num}
                     </div>
                     <div>
@@ -413,7 +412,7 @@ const CapabilityExplorer: React.FC = () => {
                 {/* Title & Description */}
                 <div>
                   <h4
-                    className={`text-sm sm:text-base transition-colors duration-300 leading-snug ${isActive ? 'font-bold text-[#0056b3]' : 'font-semibold text-slate-800'
+                    className={`text-sm sm:text-base font-bold tracking-tight transition-colors duration-300 leading-snug ${isActive ? 'text-[#0056b3]' : 'text-slate-900 hover:text-[#0056b3]'
                       }`}
                   >
                     {item.title}

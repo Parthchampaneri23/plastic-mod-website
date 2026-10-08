@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
 
 // Four Verified Strength Items
 const STRENGTH_STAGES = [
@@ -56,7 +57,7 @@ export const CompanyStrength: React.FC = () => {
   const activeStage = STRENGTH_STAGES[activeStageIdx] || STRENGTH_STAGES[0];
 
   return (
-    <section className="py-14 sm:py-13 bg-white relative overflow-hidden border-b border-slate-200">
+    <section className="py-13 sm:py-13 bg-white relative overflow-hidden border-b border-slate-200">
       {/* Subtle Background Tech Grid */}
       <div className="absolute inset-0 tech-grid-pattern opacity-30 pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(#0056b3_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
@@ -200,8 +201,8 @@ export const CompanyStrength: React.FC = () => {
                   onClick={() => setActiveStageIdx(idx)}
                   onMouseEnter={() => setActiveStageIdx(idx)}
                   className={`relative p-3.5 sm:p-4 rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-between gap-4 border ${isActive
-                      ? 'bg-blue-50/80 border-blue-200/90 shadow-2xs'
-                      : 'bg-white border-slate-200/80 hover:bg-slate-50 hover:border-slate-300'
+                    ? 'bg-blue-50/80 border-blue-200/90 shadow-2xs'
+                    : 'bg-white border-slate-200/80 hover:bg-slate-50 hover:border-slate-300'
                     }`}
                 >
                   {/* Thin Left Accent Line */}
@@ -222,7 +223,7 @@ export const CompanyStrength: React.FC = () => {
                     {/* Title & Description */}
                     <div>
                       <h4
-                        className={`text-sm sm:text-base transition-colors duration-300 leading-snug ${isActive ? 'font-bold text-[#0056b3]' : 'font-semibold text-slate-800'
+                        className={`text-sm sm:text-base font-bold tracking-tight transition-colors duration-300 leading-snug ${isActive ? 'text-[#0056b3]' : 'text-slate-900'
                           }`}
                       >
                         {stage.title}
@@ -233,14 +234,14 @@ export const CompanyStrength: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Small Right Arrow Indicator */}
+                  {/* Right Check Circle Icon Indicator */}
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${isActive
-                        ? 'bg-[#0056b3] text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-400 group-hover:text-slate-600'
+                      ? 'bg-[#0056b3] text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-400 group-hover:text-slate-600'
                       }`}
                   >
-                    <span className="text-xs">→</span>
+                    <CheckCircle2 className="w-4 h-4" />
                   </div>
                 </motion.div>
               );
@@ -276,8 +277,8 @@ export const CompanyStrength: React.FC = () => {
                   key={stage.id}
                   onClick={() => setActiveStageIdx(idx)}
                   className={`p-4 rounded-xl border transition-all cursor-pointer ${isActive
-                      ? 'bg-blue-50/90 border-blue-200 shadow-xs'
-                      : 'bg-white border-slate-200'
+                    ? 'bg-blue-50/90 border-blue-200 shadow-xs'
+                    : 'bg-white border-slate-200'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-1">
@@ -300,4 +301,3 @@ export const CompanyStrength: React.FC = () => {
     </section>
   );
 };
-

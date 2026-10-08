@@ -66,19 +66,20 @@ export const QualityCommitment: React.FC = () => {
     <section className="py-13 sm:py-13 bg-white text-slate-900 relative overflow-hidden border-b border-slate-200">
       {/* Background Subtle Tech Pattern */}
       <div className="absolute inset-0 tech-grid-pattern opacity-35 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#0056b3_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* ======================================================== */}
-        {/* SECTION HEADER                                           */}
+        {/* SECTION HEADER (MATCHES COMPANY STRENGTH HEADER STYLE)    */}
         {/* ======================================================== */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="mb-12 sm:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/90 text-[#0056b3] text-xs font-mono font-bold uppercase tracking-wider mb-4 shadow-2xs"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-[#0056b3] text-xs font-mono font-bold uppercase tracking-wider mb-4 shadow-2xs hover:bg-blue-100/80 hover:border-blue-300 transition-all duration-300 cursor-default"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
@@ -87,30 +88,37 @@ export const QualityCommitment: React.FC = () => {
             QUALITY COMMITMENT
           </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]"
-          >
-            Precision Doesn't End <br />
-            <span className="text-[#0056b3]">at Machining.</span>
-          </motion.h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="lg:col-span-7"
+            >
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
+                <span className="text-slate-900 block">Precision Doesn't End</span>
+                <span className="text-[#0056b3] block">at Machining.</span>
+              </h2>
+            </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-4 text-slate-600 text-sm sm:text-base font-normal leading-relaxed max-w-2xl mx-auto"
-          >
-            Our end-to-end Quality Assurance Journey guarantees zero-defect tooling, verified tolerances, and maximum cycle efficiency for every mold.
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="lg:col-span-5 relative pl-5 sm:pl-6"
+            >
+              <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
+              <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
+                Our end-to-end Quality Assurance Journey guarantees zero-defect tooling, verified tolerances, and maximum cycle efficiency for every mold.
+              </p>
+            </motion.div>
+          </div>
         </div>
 
         {/* ======================================================== */}
-        {/* QUALITY ASSURANCE JOURNEY STEPPERS (HORIZONTAL PROGRESS)  */}
+        {/* QUALITY ASSURANCE JOURNEY STEPPERS (HOVER & CLICK TRIGGER) */}
         {/* ======================================================== */}
         <div className="mb-12 relative">
           {/* Horizontal Progress Connecting Line */}
@@ -123,30 +131,31 @@ export const QualityCommitment: React.FC = () => {
                 <motion.button
                   key={stage.id}
                   onClick={() => setActiveStageId(stage.id)}
-                  whileHover={{ y: -3 }}
-                  transition={{ duration: 0.2 }}
-                  className={`p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between ${isActive
-                    ? 'bg-blue-50/90 border-[#0056b3] shadow-md'
-                    : 'bg-white border-slate-200 hover:border-slate-300 text-slate-600 hover:bg-slate-50'
+                  onMouseEnter={() => setActiveStageId(stage.id)}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className={`p-4 sm:p-5 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between group ${isActive
+                    ? 'bg-blue-50/90 border-[#0056b3] ring-2 ring-[#0056b3]/20 shadow-md scale-[1.01]'
+                    : 'bg-white border-slate-200/90 hover:border-slate-300 text-slate-600 hover:bg-slate-50 shadow-2xs hover:shadow-sm'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <span
-                      className={`font-mono text-xs font-bold px-2 py-0.5 rounded-md ${isActive
-                        ? 'bg-[#0056b3] text-white'
-                        : 'bg-slate-100 text-slate-600'
+                      className={`font-mono text-xs font-bold px-2.5 py-1 rounded-md transition-all duration-300 ${isActive
+                        ? 'bg-[#0056b3] text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-[#0056b3]'
                         }`}
                     >
                       {stage.num}
                     </span>
-                    <span className={`w-2.5 h-2.5 rounded-full ${isActive ? 'bg-[#ff6b00] animate-pulse' : 'bg-slate-300'}`} />
+                    <span className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${isActive ? 'bg-[#ff6b00] ring-4 ring-orange-500/25 animate-pulse' : 'bg-slate-300 group-hover:bg-blue-400'}`} />
                   </div>
 
                   <div>
-                    <div className={`text-xs sm:text-sm font-bold tracking-tight mb-1 ${isActive ? 'text-[#0056b3]' : 'text-slate-900'}`}>
+                    <div className={`text-xs sm:text-sm font-bold tracking-tight mb-1 transition-colors duration-200 ${isActive ? 'text-[#0056b3]' : 'text-slate-900 group-hover:text-[#0056b3]'}`}>
                       {stage.title}
                     </div>
-                    <div className="text-[11px] text-slate-500 line-clamp-1">
+                    <div className="text-[11px] text-slate-500 line-clamp-1 font-medium group-hover:text-slate-700">
                       {stage.tagline}
                     </div>
                   </div>
@@ -165,8 +174,8 @@ export const QualityCommitment: React.FC = () => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35 }}
-            className="p-7 sm:p-10 rounded-[28px] bg-slate-50 border border-slate-200/90 shadow-lg relative overflow-hidden"
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="p-7 sm:p-10 rounded-[28px] bg-slate-50/90 backdrop-blur-xs border border-slate-200/90 shadow-xl relative overflow-hidden group/detail"
           >
             {/* Top Accent Gradient Bar */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
@@ -175,8 +184,8 @@ export const QualityCommitment: React.FC = () => {
 
               {/* Left Column: Stage Info */}
               <div className="lg:col-span-7 space-y-5">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-2xs">
+                <div className="flex items-center space-x-3.5">
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs group-hover/detail:scale-105 transition-transform duration-300">
                     {activeStage.icon}
                   </div>
                   <div>
@@ -202,10 +211,12 @@ export const QualityCommitment: React.FC = () => {
                     {activeStage.metrics.map((metric, mIdx) => (
                       <div
                         key={mIdx}
-                        className="p-3 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-800 flex items-center space-x-2.5 shadow-2xs"
+                        className="p-3.5 rounded-xl bg-white border border-blue-200/80 text-xs font-semibold text-slate-800 flex items-center space-x-3 shadow-xs hover:border-[#0056b3] hover:shadow-md hover:bg-blue-50/40 transition-all duration-200 group/metric"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#0056b3] shrink-0" />
-                        <span>{metric}</span>
+                        <div className="p-1 rounded-full bg-blue-50 text-[#0056b3] group-hover/metric:bg-[#0056b3] group-hover/metric:text-white transition-colors">
+                          <CheckCircle2 className="w-4 h-4 shrink-0" />
+                        </div>
+                        <span className="tracking-tight">{metric}</span>
                       </div>
                     ))}
                   </div>
@@ -214,23 +225,24 @@ export const QualityCommitment: React.FC = () => {
 
               {/* Right Column: Equipment & Metrology Spec Card */}
               <div className="lg:col-span-5">
-                <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-md">
-                  <div className="text-xs font-mono font-bold text-[#0056b3] uppercase tracking-wider border-b border-slate-100 pb-2">
-                    EQUIPMENT & STANDARDS
+                <div className="p-6 rounded-2xl bg-white border border-slate-200 space-y-4 shadow-md hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+                  <div className="text-xs font-mono font-bold text-[#0056b3] uppercase tracking-wider border-b border-slate-100 pb-2 flex items-center justify-between">
+                    <span>EQUIPMENT & STANDARDS</span>
+                    <span className="h-2 w-2 rounded-full bg-[#0056b3] animate-pulse" />
                   </div>
 
                   <div>
-                    <div className="text-xs text-slate-500">Primary Testing System</div>
+                    <div className="text-xs text-slate-500 font-medium">Primary Testing System</div>
                     <div className="text-sm font-bold text-slate-900 mt-0.5">{activeStage.equipment}</div>
                   </div>
 
                   <div className="pt-2 border-t border-slate-100">
-                    <div className="text-xs text-slate-500">Tolerance Target</div>
+                    <div className="text-xs text-slate-500 font-medium">Tolerance Target</div>
                     <div className="text-sm font-bold text-[#ff6b00] font-mono mt-0.5">Sub-Micron (±0.005mm)</div>
                   </div>
 
                   <div className="pt-2 border-t border-slate-100">
-                    <div className="text-xs text-slate-500">Quality Certificate</div>
+                    <div className="text-xs text-slate-500 font-medium">Quality Certificate</div>
                     <div className="text-xs font-semibold text-[#0056b3] font-mono mt-0.5">ISO 9001:2015 Verified</div>
                   </div>
                 </div>
