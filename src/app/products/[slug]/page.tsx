@@ -1,9 +1,13 @@
 import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import ProductDetailHero from '@/components/product-detail/ProductDetailHero';
+import ProductImageGallery from '@/components/product-detail/ProductImageGallery';
+import ProductTechSpecsTable from '@/components/product-detail/ProductTechSpecsTable';
+import KeyPerformanceFeatures from '@/components/product-detail/KeyPerformanceFeatures';
+import ProductInquiryForm from '@/components/product-detail/ProductInquiryForm';
+import RelatedProducts from '@/components/product-detail/RelatedProducts';
 import { PRODUCTS } from '@/data/products';
 
 interface ProductDetailPageProps {
@@ -26,123 +30,108 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 
-  const inquiryUrl = `/contact?product=${encodeURIComponent(product.name)}`;
+  // Get 3 related products from the same category (or other categories if needed)
+  const relatedProducts = PRODUCTS.filter(
+    (p) => p.categorySlug === product.categorySlug && p.slug !== product.slug
+  ).slice(0, 3);
+
+  // Fallback related products if less than 3
+  if (relatedProducts.length < 3) {
+    const extra = PRODUCTS.filter((p) => p.slug !== product.slug && !relatedProducts.includes(p)).slice(0, 3 - relatedProducts.length);
+    relatedProducts.push(...extra);
+  }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col" suppressHydrationWarning>
       <Header />
-      <main className="flex-grow pt-28 pb-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Breadcrumb */}
-        <nav className="flex items-center space-x-2 text-xs md:text-sm text-slate-500 font-medium mb-8">
-          <Link href="/" className="hover:text-blue-600 transition-colors">
-            HOME
-          </Link>
-          <span>&gt;</span>
-          <Link href="/products" className="hover:text-blue-600 transition-colors">
-            PRODUCTS
-          </Link>
-          <span>&gt;</span>
-          <span className="text-blue-600 font-semibold">{product.name}</span>
-        </nav>
 
-        {/* Detail Card Container */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
-            {/* Left Column: Product Image */}
-            <div className="lg:col-span-6 bg-slate-100 relative min-h-[350px] lg:min-h-[480px] p-6 flex items-center justify-center">
-              <div className="relative w-full h-full min-h-[320px] rounded-xl overflow-hidden shadow-inner">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  priority
-                  className="object-cover object-center"
+      <main className="flex-grow">
+        {/* Banner Hero Section using product banner.png */}
+        <ProductDetailHero product={product} />
+
+        {/* Main Details Section */}
+        <section className="py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-12">
+            
+            {/* Top Grid: Left Gallery + Right Key Info */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+              
+              {/* Left Column: Image Gallery */}
+              <div className="lg:col-span-6">
+                <ProductImageGallery
+                  image={product.image}
+                  productName={product.name}
                 />
               </div>
-            </div>
 
-            {/* Right Column: Information & Details */}
-            <div className="lg:col-span-6 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
-              <div>
-                {/* Category Badge */}
-                <span className="inline-block px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider mb-4 border border-blue-100">
-                  {product.category}
-                </span>
+              {/* Right Column: Key Details & Overview */}
+              <div className="lg:col-span-6 space-y-6">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-md bg-blue-50 text-[#0056b3] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
+                    {product.category}
+                  </span>
+                  <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight mb-3">
+                    {product.name}
+                  </h1>
+                  <p className="text-slate-600 text-base leading-relaxed font-normal">
+                    {product.shortDescription}
+                  </p>
+                </div>
 
-                {/* Product Title */}
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
-                  {product.name}
-                </h1>
+                {/* Product Overview Block */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Product Overview
+                  </h3>
+                  <p className="text-slate-800 text-sm sm:text-base leading-relaxed font-medium">
+                    {product.overview}
+                  </p>
+                </div>
 
-                {/* Short Description */}
-                <p className="text-slate-600 text-base leading-relaxed mb-6">
-                  {product.shortDescription}
-                </p>
-
-                {/* Full Description */}
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Overview</h3>
-                  <p className="text-slate-700 text-sm leading-relaxed">
+                {/* Full Engineering Description */}
+                <div className="space-y-2">
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Engineering Description
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed font-normal">
                     {product.fullDescription}
                   </p>
                 </div>
 
-                {/* Key Technical Specifications Table */}
-                <div className="mb-8">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">
-                    Technical Specifications
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {product.specifications.map((spec, idx) => (
-                      <div key={idx} className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                        <span className="block text-xs font-semibold text-slate-500 uppercase">{spec.label}</span>
-                        <span className="block text-sm font-bold text-slate-900 mt-0.5">{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
+                {/* Key Performance Features List with Animation */}
+                <KeyPerformanceFeatures features={product.features} />
+
+                {/* Action CTAs */}
+                <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                  <a
+                    href="#product-inquiry"
+                    className="inline-flex items-center justify-center px-6 py-3.5 bg-[#0056b3] hover:bg-blue-800 text-white font-semibold rounded-xl transition-colors shadow-sm text-sm"
+                  >
+                    Send Inquiry
+                  </a>
+                  <a
+                    href="tel:+917784758347"
+                    className="inline-flex items-center justify-center px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold rounded-xl transition-colors text-sm"
+                  >
+                    Call Technical Expert
+                  </a>
                 </div>
-
-                {/* Product Features List */}
-                {product.features && product.features.length > 0 && (
-                  <div className="mb-8">
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3">
-                      Key Highlights & Features
-                    </h3>
-                    <ul className="space-y-2">
-                      {product.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start text-sm text-slate-700">
-                          <svg className="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row gap-4">
-                <Link
-                  href={inquiryUrl}
-                  className="flex-1 inline-flex items-center justify-center text-center px-6 py-3.5 bg-[#0B2545] hover:bg-blue-900 text-white font-semibold rounded-xl transition-colors shadow-md"
-                >
-                  Send Inquiry for this Product
-                </Link>
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold rounded-xl transition-colors"
-                >
-                  Back to Catalog
-                </Link>
               </div>
             </div>
+
+            {/* Middle Block: Technical Specifications Table */}
+            <ProductTechSpecsTable techSpecs={product.techSpecs} />
+
+            {/* Direct Product Inquiry Form Section */}
+            <ProductInquiryForm product={product} />
+
+            {/* Related Products Catalog Section */}
+            <RelatedProducts relatedProducts={relatedProducts} />
+
           </div>
-        </div>
-      </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );

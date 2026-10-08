@@ -54,7 +54,7 @@ function ProductsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col" suppressHydrationWarning>
       <Header />
       <main className="flex-grow">
         {/* Hero Banner */}
