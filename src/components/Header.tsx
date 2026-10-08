@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
                       {/* Preform & Jar Moulds */}
                       <div>
                         <Link
-                          href="/products?category=preform-jar"
+                          href="/products?category=preform-jar#catalog"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -132,7 +132,7 @@ export const Header: React.FC = () => {
                       {/* ISBM Moulds */}
                       <div>
                         <Link
-                          href="/products?category=isbm"
+                          href="/products?category=isbm#catalog"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -158,7 +158,7 @@ export const Header: React.FC = () => {
                       {/* EBM Moulds */}
                       <div>
                         <Link
-                          href="/products?category=ebm"
+                          href="/products?category=ebm#catalog"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -186,7 +186,7 @@ export const Header: React.FC = () => {
                     <div className="pt-4 mt-5 border-t border-slate-100 bg-slate-50/80 -mx-6 -mb-6 p-4 rounded-b-2xl flex items-center justify-between px-6">
                       <span className="text-xs text-slate-500 font-medium">Explore precision tooling configurations</span>
                       <Link
-                        href="/products"
+                        href="/products#catalog"
                         className="text-xs text-[#0056b3] hover:text-blue-800 font-bold flex items-center space-x-1"
                         onClick={() => setDropdownOpen(false)}
                       >

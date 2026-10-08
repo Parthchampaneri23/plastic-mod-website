@@ -112,7 +112,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     description: "High-precision mold solutions built for accuracy, durability and performance.",
     image: "/Home/Banner1.png",
     primaryCtaText: "EXPLORE PRODUCTS",
-    primaryCtaLink: "#product-categories",
+    primaryCtaLink: "/products#catalog",
     secondaryCtaText: "OUR CAPABILITIES",
     secondaryCtaLink: "#capabilities",
     badge: "Patel Mould Excellence",
@@ -125,7 +125,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     description: "Preform, ISBM, and EBM tooling built for high-speed production.",
     image: "/Home/Banner2.png",
     primaryCtaText: "VIEW SOLUTIONS",
-    primaryCtaLink: "#product-categories",
+    primaryCtaLink: "/products#catalog",
     secondaryCtaText: "REQUEST A QUOTE",
     secondaryCtaLink: "#inquiry-section",
     badge: "Multi-Cavity Tooling",
@@ -402,41 +402,47 @@ export const QUALITY_STANDARDS: QualityStandard[] = [
   }
 ];
 
-export const FEATURED_PRODUCTS: FeaturedProduct[] = [
+export const FEATURED_PRODUCTS = [
   {
     id: "feat-preform",
-    name: "48-Cavity PET Bottle Preform Tooling",
+    slug: "pet-preform-mold",
+    name: "PET Preform Mold",
     category: "Preform & Jar Mold",
-    image: "/Home/preform-mold.png",
-    tag: "High Cavitation",
+    image: "/product/pet-preform-mold.png",
+    tag: "High Volume",
+    shortDesc: "High-speed preform moulds built for smooth, reliable bottle production and seamless daily output.",
     specifications: [
-      { label: "Neck Format", value: "PCO 1881 / 28mm" },
-      { label: "Production Cycle", value: "8.5 - 10.5 Sec" },
-      { label: "Core/Cavity Steel", value: "Uddeholm S136 (HRC 48-52)" }
+      { label: "Mold Type", value: "PET Preform" },
+      { label: "Application", value: "Beverage & Packaging" },
+      { label: "Cavity Config", value: "Custom (Single to Multi-cavity)" }
     ]
   },
   {
     id: "feat-isbm",
-    name: "Single-Stage ISBM Cosmetic Container Mold",
+    slug: "isbm-bottle-mold",
+    name: "ISBM Bottle Mold",
     category: "ISBM Mold",
-    image: "/Home/isbm-mold.png",
+    image: "/product/isbm-bottle-mold.png",
     tag: "Optical Clarity",
+    shortDesc: "Single-stage stretch blow moulds delivering crystal-clear bottle finish and uniform wall strength.",
     specifications: [
-      { label: "Volume Range", value: "250 ml - 500 ml" },
-      { label: "Press System", value: "Nissei ASB / Aoki" },
-      { label: "Surface Finish", value: "Ra 0.1 Mirror Polish" }
+      { label: "Mold Type", value: "ISBM" },
+      { label: "Application", value: "PET Bottles" },
+      { label: "Configuration", value: "Single-Stage Custom" }
     ]
   },
   {
     id: "feat-ebm",
-    name: "5 Litre Industrial Chemical Jerrycan Mold",
+    slug: "ebm-bottle-mold",
+    name: "EBM Bottle Mold",
     category: "EBM Mold",
-    image: "/Home/ebm-mold.png",
+    image: "/product/ebm-bottle-mold.png",
     tag: "Heavy Duty",
+    shortDesc: "Durable extrusion blow moulds engineered for crisp bottle contours and clean flash separation.",
     specifications: [
-      { label: "Container Size", value: "5.0 Litre" },
-      { label: "Pinch Inserts", value: "Beryllium Copper" },
-      { label: "Co-Extrusion", value: "Up to 6-Layer Multi-Layer" }
+      { label: "Mold Type", value: "EBM" },
+      { label: "Application", value: "Bottles & Containers" },
+      { label: "Pinch Inserts", value: "Beryllium Copper" }
     ]
   }
 ];

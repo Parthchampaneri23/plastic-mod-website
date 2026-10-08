@@ -71,8 +71,8 @@ export default function ProductSearch({
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex justify-center">
-          <div className="inline-flex flex-wrap justify-center p-1.5 bg-white rounded-xl border border-slate-200 shadow-sm gap-1">
+        <div id="catalog" className="flex justify-center scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
+          <div id="search" className="inline-flex flex-wrap justify-center p-1.5 bg-white rounded-xl border border-slate-200 shadow-sm gap-1">
             {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat.slug;
               return (

@@ -152,7 +152,7 @@ export const CompanyIntro: React.FC = () => {
 
             {/* Read More Button */}
             <div className="pt-3">
-              <Button href="#capabilities" variant="primary" size="md" icon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}>
+              <Button href="/about#capabilities" variant="primary" size="md" icon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}>
                 Read More About Our Technology
               </Button>
             </div>

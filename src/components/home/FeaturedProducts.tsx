@@ -87,7 +87,7 @@ export const FeaturedProducts: React.FC = () => {
               className="h-full"
             >
               <Link
-                href="#inquiry-section"
+                href={`/products/${product.slug}`}
                 className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl hover:border-[#0056b3] transition-all duration-500 flex flex-col justify-between group h-full block cursor-pointer"
               >
                 <div>
@@ -98,22 +98,28 @@ export const FeaturedProducts: React.FC = () => {
                       transition={{ duration: 0.7 }}
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center"
                     />
+                    <div className="absolute top-3 left-3 bg-[#0056b3] text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                      {product.category}
+                    </div>
                   </div>
 
-                  {/* Card Body: Product Name */}
-                  <div className="p-6">
-                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 group-hover:text-[#0056b3] transition-colors leading-snug">
+                  {/* Card Body: Product Name & Description */}
+                  <div className="p-6 space-y-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-[#0056b3] transition-colors leading-snug">
                       {product.name}
                     </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {product.shortDesc}
+                    </p>
                   </div>
                 </div>
 
                 {/* View Details Action Button */}
                 <div className="p-6 pt-0">
-                  <div className="w-full py-3 px-4 rounded-xl border border-slate-200 font-bold text-slate-700 text-sm flex items-center justify-center gap-2 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] transition-all duration-300 shadow-2xs">
-                    <span>View Details</span>
+                  <div className="w-full py-3 px-4 rounded-xl border border-blue-100 bg-blue-50/60 font-bold text-[#0056b3] text-sm flex items-center justify-center gap-2 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] transition-all duration-300 shadow-2xs">
+                    <span>View Product Details</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>

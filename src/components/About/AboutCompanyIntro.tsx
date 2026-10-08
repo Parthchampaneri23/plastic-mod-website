@@ -650,7 +650,7 @@ export const AboutCompanyIntro: React.FC = () => {
         {/* ======================================================== */}
         {/* PART 4: CORE EXPERTISE (CAPABILITY EXPLORER)             */}
         {/* ======================================================== */}
-        <div className="pt-10 sm:pt-14 border-t border-slate-200">
+        <div id="capabilities" className="pt-10 sm:pt-14 border-t border-slate-200">
 
           {/* Eyebrow Badge */}
           <motion.div

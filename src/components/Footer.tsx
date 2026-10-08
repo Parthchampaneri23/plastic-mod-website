@@ -9,7 +9,6 @@ import {
   ArrowUp,
   ChevronRight
 } from 'lucide-react';
-import { PRODUCT_CATEGORIES } from '@/data/content';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -157,30 +156,22 @@ export const Footer: React.FC = () => {
               PRODUCT CATEGORIES
             </h4>
             <ul className="space-y-3 text-xs">
-              {PRODUCT_CATEGORIES.map(cat => (
-                <li key={cat.id}>
-                  <Link href={`#${cat.id}`} className="hover:text-white transition-colors flex items-center gap-1.5 group">
-                    <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                    <span>{cat.name}</span>
-                  </Link>
-                </li>
-              ))}
               <li>
-                <Link href="#featured-products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/products?category=preform-jar#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Hot Runner Preform Tooling</span>
+                  <span>Preform &amp; Jar Mold</span>
                 </Link>
               </li>
               <li>
-                <Link href="#featured-products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/products?category=isbm#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Single-Stage ISBM Molds</span>
+                  <span>ISBM Mold</span>
                 </Link>
               </li>
               <li>
-                <Link href="#featured-products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/products?category=ebm#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>EBM Industrial Molds</span>
+                  <span>EBM Mold</span>
                 </Link>
               </li>
             </ul>

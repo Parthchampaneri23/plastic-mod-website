@@ -73,19 +73,28 @@ export const ProductCategories: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {PRODUCT_CATEGORIES.map((category, index) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="h-full"
-            >
-              <Link
-                href="#featured-products"
-                className="block h-full bg-white rounded-3xl overflow-hidden border border-slate-200 flex flex-col justify-between group shadow-sm hover:shadow-2xl hover:border-[#0056b3] transition-all duration-300 cursor-pointer"
+          {PRODUCT_CATEGORIES.map((category, index) => {
+            const categorySlugMap: Record<string, string> = {
+              'preform-jar-mold': 'preform-jar',
+              'isbm-mold': 'isbm',
+              'ebm-mold': 'ebm',
+            };
+            const categorySlug = categorySlugMap[category.id] || '';
+            const categoryUrl = `/products?category=${categorySlug}#catalog`;
+
+            return (
+              <motion.div
+                key={category.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                className="h-full"
               >
+                <Link
+                  href={categoryUrl}
+                  className="block h-full bg-white rounded-3xl overflow-hidden border border-slate-200 flex flex-col justify-between group shadow-sm hover:shadow-2xl hover:border-[#0056b3] transition-all duration-300 cursor-pointer"
+                >
                 <div>
                   {/* Clean Category Image Box with Zoom */}
                   <div className="relative h-64 overflow-hidden bg-slate-900">
@@ -116,7 +125,8 @@ export const ProductCategories: React.FC = () => {
                 </div>
               </Link>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
 
       </div>
