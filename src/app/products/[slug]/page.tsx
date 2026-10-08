@@ -7,6 +7,7 @@ import ProductImageGallery from '@/components/product-detail/ProductImageGallery
 import ProductTechSpecsTable from '@/components/product-detail/ProductTechSpecsTable';
 import KeyPerformanceFeatures from '@/components/product-detail/KeyPerformanceFeatures';
 import ProductInquiryForm from '@/components/product-detail/ProductInquiryForm';
+import ProductDetailScrollHandler from '@/components/product-detail/ProductDetailScrollHandler';
 import RelatedProducts from '@/components/product-detail/RelatedProducts';
 import { PRODUCTS } from '@/data/products';
 
@@ -44,13 +45,14 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col" suppressHydrationWarning>
       <Header />
+      <ProductDetailScrollHandler />
 
       <main className="flex-grow">
         {/* Banner Hero Section using product banner.png */}
         <ProductDetailHero product={product} />
 
         {/* Main Details Section */}
-        <section className="py-12 md:py-16">
+        <section id="details" className="py-12 md:py-16 scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-12">
             
             {/* Top Grid: Left Gallery + Right Key Info */}

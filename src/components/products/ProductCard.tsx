@@ -11,7 +11,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const detailUrl = `/products/${product.slug}`;
+  const detailUrl = `/products/${product.slug}#details`;
 
   return (
     <motion.div

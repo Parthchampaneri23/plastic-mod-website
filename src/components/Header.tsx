@@ -117,7 +117,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'preform-jar').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}`}
+                              href={`/products/${p.slug}#details`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
@@ -143,7 +143,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'isbm').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}`}
+                              href={`/products/${p.slug}#details`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
@@ -169,7 +169,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'ebm').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}`}
+                              href={`/products/${p.slug}#details`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
