@@ -112,21 +112,21 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#company-intro" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/about" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
                   <span>About Us</span>
                 </Link>
               </li>
               <li>
-                <Link href="#capabilities" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/manufacturing" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
                   <span>Manufacturing Capabilities</span>
                 </Link>
               </li>
               <li>
-                <Link href="#infrastructure" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Infrastructure & Facilities</span>
+                  <span>Product Catalog</span>
                 </Link>
               </li>
               <li>
