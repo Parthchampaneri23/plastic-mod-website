@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-sans text-slate-800">
       {/* Mefron Dark Navy Top Utility Bar */}
       <div className="hidden xl:block bg-[#0b1f3a] border-b border-slate-800 text-xs py-2 text-slate-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -63,18 +63,18 @@ export const Header: React.FC = () => {
 
       {/* Main Navigation Header - Clean White Surface */}
       <nav className={`transition-all duration-300 ${isScrolled
-        ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-md py-1'
-        : 'bg-white border-b border-slate-100 py-1.5'
+        ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm py-1.5'
+        : 'bg-white border-b border-slate-100 shadow-xs py-1.5'
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
 
             {/* Logo Image */}
-            <Link href="/" className="flex items-center group shrink-0 -my-2 py-0.5">
+            <Link href="/" className="flex items-center group shrink-0">
               <img
                 src="/PMlogo.png"
                 alt="Patel Mould Industries"
-                className="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-102"
+                className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-102"
               />
             </Link>
 
@@ -106,7 +106,7 @@ export const Header: React.FC = () => {
                       {/* Preform & Jar Moulds */}
                       <div>
                         <Link
-                          href="/products?category=preform-jar#catalog"
+                          href="/products?category=preform-jar"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -117,7 +117,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'preform-jar').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}#details`}
+                              href={`/products/${p.slug}`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
@@ -132,7 +132,7 @@ export const Header: React.FC = () => {
                       {/* ISBM Moulds */}
                       <div>
                         <Link
-                          href="/products?category=isbm#catalog"
+                          href="/products?category=isbm"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -143,7 +143,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'isbm').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}#details`}
+                              href={`/products/${p.slug}`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
@@ -158,7 +158,7 @@ export const Header: React.FC = () => {
                       {/* EBM Moulds */}
                       <div>
                         <Link
-                          href="/products?category=ebm#catalog"
+                          href="/products?category=ebm"
                           className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                           onClick={() => setDropdownOpen(false)}
                         >
@@ -169,7 +169,7 @@ export const Header: React.FC = () => {
                           {PRODUCTS.filter((p) => p.categorySlug === 'ebm').map((p) => (
                             <Link
                               key={p.slug}
-                              href={`/products/${p.slug}#details`}
+                              href={`/products/${p.slug}`}
                               className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
                               onClick={() => setDropdownOpen(false)}
                             >
@@ -186,7 +186,7 @@ export const Header: React.FC = () => {
                     <div className="pt-4 mt-5 border-t border-slate-100 bg-slate-50/80 -mx-6 -mb-6 p-4 rounded-b-2xl flex items-center justify-between px-6">
                       <span className="text-xs text-slate-500 font-medium">Explore precision tooling configurations</span>
                       <Link
-                        href="/products#catalog"
+                        href="/products"
                         className="text-xs text-[#0056b3] hover:text-blue-800 font-bold flex items-center space-x-1"
                         onClick={() => setDropdownOpen(false)}
                       >
@@ -200,6 +200,9 @@ export const Header: React.FC = () => {
 
               <Link href="/manufacturing" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
                 Manufacturing
+              </Link>
+              <Link href="/infrastructure" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
+                Infrastructure
               </Link>
 
               <Link href="/#industries" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
@@ -324,6 +327,14 @@ export const Header: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Manufacturing Capabilities
+            </Link>
+
+            <Link
+              href="/infrastructure"
+              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Infrastructure &amp; Facilities
             </Link>
 
             <Link

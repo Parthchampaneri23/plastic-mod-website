@@ -43,7 +43,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col" suppressHydrationWarning>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans" suppressHydrationWarning>
       <Header />
       <ProductDetailScrollHandler />
 
@@ -52,7 +52,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         <ProductDetailHero product={product} />
 
         {/* Main Details Section */}
-        <section id="details" className="py-12 md:py-13 scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
+        <section id="details" className="py-13 md:py-13 scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl space-y-12">
 
             {/* Top Grid: Left Gallery + Right Key Info */}

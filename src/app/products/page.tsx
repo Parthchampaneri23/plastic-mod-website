@@ -54,7 +54,7 @@ function ProductsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col" suppressHydrationWarning>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans" suppressHydrationWarning>
       <Header />
       <main className="flex-grow">
         {/* Hero Banner */}
@@ -69,7 +69,7 @@ function ProductsContent() {
         />
 
         {/* Main Catalog Section */}
-        <section className="py-12 md:py-13">
+        <section className="py-13 md:py-13">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {/* Section Header */}
             <div className="mb-10">

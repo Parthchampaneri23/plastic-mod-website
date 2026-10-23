@@ -124,6 +124,12 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/infrastructure" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
+                  <span>Infrastructure &amp; Facilities</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
                   <span>Product Catalog</span>

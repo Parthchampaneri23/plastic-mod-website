@@ -110,7 +110,7 @@ export default async function MachineDetailPage({ params }: PageProps) {
         {/* ======================================================== */}
         {/* B. MACHINE HERO SECTION (TWO-COLUMN BALANCED)            */}
         {/* ======================================================== */}
-        <section className="py-10 sm:py-13 bg-white border-b border-[#DFE7F1]">
+        <section className="py-13 sm:py-13 bg-white border-b border-[#DFE7F1]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
@@ -200,7 +200,7 @@ export default async function MachineDetailPage({ params }: PageProps) {
         {/* ======================================================== */}
         {/* C. TECHNICAL SPECIFICATIONS & CAPACITY (PERFECTLY ALIGNED) */}
         {/* ======================================================== */}
-        <section className="py-12 sm:py-13 bg-[#F6F8FC] border-b border-[#DFE7F1]">
+        <section className="py-13 sm:py-13 bg-[#F6F8FC] border-b border-[#DFE7F1]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
             {/* Spec Table + Capacity Cards Grid with Aligned Headers */}
@@ -312,7 +312,7 @@ export default async function MachineDetailPage({ params }: PageProps) {
         {/* ======================================================== */}
         {/* D. RELATED MACHINERY CAROUSEL / GRID                     */}
         {/* ======================================================== */}
-        <section className="py-12 sm:py-13 bg-white border-b border-[#DFE7F1]">
+        <section className="py-13 sm:py-13 bg-white border-b border-[#DFE7F1]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <div className="flex items-center justify-between">
               <div>
