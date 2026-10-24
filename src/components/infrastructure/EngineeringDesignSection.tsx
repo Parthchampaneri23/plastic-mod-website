@@ -14,7 +14,7 @@ export default function EngineeringDesignSection() {
   return (
     <section
       id="engineering-design"
-      className="py-14 sm:py-13 md:py-13 bg-slate-50/70 border-b border-slate-200/80 relative"
+      className="py-13 sm:py-13 md:py-13 bg-slate-50/70 border-b border-slate-200/80 relative"
       aria-labelledby="engineering-design-heading"
     >
       <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,129 +74,80 @@ export default function EngineeringDesignSection() {
               priority={false}
             />
 
-            {/* Bottom-left Compact Label */}
-            <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-xs text-white px-3 py-1 rounded text-[11px] font-semibold tracking-wider border border-white/10 uppercase">
-              ENGINEERING DESIGN &amp; PLANNING
-            </div>
           </div>
-
-          {/* Understated Caption */}
-          <p className="mt-2 text-[12px] text-slate-500 flex items-center gap-1.5 pl-0.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]" />
-            CAD-based mould design and manufacturing preparation
-          </p>
         </motion.div>
 
-        {/* 3. Blueprint-Inspired Design Workflow (Signature Feature) */}
+        {/* 3. Engineering Workflow Card (Clean Plain White with Theme Hover) */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="relative bg-white/90 border border-blue-200/60 rounded-lg p-5 sm:p-7 md:p-8 mb-10 sm:mb-12 shadow-2xs overflow-hidden"
-          style={{
-            backgroundImage: `radial-gradient(#0056b3 0.6px, transparent 0.6px)`,
-            backgroundSize: "20px 20px",
-            backgroundColor: "#f8fafc",
-          }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="group/panel relative bg-white border border-slate-200/90 rounded-xl p-5 sm:p-7 md:p-8 mb-10 sm:mb-12 shadow-xs hover:shadow-xl hover:shadow-blue-900/5 hover:border-[#0056b3]/40 transition-all duration-300 overflow-hidden"
         >
+          {/* Top gradient highlight on panel hover */}
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#0056b3] via-sky-400 to-[#ff6b00] opacity-0 group-hover/panel:opacity-100 transition-opacity duration-300" />
+
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 sm:pb-6 border-b border-blue-100/90 gap-1.5 sm:gap-0 mb-6 sm:mb-8">
-            <div>
-              <span className="text-[10.5px] font-bold tracking-widest text-[#0056b3] uppercase">
-                ENGINEERING WORKFLOW
-              </span>
-              <h3 className="text-base sm:text-lg font-bold text-[#0b1f3a] tracking-tight">
-                From Design Concept to Manufacturing
-              </h3>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 sm:pb-5 border-b border-slate-100 gap-1.5 sm:gap-0 mb-6 sm:mb-8">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-[#ff6b00] group-hover/panel:scale-125 transition-transform duration-300" />
+              <div>
+                <span className="text-[10.5px] font-bold tracking-widest text-[#0056b3] uppercase block">
+                  ENGINEERING WORKFLOW
+                </span>
+                <h3 className="text-base sm:text-lg font-bold text-[#0b1f3a] tracking-tight group-hover/panel:text-[#0056b3] transition-colors duration-200">
+                  From Design Concept to Manufacturing
+                </h3>
+              </div>
             </div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider bg-white/80 px-2 py-0.5 rounded border border-slate-200/60 self-start sm:self-auto">
-              CAD/CAM PIPELINE
-            </span>
           </div>
 
-          {/* Connected Five Stages */}
+          {/* Connected Five Stages with Theme Hover Animation */}
           <div className="relative">
-            {/* Thin Blueprint Connecting Line (hidden on small mobile screens) */}
+            {/* Connecting Line (hidden on small mobile screens) */}
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="hidden md:block absolute top-3.5 left-[4%] right-[4%] h-[1.5px] bg-[#0056b3]/30 origin-left -z-0"
+              className="hidden md:block absolute top-7 left-[4%] right-[4%] h-[2px] bg-gradient-to-r from-[#0056b3]/30 via-sky-300/40 to-[#ff6b00]/30 origin-left -z-0"
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-5 sm:gap-6 md:gap-4 relative z-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5 sm:gap-4 md:gap-3 relative z-10">
               {ENGINEERING_WORKFLOW_STAGES.map((stage, idx) => (
                 <motion.div
                   key={stage.step}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{
-                    duration: 0.3,
-                    delay: 0.06 * idx,
+                    duration: 0.35,
+                    delay: 0.07 * idx,
                     ease: "easeOut",
                   }}
-                  className="flex sm:flex-col items-start gap-3 sm:gap-2.5 group"
+                  className="group relative p-3 sm:p-3.5 rounded-xl border border-transparent hover:border-blue-200/80 hover:bg-gradient-to-b hover:from-blue-50/60 hover:to-white hover:shadow-md hover:-translate-y-1 flex flex-col items-start gap-2.5 transition-all duration-300 cursor-default overflow-hidden"
                 >
-                  {/* Blueprint Technical Node */}
-                  <div
-                    className={`flex-shrink-0 w-7 h-7 rounded border-2 flex items-center justify-center text-[11px] font-mono font-bold transition-colors shadow-2xs ${idx === 2
-                      ? "bg-white border-[#ff6b00] text-[#ff6b00]"
-                      : "bg-white border-[#0056b3] text-[#0056b3]"
-                      }`}
-                  >
+                  {/* Top indicator bar on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#0056b3] to-[#ff6b00] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Step Node Badge */}
+                  <div className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/80 text-[#0056b3] flex items-center justify-center text-[12px] font-mono font-bold shrink-0 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] group-hover:shadow-sm group-hover:shadow-blue-500/25 group-hover:scale-110 transition-all duration-300">
                     {stage.step}
                   </div>
 
                   {/* Stage Details */}
                   <div className="min-w-0 flex-1">
-                    <h4 className="text-xs sm:text-[13px] font-bold text-[#0b1f3a] tracking-tight group-hover:text-[#0056b3] transition-colors leading-snug">
+                    <h4 className="text-xs sm:text-[13px] font-bold text-[#0b1f3a] tracking-tight group-hover:text-[#0056b3] transition-colors duration-200 leading-snug">
                       {stage.title}
                     </h4>
-                    <p className="text-[11.5px] text-slate-600 leading-snug mt-1">
+                    <p className="text-[11.5px] sm:text-[12px] text-slate-500 group-hover:text-slate-600 leading-relaxed mt-1 transition-colors duration-200">
                       {stage.description}
                     </p>
                   </div>
                 </motion.div>
               ))}
             </div>
-          </div>
-        </motion.div>
-
-        {/* 4. Three Compact Engineering Capability Highlights */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="border-t border-slate-200/90 pt-6 sm:pt-7"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/80 gap-y-4 md:gap-y-0">
-            {data.highlights.map((item, index) => (
-              <div
-                key={index}
-                className={`flex items-start gap-3.5 group ${index === 0
-                  ? "md:pr-6"
-                  : index === 1
-                    ? "md:px-6 pt-3 md:pt-0"
-                    : "md:pl-6 pt-3 md:pt-0"
-                  }`}
-              >
-                <span className="flex-shrink-0 text-xs font-mono font-bold text-[#0056b3] group-hover:text-[#ff6b00] transition-colors mt-0.5">
-                  {item.label || `0${index + 1}`}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h4 className="text-xs sm:text-[13px] font-bold text-[#0b1f3a] tracking-tight leading-snug">
-                    {item.title}
-                  </h4>
-                  <p className="text-[12px] text-slate-500 leading-relaxed mt-1">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
           </div>
         </motion.div>
       </div>

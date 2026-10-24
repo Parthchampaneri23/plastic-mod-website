@@ -24,7 +24,7 @@ export const FacilitySection: React.FC<FacilitySectionProps> = ({
   return (
     <section
       id={data.id}
-      className={`py-14 sm:py-13 border-b border-slate-200/90 scroll-mt-24 transition-colors ${isSlate ? 'bg-slate-50/70' : 'bg-white'
+      className={`py-13 sm:py-13 border-b border-slate-200/90 scroll-mt-24 transition-colors ${isSlate ? 'bg-slate-50/70' : 'bg-white'
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

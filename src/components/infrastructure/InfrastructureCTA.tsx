@@ -9,7 +9,7 @@ export const InfrastructureCTA: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="py-14 sm:py-13 md:py-13 bg-slate-50 border-t border-slate-200/90 relative">
+    <section className="py-13 sm:py-13 md:py-13 bg-slate-50 border-t border-slate-200/90 relative">
       <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main CTA Card */}
         <motion.div

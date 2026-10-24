@@ -99,26 +99,12 @@ export const FacilityOverview: React.FC = () => {
             priority={false}
             className="object-cover object-center filter brightness-[0.98] contrast-[1.02]"
           />
-
-          {/* Very subtle bottom gradient shadow for label contrast only */}
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none"
-            aria-hidden="true"
-          />
-
-          {/* Compact Refined Image Label in Bottom-Left */}
-          <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-10">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#0b1f3a]/85 backdrop-blur-md border border-white/15 text-[10.5px] sm:text-[11px] font-mono uppercase tracking-wider text-white font-medium shadow-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]" />
-              TOOLROOM MANUFACTURING FLOOR &amp; MACHINING BAYS
-            </span>
-          </div>
         </motion.div>
 
         {/* ======================================================== */}
-        {/* 3. FOUR COMPACT INFORMATION PANELS                        */}
+        {/* 3. FOUR COMPACT INFORMATION PANELS WITH PREMIUM HOVER     */}
         {/* ======================================================== */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
           {FACILITY_OVERVIEW_DATA.capabilities.map((cap: FacilityCapability, idx: number) => (
             <motion.div
               key={cap.title}
@@ -130,20 +116,34 @@ export const FacilityOverview: React.FC = () => {
                 delay: idx * 0.08,
                 ease: [0.21, 0.47, 0.32, 0.98],
               }}
-              className="bg-slate-50/70 border border-slate-200 rounded-lg p-3.5 sm:p-4 flex flex-col justify-start hover:border-blue-400/60 hover:bg-white hover:shadow-sm hover:-translate-y-1 transition-all duration-200 group cursor-default"
+              className="relative overflow-hidden bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 flex flex-col justify-start transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-900/8 hover:border-blue-400 group cursor-default"
             >
-              {/* Compact Icon Container (32px) */}
-              <div className="w-8 h-8 rounded-md bg-white border border-slate-200/90 flex items-center justify-center mb-3 shadow-2xs group-hover:border-blue-200 group-hover:bg-blue-50/50 transition-colors">
-                {capabilityIcons[idx % capabilityIcons.length]}
+              {/* Top Accent Gradient Line on Hover */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#0056b3] via-sky-400 to-[#ff6b00] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                aria-hidden="true"
+              />
+
+              {/* Subtle Ambient Background Glow on Hover */}
+              <div
+                className="absolute -top-12 -right-12 w-28 h-28 bg-blue-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                aria-hidden="true"
+              />
+
+              {/* Icon Container with interactive scale and illumination */}
+              <div className="relative w-10 h-10 rounded-lg bg-blue-50/80 border border-blue-100/90 flex items-center justify-center mb-3.5 shadow-2xs group-hover:bg-[#0056b3] group-hover:border-[#0056b3] group-hover:shadow-md group-hover:shadow-blue-500/25 group-hover:scale-105 transition-all duration-300">
+                <span className="transition-colors duration-300 group-hover:text-white [&>svg]:transition-all [&>svg]:duration-300 [&>svg]:group-hover:text-white [&>svg]:group-hover:scale-110">
+                  {capabilityIcons[idx % capabilityIcons.length]}
+                </span>
               </div>
 
-              {/* Card Title */}
-              <h3 className="text-sm font-semibold text-slate-900 mb-1.5 group-hover:text-[#0056b3] transition-colors leading-snug">
+              {/* Card Title with brand blue highlight */}
+              <h3 className="relative text-[14.5px] font-semibold text-slate-900 mb-1.5 group-hover:text-[#0056b3] transition-colors duration-200 leading-snug">
                 {cap.title}
               </h3>
 
               {/* Card Description */}
-              <p className="text-[12px] sm:text-[12.5px] text-slate-600 leading-relaxed font-normal">
+              <p className="relative text-[12px] sm:text-[12.5px] text-slate-600 leading-relaxed font-normal group-hover:text-slate-700 transition-colors duration-200">
                 {cap.description}
               </p>
             </motion.div>

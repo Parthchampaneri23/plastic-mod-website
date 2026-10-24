@@ -30,7 +30,7 @@ export const FACILITY_OVERVIEW_DATA = {
   badge: "FACILITY WORKFLOW",
   heading: "A Facility Designed for Precision",
   description:
-    "The Patel Mould Industries manufacturing facility is planned for seamless coordination between CAD design, precision CNC machining, spark erosion, manual toolroom benchwork, and metrology inspection. Our workshop layout isolates heavy chip-generating machining from clean inspection and finishing areas to maintain high dimensional stability.",
+    "Our facility integrates CAD design, CNC machining, EDM, toolroom operations, and precision inspection in an organized workspace to ensure accuracy, quality, and dimensional stability.",
   imageSrc: "/infrastructure/facility-hero.jpg",
   imageAlt: "Patel Mould Industries Main Toolroom Facility Layout and Production Floor",
   capabilities: [

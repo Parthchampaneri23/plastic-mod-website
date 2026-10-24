@@ -18,7 +18,7 @@ export const InfrastructureWorkflow: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="py-14 sm:py-13 bg-[#0b1f3a] text-white relative overflow-hidden">
+    <section className="py-13 sm:py-13 bg-[#0b1f3a] text-white relative overflow-hidden">
       {/* Background Tech Linework */}
       <div className="absolute inset-0 tech-grid-pattern opacity-10 pointer-events-none" />
       <div className="absolute inset-0 bg-radial-gradient from-blue-900/20 via-transparent to-transparent pointer-events-none" />

@@ -29,16 +29,16 @@ export const InfrastructureHero: React.FC = () => {
 
       {/* 3. Left Content Block: Title (Top) + Breadcrumbs (Below) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
-        <div className="max-w-2xl space-y-3">
-          
-          {/* Main Title matching About Us / Manufacturing */}
+        <div className="max-w-xl space-y-3">
+
+          {/* Main Title matching About Us / Manufacturing / Products */}
           <motion.h1
             initial={{ opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
           >
-            Built on <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">Precision.</span>
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">Infrastructure</span>
           </motion.h1>
 
           {/* Breadcrumb Navigation Below Title */}
