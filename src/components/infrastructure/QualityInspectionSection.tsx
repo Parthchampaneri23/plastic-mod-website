@@ -77,7 +77,7 @@ export default function QualityInspectionSection() {
         {/* ======================================================== */}
         {/* 2. MAIN TWO-COLUMN CONTENT: Image (Left) + Steps (Right) */}
         {/* ======================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
           {/* Left: Metrology Image (5 cols) */}
           <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-start justify-center">
@@ -86,14 +86,14 @@ export default function QualityInspectionSection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="w-full max-w-[460px] group"
+              className="w-full max-w-[420px] group"
             >
-              <div className="relative w-full aspect-[4/4.3] max-h-[460px] rounded-xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
+              <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
                   src={data.imageSrc}
                   alt={data.imageAlt}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 460px"
+                  sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
                   className="object-cover object-center filter brightness-[0.98] contrast-[1.02]"
                 />
@@ -101,10 +101,10 @@ export default function QualityInspectionSection() {
             </motion.div>
           </div>
 
-          {/* Right: Inspection Checkpoints Panel / Steps (7 cols) */}
-          <div className="lg:col-span-7 flex flex-col justify-center space-y-3.5">
+          {/* Right: Inspection Checkpoints Panel / Steps (7 cols) with generous breathing room */}
+          <div className="lg:col-span-7 flex flex-col justify-center space-y-4 lg:pl-2">
             {/* Checkpoint Cards with Interactive Hover */}
-            <div className="space-y-2.5 max-w-[540px]">
+            <div className="space-y-3 w-full">
               {data.highlights.map((item, idx) => (
                 <motion.div
                   key={item.title}
