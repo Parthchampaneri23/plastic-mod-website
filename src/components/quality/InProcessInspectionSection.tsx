@@ -27,7 +27,7 @@ export const InProcessInspectionSection: React.FC = () => {
   return (
     <section
       id="in-process-inspection"
-      className="py-13 sm:py-14 bg-white border-b border-slate-200/90 scroll-mt-24 text-slate-800"
+      className="py-13 sm:py-13 bg-white border-b border-slate-200/90 scroll-mt-24 text-slate-800"
     >
       <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8">
 

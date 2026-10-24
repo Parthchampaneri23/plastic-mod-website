@@ -18,9 +18,8 @@ export const QualityProcessSection: React.FC = () => {
   const [activeStage, setActiveStage] = useState<number>(0);
 
   const getStageIcon = (iconName: string, isActive: boolean) => {
-    const iconClass = `w-5 h-5 transition-colors duration-300 ${
-      isActive ? "text-[#ff6b00]" : "text-[#0056b3] group-hover:text-[#ff6b00]"
-    }`;
+    const iconClass = `w-5 h-5 transition-colors duration-300 ${isActive ? "text-[#ff6b00]" : "text-[#0056b3] group-hover:text-[#ff6b00]"
+      }`;
     switch (iconName) {
       case "Layers":
         return <Layers className={iconClass} />;
@@ -40,7 +39,7 @@ export const QualityProcessSection: React.FC = () => {
   return (
     <section
       id="quality-process"
-      className="py-13 sm:py-14 bg-white border-b border-slate-200/90 scroll-mt-24 text-slate-800"
+      className="py-13 sm:py-13 bg-white border-b border-slate-200/90 scroll-mt-24 text-slate-800"
     >
       <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -115,37 +114,33 @@ export const QualityProcessSection: React.FC = () => {
                     ease: [0.21, 0.47, 0.32, 0.98],
                   }}
                   onMouseEnter={() => setActiveStage(idx)}
-                  className={`group relative p-4 sm:p-4.5 rounded-xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
-                    isSelected
+                  className={`group relative p-4 sm:p-4.5 rounded-xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${isSelected
                       ? "bg-white border-[#0056b3] shadow-md shadow-blue-900/10 -translate-y-1"
                       : "bg-white/80 border-slate-200/90 hover:border-slate-300 hover:bg-white shadow-xs"
-                  }`}
+                    }`}
                 >
                   {/* Top Highlight Indicator */}
                   <div
-                    className={`absolute top-0 left-0 right-0 h-[2.5px] rounded-t-xl transition-opacity duration-300 ${
-                      isSelected
+                    className={`absolute top-0 left-0 right-0 h-[2.5px] rounded-t-xl transition-opacity duration-300 ${isSelected
                         ? "bg-gradient-to-r from-[#0056b3] to-[#ff6b00] opacity-100"
                         : "opacity-0 group-hover:opacity-100 bg-slate-300"
-                    }`}
+                      }`}
                   />
 
                   {/* Top Step Number Circle & Icon */}
                   <div className="flex items-center justify-between pb-3">
                     <div
-                      className={`w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${
-                        isSelected
+                      className={`w-9 h-9 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${isSelected
                           ? "bg-[#0056b3] text-white shadow-sm shadow-blue-600/30 scale-105"
                           : "bg-blue-50 text-[#0056b3] border border-blue-200/70 group-hover:border-[#0056b3]"
-                      }`}
+                        }`}
                     >
                       {stage.step}
                     </div>
 
                     <div
-                      className={`p-1.5 rounded-lg transition-colors ${
-                        isSelected ? "bg-orange-50 border border-orange-200" : "bg-slate-50 border border-slate-100"
-                      }`}
+                      className={`p-1.5 rounded-lg transition-colors ${isSelected ? "bg-orange-50 border border-orange-200" : "bg-slate-50 border border-slate-100"
+                        }`}
                     >
                       {getStageIcon(stage.iconName, isSelected)}
                     </div>
@@ -154,9 +149,8 @@ export const QualityProcessSection: React.FC = () => {
                   {/* Stage Title & Short Description */}
                   <div className="space-y-1.5 flex-1">
                     <h3
-                      className={`text-xs sm:text-[13px] font-semibold leading-snug transition-colors ${
-                        isSelected ? "text-[#0056b3]" : "text-slate-900 group-hover:text-[#0056b3]"
-                      }`}
+                      className={`text-xs sm:text-[13px] font-semibold leading-snug transition-colors ${isSelected ? "text-[#0056b3]" : "text-slate-900 group-hover:text-[#0056b3]"
+                        }`}
                     >
                       {stage.title}
                     </h3>

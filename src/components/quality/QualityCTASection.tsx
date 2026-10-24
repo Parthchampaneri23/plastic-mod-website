@@ -9,7 +9,7 @@ export const QualityCTASection: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative py-16 sm:py-20 bg-[#0b1f3a] text-white overflow-hidden">
+    <section className="relative py-13 sm:py-13 bg-[#0b1f3a] text-white overflow-hidden">
       {/* Background geometric line patterns */}
       <div className="absolute inset-0 tech-grid-pattern opacity-10 pointer-events-none" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
