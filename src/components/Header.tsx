@@ -62,7 +62,7 @@ export const Header: React.FC = () => {
             title="Open in Google Maps"
           >
             <MapPin className="w-3.5 h-3.5 text-[#ff6b00] shrink-0 transition-transform group-hover:scale-110" />
-            <span className="no-underline">Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
+            <span className="no-underline">Patel Mould Park, Phase-IV GIDC, Gujarat, India</span>
           </a>
         </div>
       </div>

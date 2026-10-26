@@ -209,7 +209,7 @@ export const Footer: React.FC = () => {
                 title="Open in Google Maps"
               >
                 <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5 transition-transform group-hover:scale-110" />
-                <span className="leading-relaxed no-underline">Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
+                <span className="leading-relaxed no-underline">Patel Mould Park, Phase-IV GIDC, Gujarat, India</span>
               </a>
               <a
                 href="tel:+917784758347"

@@ -185,7 +185,7 @@ export const ContactUsDirectSection: React.FC = () => {
               {/* Map Iframe */}
               <div className="relative w-full h-[360px] sm:h-[420px] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-inner">
                 <iframe
-                  title="Patel Mould Industries - Precision Mould Park, Phase-IV GIDC, Gujarat, India"
+                  title="Patel Mould Industries - Patel Mould Park, Phase-IV GIDC, Gujarat, India"
                   src="https://maps.google.com/maps?q=Precision+Mould+Park,+Phase-IV+GIDC,+Vatva,+Gujarat,+India&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
@@ -202,7 +202,7 @@ export const ContactUsDirectSection: React.FC = () => {
                 <div className="flex items-center gap-2.5">
                   <Building2 className="w-4 h-4 text-[#0056b3] shrink-0" />
                   <span className="text-slate-700 font-medium">
-                    Precision Mould Park, Phase-IV GIDC, Gujarat, India.
+                    Patel Mould Park, Phase-IV GIDC, Gujarat, India.
                   </span>
                 </div>
                 <a
@@ -296,7 +296,7 @@ export const ContactUsDirectSection: React.FC = () => {
                 <div className="w-14 h-14 rounded-full bg-white border border-blue-200 text-[#0056b3] flex items-center justify-center mx-auto shadow-sm">
                   <CheckCircle2 className="w-8 h-8 text-[#ff6b00]" />
                 </div>
-                
+
                 <div className="space-y-1">
                   <h4 className="text-xl font-bold text-slate-900">Thank You, {formData.fullName || "Valued Visitor"}!</h4>
                   <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
@@ -339,11 +339,10 @@ export const ContactUsDirectSection: React.FC = () => {
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     placeholder="Your Name"
-                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
-                      isNameInvalid
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${isNameInvalid
                         ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
                         : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
-                    }`}
+                      }`}
                   />
                   {isNameInvalid && (
                     <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
@@ -360,11 +359,10 @@ export const ContactUsDirectSection: React.FC = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="name@example.com"
-                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
-                      isEmailInvalid
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${isEmailInvalid
                         ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
                         : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
-                    }`}
+                      }`}
                   />
                   {isEmailInvalid && (
                     <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
@@ -381,11 +379,10 @@ export const ContactUsDirectSection: React.FC = () => {
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Factory Visit / Partnership / General"
-                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
-                      isSubjectInvalid
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${isSubjectInvalid
                         ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
                         : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
-                    }`}
+                      }`}
                   />
                   {isSubjectInvalid && (
                     <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
@@ -402,11 +399,10 @@ export const ContactUsDirectSection: React.FC = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Type your message here..."
-                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
-                      isMessageInvalid
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${isMessageInvalid
                         ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
                         : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
-                    }`}
+                      }`}
                   />
                   {isMessageInvalid && (
                     <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">

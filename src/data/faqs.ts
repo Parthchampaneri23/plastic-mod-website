@@ -527,7 +527,7 @@ export const INFRASTRUCTURE_FAQS: FAQItem[] = [
   },
   {
     question: "Where is Patel Mould Industries located and can international clients visit?",
-    answer: "Our corporate campus and toolroom are located at Precision Mould Park, Phase-IV GIDC, Gujarat, India. We welcome domestic and international clients for facility audits, mold design workshops, and FAT trial inspections."
+    answer: "Our corporate campus and toolroom are located at Patel Mould Park, Phase-IV GIDC, Gujarat, India. We welcome domestic and international clients for facility audits, mold design workshops, and FAT trial inspections."
   }
 ];
 
