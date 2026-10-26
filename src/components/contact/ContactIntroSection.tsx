@@ -23,8 +23,8 @@ export const ContactIntroSection: React.FC = () => {
           <div className="lg:col-span-5 space-y-4">
             <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-md group">
               <Image
-                src="/contact/contact-intro.jpg"
-                alt="Patel Mould Industries engineering customer support and project consulting team in Gujarat"
+                src="/contact/contact-office.jpg"
+                alt="Patel Mould Industries engineering consultation office and precision CNC manufacturing facility in Gujarat"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"
