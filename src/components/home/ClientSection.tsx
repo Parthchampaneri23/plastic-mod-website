@@ -237,10 +237,7 @@ export const ClientSection: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="pt-2 text-[11px] font-bold text-emerald-700 flex items-center gap-2 bg-emerald-50/90 px-3.5 py-2 rounded-xl border border-emerald-200/80">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Verified Plant Purchase Order</span>
-                </div>
+
               </motion.div>
             </motion.div>
           </AnimatePresence>
