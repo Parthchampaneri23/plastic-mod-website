@@ -20,6 +20,10 @@
     font-family: var(--font-bricolage), 'Bricolage Grotesque', system-ui, -apple-system, sans-serif !important;
   }
 
+  html {
+    scroll-padding-top: 140px;
+  }
+
   html, body {
     background-color: #f8fafc;
     color: #1e293b;

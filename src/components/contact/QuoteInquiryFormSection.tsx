@@ -17,40 +17,32 @@ import {
   Layers,
   Box,
   Hash,
-  MessageSquare
+  MessageSquare,
+  AlertCircle
 } from "lucide-react";
 import { PRODUCT_CATEGORIES } from "@/data/content";
+import { PRODUCTS } from "@/data/products";
+
+// Group exact products from the official website catalog by their actual categories
+const CATEGORY_NAMES = [
+  "Preform & Jar Mold",
+  "ISBM Mold",
+  "EBM Mold"
+] as const;
 
 const PRODUCTS_BY_CATEGORY: Record<string, string[]> = {
-  "PET Preform & Jar Mold": [
-    "PET Preform Mold (16 - 96 Cavity)",
-    "PET Wide-Mouth Jar Mold",
-    "High-Cavitation Valve Gate Mold",
-    "PCO 1881 / 1810 Beverage Preform Mold",
-    "Oil & Hot-Fill Bottle Preform Mold"
-  ],
-  "ISBM Mold (Single-Stage)": [
-    "Pharmaceutical Syrup Bottle ISBM Mold",
-    "Personal Care & Cosmetic ISBM Mold",
-    "Liquor & Miniature ISBM Mold",
-    "Nissei ASB Compatible Tooling",
-    "Aoki Machine Compatible Tooling"
-  ],
-  "Extrusion Blow (EBM) Mold": [
-    "5L - 25L Chemical Jerry Can Mold",
-    "HDPE Lubricant & Motor Oil Bottle Mold",
-    "Agrochemical & Pesticide Container Mold",
-    "FMCG Household Cleaning Bottle Mold",
-    "Custom Beryllium-Copper Pinch-Off Mold"
-  ]
+  "Preform & Jar Mold": PRODUCTS.filter((p) => p.category === "Preform & Jar Mold").map((p) => p.name),
+  "ISBM Mold": PRODUCTS.filter((p) => p.category === "ISBM Mold").map((p) => p.name),
+  "EBM Mold": PRODUCTS.filter((p) => p.category === "EBM Mold").map((p) => p.name)
 };
 
 export const QuoteInquiryFormSection: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("PET Preform & Jar Mold");
-  const [selectedProduct, setSelectedProduct] = useState<string>("PET Preform Mold (16 - 96 Cavity)");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Preform & Jar Mold");
+  const [selectedProduct, setSelectedProduct] = useState<string>("PET Preform Mold");
   const [fileName, setFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState<boolean>(false);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -78,14 +70,44 @@ export const QuoteInquiryFormSection: React.FC = () => {
     }
   };
 
+  const validateField = (value: string) => value.trim().length > 0;
+  const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+  const isNameInvalid = hasAttemptedSubmit && !validateField(formData.name);
+  const isCompanyInvalid = hasAttemptedSubmit && !validateField(formData.companyName);
+  const isEmailInvalid = hasAttemptedSubmit && (!validateField(formData.email) || !validateEmail(formData.email));
+  const isPhoneInvalid = hasAttemptedSubmit && !validateField(formData.mobileNumber);
+  const isCountryInvalid = hasAttemptedSubmit && !validateField(formData.country);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasAttemptedSubmit(true);
+
+    const hasErrors =
+      !validateField(formData.name) ||
+      !validateField(formData.companyName) ||
+      !validateField(formData.email) ||
+      !validateEmail(formData.email) ||
+      !validateField(formData.mobileNumber) ||
+      !validateField(formData.country);
+
+    if (hasErrors) {
+      // Find first invalid input and smoothly scroll with ample room below the header
+      const firstInvalid = document.querySelector("#inquiry-form-section .border-rose-500, #inquiry-form-section input:invalid");
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+        (firstInvalid as HTMLElement).focus();
+      }
+      return;
+    }
+
     setIsSubmitting(true);
 
     // Simulate submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
+      setHasAttemptedSubmit(false);
     }, 1200);
   };
 
@@ -160,80 +182,125 @@ export const QuoteInquiryFormSection: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {/* Name */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Your Full Name <span className="text-[#ff6b00]">*</span>
                     </label>
                     <div className="relative">
                       <input
                         type="text"
-                        required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Rajesh Sharma"
-                        className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                        className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans scroll-mt-36 focus:outline-none ${
+                          isNameInvalid
+                            ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                            : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                        }`}
                       />
                     </div>
+                    {isNameInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>Please enter your full name</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* Company Name */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Company Name <span className="text-[#ff6b00]">*</span>
                     </label>
                     <input
                       type="text"
-                      required
                       value={formData.companyName}
                       onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                       placeholder="e.g. Apex Packaging Ltd."
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                      className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans scroll-mt-36 focus:outline-none ${
+                        isCompanyInvalid
+                          ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                          : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                      }`}
                     />
+                    {isCompanyInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>Please enter your company name</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* Email */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Official Email <span className="text-[#ff6b00]">*</span>
                     </label>
                     <input
                       type="email"
-                      required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. procurement@company.com"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                      className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans scroll-mt-36 focus:outline-none ${
+                        isEmailInvalid
+                          ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                          : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                      }`}
                     />
+                    {isEmailInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>Please enter a valid corporate email</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* Mobile Number */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Mobile / WhatsApp Number <span className="text-[#ff6b00]">*</span>
                     </label>
                     <input
                       type="tel"
-                      required
                       value={formData.mobileNumber}
                       onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
                       placeholder="+91 98765 43210"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                      className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans scroll-mt-36 focus:outline-none ${
+                        isPhoneInvalid
+                          ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                          : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                      }`}
                     />
+                    {isPhoneInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>Please enter your contact phone number</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* Country */}
-                  <div className="space-y-1.5 sm:col-span-2 lg:col-span-2">
+                  <div className="space-y-1.5 sm:col-span-2 lg:col-span-2 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Country / Region <span className="text-[#ff6b00]">*</span>
                     </label>
                     <input
                       type="text"
-                      required
                       value={formData.country}
                       onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                       placeholder="India / UAE / Kenya / USA / Germany..."
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                      className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans scroll-mt-36 focus:outline-none ${
+                        isCountryInvalid
+                          ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                          : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                      }`}
                     />
+                    {isCountryInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>Please enter your country or region</span>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -256,9 +323,9 @@ export const QuoteInquiryFormSection: React.FC = () => {
                       onChange={(e) => handleCategoryChange(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans cursor-pointer"
                     >
-                      <option value="PET Preform & Jar Mold">PET Preform &amp; Jar Mold</option>
-                      <option value="ISBM Mold (Single-Stage)">ISBM Mold (Single-Stage)</option>
-                      <option value="Extrusion Blow (EBM) Mold">Extrusion Blow (EBM) Mold</option>
+                      {CATEGORY_NAMES.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
                     </select>
                   </div>
 

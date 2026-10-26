@@ -33,13 +33,18 @@ export const metadata: Metadata = {
   },
 };
 
+import { ScrollToTopOnNavigate } from "@/components/ScrollToTopOnNavigate";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ScrollToTopOnNavigate />
+        {children}
+      </body>
     </html>
   );
 }

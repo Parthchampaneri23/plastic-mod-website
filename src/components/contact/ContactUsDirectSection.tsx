@@ -11,11 +11,13 @@ import {
   ExternalLink,
   MessageCircle,
   Building2,
-  Calendar
+  Calendar,
+  AlertCircle
 } from "lucide-react";
 
 export const ContactUsDirectSection: React.FC = () => {
   const [msgSent, setMsgSent] = useState<boolean>(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -23,9 +25,36 @@ export const ContactUsDirectSection: React.FC = () => {
     message: ""
   });
 
+  const validateField = (value: string) => value.trim().length > 0;
+  const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+  const isNameInvalid = hasAttemptedSubmit && !validateField(formData.fullName);
+  const isEmailInvalid = hasAttemptedSubmit && (!validateField(formData.email) || !validateEmail(formData.email));
+  const isSubjectInvalid = hasAttemptedSubmit && !validateField(formData.subject);
+  const isMessageInvalid = hasAttemptedSubmit && !validateField(formData.message);
+
   const handleQuickContact = (e: React.FormEvent) => {
     e.preventDefault();
+    setHasAttemptedSubmit(true);
+
+    const hasErrors =
+      !validateField(formData.fullName) ||
+      !validateField(formData.email) ||
+      !validateEmail(formData.email) ||
+      !validateField(formData.subject) ||
+      !validateField(formData.message);
+
+    if (hasErrors) {
+      const firstInvalid = document.querySelector("#contact-details-section .border-rose-500, #contact-details-section input:invalid");
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+        (firstInvalid as HTMLElement).focus();
+      }
+      return;
+    }
+
     setMsgSent(true);
+    setHasAttemptedSubmit(false);
     setTimeout(() => setMsgSent(false), 5000);
   };
 
@@ -303,52 +332,88 @@ export const ContactUsDirectSection: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleQuickContact} className="space-y-4">
-                <div className="space-y-1">
+                <div className="space-y-1 scroll-mt-36">
                   <label className="block text-xs font-bold text-slate-700">Full Name *</label>
                   <input
                     type="text"
-                    required
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     placeholder="Your Name"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3] transition-all"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
+                      isNameInvalid
+                        ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
+                    }`}
                   />
+                  {isNameInvalid && (
+                    <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>Please enter your name</span>
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1 scroll-mt-36">
                   <label className="block text-xs font-bold text-slate-700">Email Address *</label>
                   <input
                     type="email"
-                    required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="name@example.com"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3] transition-all"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
+                      isEmailInvalid
+                        ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
+                    }`}
                   />
+                  {isEmailInvalid && (
+                    <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>Please enter a valid email address</span>
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1 scroll-mt-36">
                   <label className="block text-xs font-bold text-slate-700">Subject / Purpose *</label>
                   <input
                     type="text"
-                    required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="Factory Visit / Partnership / General"
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3] transition-all"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
+                      isSubjectInvalid
+                        ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
+                    }`}
                   />
+                  {isSubjectInvalid && (
+                    <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>Please enter a subject or purpose</span>
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1 scroll-mt-36">
                   <label className="block text-xs font-bold text-slate-700">Your Message *</label>
                   <textarea
                     rows={4}
-                    required
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Type your message here..."
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3] transition-all"
+                    className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all scroll-mt-36 focus:outline-none ${
+                      isMessageInvalid
+                        ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-1 focus:ring-[#0056b3]"
+                    }`}
                   />
+                  {isMessageInvalid && (
+                    <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>Please type your message</span>
+                    </p>
+                  )}
                 </div>
 
                 <button
