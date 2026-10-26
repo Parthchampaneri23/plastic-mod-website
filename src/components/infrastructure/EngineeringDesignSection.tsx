@@ -47,10 +47,14 @@ export default function EngineeringDesignSection() {
             )}
           </div>
 
-          {/* Introductory Paragraph with vertical blue divider & orange accent (6 cols) */}
-          <div className="md:col-span-6 md:border-l-2 md:border-blue-600/70 md:pl-6 relative">
-            <div className="hidden md:block absolute -left-[2px] top-0 w-[2px] h-4 bg-[#ff6b00]" />
-            <p className="text-slate-600 text-sm sm:text-[14.5px] leading-relaxed">
+          {/* Introductory Paragraph with matching vertical blue-to-orange accent line */}
+          <div className="md:col-span-6 relative pl-4 sm:pl-4.5 max-w-[480px]">
+            {/* Subtle vertical blue-to-orange accent line */}
+            <div
+              className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]"
+              aria-hidden="true"
+            />
+            <p className="text-slate-600 text-xs sm:text-[13.5px] md:text-sm leading-relaxed font-normal">
               {data.description[0]}
             </p>
           </div>

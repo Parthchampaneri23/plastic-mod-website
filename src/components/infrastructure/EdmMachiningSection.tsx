@@ -97,9 +97,13 @@ export const EdmMachiningSection: React.FC = () => {
           {/* RIGHT SIDE: Supporting Copy & Numbered Capability Cards with generous breathing room */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-4 lg:pl-2">
 
-            <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed">
-              {EDM_SECTION_DATA.description[1]}
-            </p>
+            {/* Process Steps Heading */}
+            <div className="flex items-center gap-2.5 pb-1">
+              <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                EDM Spark Erosion Steps
+              </h3>
+            </div>
 
             {/* Numbered Capability Cards with Premium Hover & Animations */}
             <div className="space-y-3 w-full">
