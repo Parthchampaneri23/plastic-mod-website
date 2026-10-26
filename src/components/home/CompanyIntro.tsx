@@ -67,62 +67,26 @@ export const CompanyIntro: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-          {/* Left Column: Factory & Tooling Image Grid */}
-          <div className="lg:col-span-6 space-y-4">
-            {/* 1. MAIN FACTORY IMAGE */}
+          {/* Left Column: Factory Image */}
+          <div className="lg:col-span-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 15 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 rounded-[22px] overflow-hidden border border-slate-200 shadow-lg bg-slate-900 group/main"
+              className="relative z-10 rounded-[22px] overflow-hidden border border-slate-200 shadow-xl bg-slate-900 group/main h-full min-h-[340px] sm:min-h-[420px]"
             >
-              <div className="relative w-full h-[260px] xs:h-[300px] sm:h-[340px]">
+              <div className="relative w-full h-full min-h-[340px] sm:min-h-[420px]">
                 <Image
                   src="/Home/company image about.png"
                   alt="Patel Mould Industries manufacturing facility"
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 520px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                   className="object-cover object-center rounded-[22px] group-hover/main:scale-103 transition-transform duration-700"
                   priority
                 />
               </div>
             </motion.div>
-
-            {/* 2. TWO SECONDARY IMAGES SIDE BY SIDE (NO OVERLAP) */}
-            <div className="grid grid-cols-2 gap-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="relative h-[130px] sm:h-[150px] rounded-2xl overflow-hidden border border-slate-200 shadow-md group/mold"
-              >
-                <Image
-                  src="/Home/mold image about.png"
-                  alt="Precision plastic injection mould manufactured by Patel Mould Industries"
-                  fill
-                  sizes="(max-width: 640px) 50vw, 250px"
-                  className="object-cover object-center rounded-2xl group-hover/mold:scale-105 transition-transform duration-500"
-                />
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.25 }}
-                className="relative h-[130px] sm:h-[150px] rounded-2xl overflow-hidden border border-slate-200 shadow-md group/cnc"
-              >
-                <Image
-                  src="/Home/CNC image about.png"
-                  alt="CNC machining for precision plastic mould manufacturing"
-                  fill
-                  sizes="(max-width: 640px) 50vw, 250px"
-                  className="object-cover object-center rounded-2xl group-hover/cnc:scale-105 transition-transform duration-500"
-                />
-              </motion.div>
-            </div>
           </div>
 
           {/* Right Column: Company Story */}
@@ -131,7 +95,7 @@ export const CompanyIntro: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-6 space-y-4"
+            className="lg:col-span-6 space-y-5 flex flex-col justify-center"
           >
             <SectionHeading
               badge="Engineering Excellence Since 1994"
@@ -141,20 +105,13 @@ export const CompanyIntro: React.FC = () => {
               className="mb-2"
             />
 
-            <div className="space-y-3.5 text-sm text-slate-600 leading-relaxed font-normal">
+            <div className="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
               <p>
                 Spanning three decades of Indian toolmaking craftsmanship, <strong className="text-slate-900 font-medium">Patel Mould Industries</strong> operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.
               </p>
               <p>
                 We specialize in custom multi-cavity mold solutions engineered for zero-flash production, rapid cycle times, and <strong className="text-[#0056b3] font-medium">guaranteed 5M+ shot tool life</strong> — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.
               </p>
-            </div>
-
-            {/* Read More Button */}
-            <div className="pt-3">
-              <Button href="/about#capabilities" variant="primary" size="md" icon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}>
-                Read More About Our Technology
-              </Button>
             </div>
           </motion.div>
 

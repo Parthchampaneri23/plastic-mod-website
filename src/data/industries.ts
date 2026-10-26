@@ -37,7 +37,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "To maximize bottle blowing productivity, each mould cavity is micro-polished to achieve an SPI-A1 optical mirror finish. This guarantees low acetaldehyde (AA) generation, crystal-clear wall transparency, and smooth material distribution that reduces bottle blowing rejections on high-speed blow-fill-seal lines.",
       "Our engineering team coordinates closely with packaging converters to optimize grammage reduction without sacrificing structural top-load or drop-impact performance, delivering measurable resin cost savings across multi-million bottle production runs."
     ],
-    image: "/industries/food-beverage.jpg",
+    image: "/industries/food-beverage-clean.jpg",
     keyRequirements: [
       {
         label: "Uniform Wall Thickness",
@@ -89,7 +89,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "Every mould stack is CNC-machined under temperature-controlled workshop conditions to achieve micron tolerances on closure threads. This guarantees an airtight hermetic seal with induction foils, child-resistant safety caps, and dropper inserts without risking overtightening strip-outs or fluid seepage.",
       "We provide comprehensive metrology inspection reports with every pharma mould dispatch, verifying cavity-to-cavity weight uniformity and wall thickness concentricity in strict accordance with cGMP documentation standards."
     ],
-    image: "/industries/pharmaceutical.jpg",
+    image: "/industries/pharmaceutical-clean.jpg",
     keyRequirements: [
       {
         label: "Tight Neck Tolerances",
@@ -141,7 +141,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "We utilize specialized CNC high-speed milling and CNC mirror EDM to produce crisp brand embossing, defined shoulder transitions, and tactile grip textures that elevate consumer shelf perception.",
       "Additionally, our tooling guarantees exact closure alignment on pump dispensers and disc-top caps, preventing unsightly misalignment and ensuring smooth product dispensing throughout the container lifecycle."
     ],
-    image: "/industries/personal-care.jpg",
+    image: "/industries/personal-care-clean.jpg",
     keyRequirements: [
       {
         label: "Flawless Surface Finish",
@@ -193,7 +193,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "Our balanced hot runner systems ensure identical thermal profiles across all mould cavities, eliminating gate vestige defects and delivering uniform wall thickness from shot to shot.",
       "Constructed from pre-hardened and vacuum-treated alloy steels, our packaging moulds deliver superior wear resistance and long-term dimensional stability even under aggressive round-the-clock operating schedules."
     ],
-    image: "/industries/packaging.jpg",
+    image: "/industries/packaging-clean.jpg",
     keyRequirements: [
       {
         label: "Optimized Conformal Cooling",
@@ -245,7 +245,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "Our mouldflow simulation analyses resin fill front velocity and shrinkage compensation, eliminating sink marks and vacuum side-wall collapse even on thin-walled high-volume consumer tubs.",
       "With interchangeable cavity core inserts, manufacturers can effortlessly produce different neck finishes and volume variations using the same bolster base, reducing upfront tooling investment."
     ],
-    image: "/industries/plastic-containers.jpg",
+    image: "/industries/plastic-containers-clean.jpg",
     keyRequirements: [
       {
         label: "Structural Rib Reinforcement",
@@ -297,7 +297,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       "Our calibrated bottom pinch and handle parting lines ensure maximum weld strength, preventing seam rupture during UN-certified drop tests from heights exceeding 1.8 meters.",
       "Furthermore, precision-ground neck calibration rings guarantee perfectly planar top sealing faces for inductive heat foil sealing, preventing dangerous chemical fume emissions or liquid leakage during transit."
     ],
-    image: "/industries/chemical-packaging.jpg",
+    image: "/industries/chemical-packaging-clean.jpg",
     keyRequirements: [
       {
         label: "UN Drop-Test Durability",

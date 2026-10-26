@@ -145,11 +145,7 @@ export const CompanyStrength: React.FC = () => {
                 {/* Subtle Gradient Bottom Overlay */}
                 <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent pointer-events-none" />
 
-                {/* Micro Blueprint Technical Watermark Badge on Image */}
-                <div className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono font-semibold flex items-center gap-2 shadow-lg">
-                  <span className="w-2 h-2 rounded-full bg-[#0056b3] animate-pulse" />
-                  PATEL MOULD TOOLROOM & FACILITY
-                </div>
+
 
                 {/* Active Technical Badge Overlay on Image (Reflects active capability on hover!) */}
                 <AnimatePresence mode="popLayout">

@@ -60,18 +60,6 @@ export const FeaturedProducts: React.FC = () => {
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
               Explore flagship high-performance tooling solutions engineered for <strong className="text-slate-900 font-medium">each of our 3 core mold categories</strong> with guaranteed <strong className="text-[#0056b3] font-medium">5M+ cycle tool life</strong>.
             </p>
-
-            {/* Micro Technical Highlight Pills */}
-            <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-              <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
-                Preform, ISBM & EBM Tooling
-              </span>
-              <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
-                Uddeholm S136 Steel
-              </span>
-            </div>
           </motion.div>
         </div>
 
@@ -100,9 +88,6 @@ export const FeaturedProducts: React.FC = () => {
                       alt={product.name}
                       className="w-full h-full object-cover object-center"
                     />
-                    <div className="absolute top-3 left-3 bg-[#0056b3] text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-                      {product.category}
-                    </div>
                   </div>
 
                   {/* Card Body: Product Name & Description */}

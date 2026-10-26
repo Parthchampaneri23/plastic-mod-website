@@ -9,6 +9,9 @@ import { Footer } from "@/components/Footer";
 import { INDUSTRIES_DATA, IndustryItem } from "@/data/industries";
 import { PRODUCTS } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
+import { Button } from "@/components/Button";
+import { FAQSection } from "@/components/FAQSection";
+import { INDUSTRY_FAQS } from "@/data/faqs";
 
 interface IndustryPageProps {
   params: Promise<{
@@ -319,6 +322,18 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
         </section>
 
         {/* ========================================================================= */}
+        {/* SECTION 4.5: INDUSTRY-SPECIFIC FAQS                                       */}
+        {/* ========================================================================= */}
+        {INDUSTRY_FAQS[industry.slug] && (
+          <FAQSection
+            faqs={INDUSTRY_FAQS[industry.slug]}
+            title={`${industry.name} Moulding — Sector FAQs`}
+            subtitle={`Technical clarifications regarding tolerances, resin compatibility, tool steels, and automated filling requirements for ${industry.name}.`}
+            badge="INDUSTRY APPLICATION FAQS"
+          />
+        )}
+
+        {/* ========================================================================= */}
         {/* SECTION 5: ENQUIRY CTA                                                    */}
         {/* ========================================================================= */}
         <section className="py-13 sm:py-13 bg-white border-t border-slate-200 relative overflow-hidden">
@@ -332,21 +347,16 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               Discuss your application requirements with Patel Mould Industries to explore a suitable mould solution engineered for your machine specifications and target cycle times.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href={`/contact?industry=${industry.slug}#inquiry-section`}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#ff6b00] hover:bg-[#e05e00] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-300"
+            <div className="flex items-center justify-center">
+              <Button
+                href={`/contact?industry=${industry.slug}#inquiry-form-section`}
+                variant="primary"
+                size="lg"
+                icon={<ArrowRight className="w-4 h-4" />}
+                className="shadow-md hover:shadow-lg"
               >
-                <span>Enquire Now for {industry.name}</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <Link
-                href="/industries"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-sm border border-slate-300 transition-all duration-300"
-              >
-                <span>Browse Other Industries</span>
-              </Link>
+                Request a Quote
+              </Button>
             </div>
           </div>
         </section>

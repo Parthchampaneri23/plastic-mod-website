@@ -6,6 +6,8 @@ import { VisionMission } from '@/components/About/VisionMission';
 import { CompanyStrength } from '@/components/About/CompanyStrength';
 import { AboutInfrastructure } from '@/components/About/AboutInfrastructure';
 import { QualityCommitment } from '@/components/About/QualityCommitment';
+import { FAQSection } from '@/components/FAQSection';
+import { ABOUT_FAQS } from '@/data/faqs';
 import { Footer } from '@/components/Footer';
 
 export const metadata = {
@@ -38,7 +40,15 @@ export default function AboutPage() {
       {/* 7. QUALITY COMMITMENT JOURNEY */}
       <QualityCommitment />
 
-      {/* 8. FOOTER */}
+      {/* 8. COMPANY FAQS */}
+      <FAQSection
+        faqs={ABOUT_FAQS}
+        badge="COMPANY HERITAGE & CREDENTIALS"
+        title="Frequently Asked Questions"
+        subtitle="Learn more about our 30+ year tooling journey, engineering accreditations, international mold shipping, and client IP protection."
+      />
+
+      {/* 9. FOOTER */}
       <Footer />
     </main>
   );

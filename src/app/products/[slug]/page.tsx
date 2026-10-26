@@ -9,6 +9,8 @@ import KeyPerformanceFeatures from '@/components/product-detail/KeyPerformanceFe
 import ProductInquiryForm from '@/components/product-detail/ProductInquiryForm';
 import ProductDetailScrollHandler from '@/components/product-detail/ProductDetailScrollHandler';
 import RelatedProducts from '@/components/product-detail/RelatedProducts';
+import { FAQSection } from '@/components/FAQSection';
+import { PRODUCT_FAQS } from '@/data/faqs';
 import { PRODUCTS } from '@/data/products';
 
 interface ProductDetailPageProps {
@@ -103,21 +105,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 {/* Key Performance Features List with Animation */}
                 <KeyPerformanceFeatures features={product.features} />
 
-                {/* Action CTAs */}
-                <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                  <a
-                    href="#product-inquiry"
-                    className="inline-flex items-center justify-center px-6 py-3.5 bg-[#0056b3] hover:bg-blue-800 text-white font-semibold rounded-xl transition-colors shadow-sm text-sm"
-                  >
-                    Send Inquiry
-                  </a>
-                  <a
-                    href="tel:+917784758347"
-                    className="inline-flex items-center justify-center px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold rounded-xl transition-colors text-sm"
-                  >
-                    Call Technical Expert
-                  </a>
-                </div>
+
               </div>
             </div>
 
@@ -126,6 +114,16 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
             {/* Direct Product Inquiry Form Section */}
             <ProductInquiryForm product={product} />
+
+            {/* Product-Specific FAQ Section (5 Curated FAQs) */}
+            {PRODUCT_FAQS[product.slug] && (
+              <FAQSection
+                faqs={PRODUCT_FAQS[product.slug]}
+                title={`${product.name} — Technical FAQs`}
+                subtitle={`Frequently asked technical questions regarding cavitation, tool steels, cycle times, tolerances, and machine compatibility for ${product.name}.`}
+                badge="TOOLING SPECIFICATION FAQS"
+              />
+            )}
 
             {/* Related Products Catalog Section */}
             <RelatedProducts relatedProducts={relatedProducts} />

@@ -78,17 +78,7 @@ export const QualityTechnology: React.FC = () => {
               Explore our 4-pillar quality framework engineered to deliver <strong className="text-slate-900 font-medium">±0.002mm sub-micron accuracy</strong>, flashless output, and <strong className="text-[#0056b3] font-medium">5,000,000+ shot tool lifespan</strong>.
             </p>
 
-            {/* Micro Technical Highlight Pills */}
-            <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-              <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
-                ±0.002mm Zeiss CMM
-              </span>
-              <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
-                Full Trial Video & Report
-              </span>
-            </div>
+
           </motion.div>
         </div>
 
@@ -96,11 +86,10 @@ export const QualityTechnology: React.FC = () => {
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12">
           <button
             onClick={() => setActiveTab('standards')}
-            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${
-              activeTab === 'standards'
+            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${activeTab === 'standards'
                 ? 'bg-[#0056b3] text-white shadow-lg shadow-blue-900/20 scale-105'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
+              }`}
           >
             <ShieldCheck className={`w-4 h-4 ${activeTab === 'standards' ? 'text-white' : 'text-[#0056b3]'}`} />
             <span>Quality Standards</span>
@@ -108,11 +97,10 @@ export const QualityTechnology: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('inspection')}
-            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${
-              activeTab === 'inspection'
+            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${activeTab === 'inspection'
                 ? 'bg-[#0056b3] text-white shadow-lg shadow-blue-900/20 scale-105'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
+              }`}
           >
             <Target className={`w-4 h-4 ${activeTab === 'inspection' ? 'text-white' : 'text-[#0056b3]'}`} />
             <span>Inspection Process</span>
@@ -120,11 +108,10 @@ export const QualityTechnology: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('testing')}
-            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${
-              activeTab === 'testing'
+            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${activeTab === 'testing'
                 ? 'bg-[#0056b3] text-white shadow-lg shadow-blue-900/20 scale-105'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
+              }`}
           >
             <FlaskConical className={`w-4 h-4 ${activeTab === 'testing' ? 'text-white' : 'text-[#0056b3]'}`} />
             <span>Testing Facilities</span>
@@ -132,11 +119,10 @@ export const QualityTechnology: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('technology')}
-            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${
-              activeTab === 'technology'
+            className={`px-5 py-3 rounded-2xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-xs ${activeTab === 'technology'
                 ? 'bg-[#0056b3] text-white shadow-lg shadow-blue-900/20 scale-105'
                 : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
-            }`}
+              }`}
           >
             <Cpu className={`w-4 h-4 ${activeTab === 'technology' ? 'text-white' : 'text-[#0056b3]'}`} />
             <span>Technology Highlights</span>

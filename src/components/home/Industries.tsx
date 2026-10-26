@@ -60,18 +60,6 @@ export const Industries: React.FC = () => {
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
               Precision plastic mold engineering serving <strong className="text-slate-900 font-medium">multinational FMCG</strong>, beverage packaging, pharmaceutical, and <strong className="text-[#0056b3] font-medium">heavy-duty industrial sectors</strong>.
             </p>
-
-            {/* Micro Technical Highlight Pills */}
-            <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-              <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
-                FMCG & Pharma Mold Standards
-              </span>
-              <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
-                Industrial Heavy Tooling
-              </span>
-            </div>
           </motion.div>
         </div>
 
@@ -86,42 +74,33 @@ export const Industries: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link
-                href="#inquiry-section"
-                className="block h-full bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm group hover:border-[#0056b3] hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between"
+                href={industry.link || "/industries"}
+                className="block bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm group hover:border-[#0056b3] hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
-                <div>
-                  {/* Clean Industry Image Container without badges or text overlay */}
-                  <div className="h-52 relative overflow-hidden bg-slate-900">
-                    <motion.img
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.7 }}
-                      src={industry.image}
-                      alt={industry.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-
-                  {/* Body Content with Centered Prominent Title and Short Description */}
-                  <div className="p-6 text-center space-y-3">
-                    <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 group-hover:text-[#0056b3] transition-colors">
-                      {industry.name}
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal max-w-sm mx-auto">
-                      {industry.description}
-                    </p>
-                  </div>
+                {/* Clean Industry Image */}
+                <div className="h-48 sm:h-52 relative overflow-hidden bg-slate-900">
+                  <motion.img
+                    whileHover={{ scale: 1.06 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    src={industry.image}
+                    alt={industry.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
-                {/* Centered Card Action Footer */}
-                <div className="p-6 pt-0 flex items-center justify-center text-xs font-bold text-[#0056b3] mt-2">
-                  <span className="inline-flex items-center gap-1.5 group-hover:underline font-semibold text-sm">
-                    <span>View Applications</span>
-                    <ArrowRight className="w-4 h-4 text-[#ff6b00] transition-transform group-hover:translate-x-1" />
+                {/* Compact Content: Heading & Short Explore Button in Single Row */}
+                <div className="p-4 sm:p-4.5 flex items-center justify-between gap-3">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#0056b3] transition-colors leading-tight">
+                    {industry.name}
+                  </h3>
+                  <span className="shrink-0 inline-flex items-center gap-1 text-xs font-semibold text-[#0056b3] group-hover:text-[#ff6b00] transition-colors">
+                    <span>Explore</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
                 </div>
 
-                {/* Hover Accent Line */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#0056b3] via-[#ff6b00] to-[#0056b3] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-center" />
+                {/* Subtle Hover Accent Line */}
+                <div className="h-1 w-full bg-gradient-to-r from-[#0056b3] via-[#ff6b00] to-[#0056b3] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </Link>
             </motion.div>
           ))}

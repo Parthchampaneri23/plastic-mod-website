@@ -72,43 +72,80 @@ export default async function MachineDetailPage({ params }: PageProps) {
     <div className="min-h-screen bg-[#F6F8FC] flex flex-col font-sans text-slate-800" suppressHydrationWarning>
       <Header />
 
-      <main className="flex-grow pt-24 sm:pt-28">
-
-        {/* ======================================================== */}
-        {/* A. BREADCRUMB & BACK NAVIGATION                          */}
-        {/* ======================================================== */}
-        <div className="bg-white border-b border-[#DFE7F1]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
-            <nav aria-label="Breadcrumb" className="flex items-center flex-wrap gap-2 text-xs text-[#526176]">
-              <Link href="/" className="hover:text-[#075BBB] transition-colors font-medium">
-                Home
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              <Link href="/manufacturing" className="hover:text-[#075BBB] transition-colors font-medium">
-                Manufacturing
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              <Link href="/manufacturing#machinery" className="hover:text-[#075BBB] transition-colors font-medium">
-                Machinery
-              </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-[#10233F] font-semibold truncate max-w-[200px] sm:max-w-none">
-                {machine.name}
-              </span>
-            </nav>
-
-            <Link
-              href="/manufacturing#machinery"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#075BBB] bg-blue-50/80 hover:bg-[#075BBB] hover:text-white px-3 py-1.5 rounded-lg border border-blue-200 hover:border-[#075BBB] transition-all duration-200 group shadow-2xs hover:shadow-xs"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-1" />
-              <span>Back to Machinery</span>
-            </Link>
+      <main className="flex-grow">
+        {/* ========================================================================= */}
+        {/* A. STANDARDIZED BRAND HERO BANNER                                         */}
+        {/* ========================================================================= */}
+        <section className="relative w-full h-[280px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
+          {/* Background Banner Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/manufacturing/manufacturing banner.png"
+              alt="Patel Mould Industries Precision Manufacturing Facility Gujarat"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center filter brightness-95 opacity-100"
+            />
+            {/* Multi-layer Brand Gradient Overlay for Premium Readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0b1f3a]/95 via-[#0b1f3a]/80 to-transparent z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/50 z-10" />
+            <div className="absolute inset-0 tech-grid-pattern opacity-20 pointer-events-none z-10" />
           </div>
-        </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+            <div className="max-w-3xl space-y-3.5">
+              {/* Back to Machinery button */}
+              <div>
+                <Link
+                  href="/manufacturing#machinery"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white/90 hover:text-white backdrop-blur-md border border-white/20 text-xs font-mono uppercase tracking-wider font-semibold transition-colors shadow-sm"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 text-[#ff6b00]" />
+                  <span>Back to Machinery</span>
+                </Link>
+              </div>
+
+              {/* Main Machine Title with Gradient Accent */}
+              {(() => {
+                const words = machine.name.split(' ');
+                const firstPart = words.slice(0, -1).join(' ');
+                const lastPart = words[words.length - 1];
+
+                return (
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white tracking-tight leading-tight">
+                    {firstPart ? `${firstPart} ` : ''}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">
+                      {lastPart}
+                    </span>
+                  </h1>
+                );
+              })()}
+
+              {/* Breadcrumb Navigation */}
+              <div className="inline-flex items-center space-x-2 text-xs font-mono text-white/90 bg-[#0b1f3a]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-blue-400/30 uppercase tracking-wider shadow-sm">
+                <Link href="/" className="hover:text-[#ff6b00] transition-colors flex items-center gap-1 font-semibold">
+                  Home
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <Link href="/manufacturing" className="hover:text-[#ff6b00] transition-colors font-semibold">
+                  Manufacturing
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <Link href="/manufacturing#machinery" className="hover:text-[#ff6b00] transition-colors font-semibold">
+                  Machinery
+                </Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="text-blue-300 font-bold truncate max-w-[160px] sm:max-w-none">
+                  {machine.name}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ======================================================== */}
-        {/* B. MACHINE HERO SECTION (TWO-COLUMN BALANCED)            */}
+        {/* B. MACHINE OVERVIEW SECTION                              */}
         {/* ======================================================== */}
         <section className="py-13 sm:py-13 bg-white border-b border-[#DFE7F1]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,16 +195,16 @@ export default async function MachineDetailPage({ params }: PageProps) {
                 {/* Quick Snapshot Specs */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   <div className="p-3.5 rounded-xl bg-[#F6F8FC] border border-[#DFE7F1] flex flex-col justify-between">
-                    <div className="text-[10px] font-mono font-bold text-[#FF792D] uppercase tracking-wider">
+                    <div className="text-[10px] font-bold text-[#FF792D] uppercase tracking-wider">
                       KEY SPECIFICATIONS
                     </div>
-                    <div className="text-xs font-semibold text-[#10233F] mt-1.5 font-mono leading-snug">
+                    <div className="text-xs font-semibold text-[#10233F] mt-1.5 leading-snug">
                       {machine.specifications}
                     </div>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-[#F6F8FC] border border-[#DFE7F1] flex flex-col justify-between">
-                    <div className="text-[10px] font-mono font-bold text-[#075BBB] uppercase tracking-wider">
+                    <div className="text-[10px] font-bold text-[#075BBB] uppercase tracking-wider">
                       CAPACITY ENVELOPE
                     </div>
                     <div className="text-xs font-semibold text-[#10233F] mt-1.5 leading-snug">
@@ -176,21 +213,7 @@ export default async function MachineDetailPage({ params }: PageProps) {
                   </div>
                 </div>
 
-                {/* Inquiry CTA Button */}
-                <div className="pt-2 flex flex-wrap items-center gap-4">
-                  <Button
-                    href={`/contact?subject=Machinery+Inquiry:+${encodeURIComponent(machine.name)}`}
-                    variant="primary"
-                    size="md"
-                    className="inline-flex items-center gap-2 shadow-sm"
-                  >
-                    <span>Request an Inquiry</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                  <span className="text-xs text-[#526176] font-medium">
-                    Discuss machine capacity &amp; scheduling
-                  </span>
-                </div>
+
               </div>
 
             </div>
@@ -226,7 +249,7 @@ export default async function MachineDetailPage({ params }: PageProps) {
                           <span className="text-xs font-semibold text-[#526176] group-hover:text-[#075BBB] transition-colors">
                             {spec.label}
                           </span>
-                          <span className="sm:col-span-2 text-xs sm:text-[13px] font-semibold text-[#10233F] group-hover:text-[#075BBB] font-mono leading-snug transition-colors">
+                          <span className="sm:col-span-2 text-xs sm:text-[13px] font-semibold text-[#10233F] group-hover:text-[#075BBB] leading-snug transition-colors">
                             {spec.value}
                           </span>
                         </div>
@@ -258,10 +281,10 @@ export default async function MachineDetailPage({ params }: PageProps) {
                           key={cIdx}
                           className="p-3.5 rounded-xl bg-white border border-[#DFE7F1] hover:border-[#075BBB] hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
                         >
-                          <div className="text-[10px] font-mono font-medium text-[#526176] group-hover:text-[#075BBB] transition-colors leading-tight">
+                          <div className="text-[10px] font-medium text-[#526176] group-hover:text-[#075BBB] transition-colors leading-tight">
                             {cap.label}
                           </div>
-                          <div className="text-xs sm:text-[13px] font-bold text-[#10233F] group-hover:text-[#075BBB] mt-1.5 leading-snug font-mono transition-colors">
+                          <div className="text-xs sm:text-[13px] font-bold text-[#10233F] group-hover:text-[#075BBB] mt-1.5 leading-snug transition-colors">
                             {cap.value}
                           </div>
                         </div>

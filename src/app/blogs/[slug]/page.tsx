@@ -25,6 +25,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BLOG_POSTS, BlogPost } from "@/data/blogs";
 import { PRODUCTS } from "@/data/products";
+import { FAQSection } from "@/components/FAQSection";
+import { BLOG_FAQS } from "@/data/faqs";
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -371,36 +373,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   </div>
                 )}
 
-                {/* Technical Inquiries CTA Box - In White Card Styling */}
-                <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 space-y-4">
-                  <div className="space-y-1 pb-3 border-b border-slate-100">
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#ff6b00] flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>Toolroom Consultation</span>
-                    </span>
-                    <h4 className="text-xl font-bold text-slate-900 pt-1">Have a Tooling Challenge?</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed font-normal pt-0.5">
-                      Consult with our senior tool designers for cycle optimization, mold flow analysis, and tool steel selection.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2.5 pt-1">
-                    <a
-                      href="tel:+917784758347"
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#ff6b00] hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors text-xs uppercase tracking-wider shadow-sm"
-                    >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>Call +91 7784758347</span>
-                    </a>
-                    <a
-                      href="mailto:sales@patelmould.com"
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-semibold rounded-xl transition-colors text-xs uppercase tracking-wider"
-                    >
-                      <Mail className="w-3.5 h-3.5 text-blue-600" />
-                      <span>Email Tooling Team</span>
-                    </a>
-                  </div>
-                </div>
 
                 {/* Related Mould Solutions */}
                 {relatedProducts.length > 0 && (
@@ -435,6 +407,18 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </aside>
 
             </div>
+            {/* Article Technical FAQs (5 Curated FAQs) */}
+            {BLOG_FAQS[post.slug] && (
+              <div className="pt-12 mt-12 border-t border-slate-200">
+                <FAQSection
+                  faqs={BLOG_FAQS[post.slug]}
+                  title="Technical Article FAQs"
+                  subtitle={`Key engineering questions, material parameters, and cycle considerations examined in this guide.`}
+                  badge="ENGINEERING INSIGHTS & FAQS"
+                  className="rounded-3xl border border-slate-200/90 shadow-sm"
+                />
+              </div>
+            )}
 
             {/* RELATED ARTICLES CAROUSEL / GRID AT BOTTOM */}
             <div className="pt-16 mt-16 border-t border-slate-200 space-y-6">

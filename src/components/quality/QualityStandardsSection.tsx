@@ -120,11 +120,7 @@ export const QualityStandardsSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="mt-5 pt-3.5 border-t border-slate-100 text-[10.5px] font-mono text-slate-400 group-hover:text-slate-500 flex items-center justify-between transition-colors duration-200">
-                <span>VERIFIED ON AGREED SCOPE</span>
-                <span className="text-[#0056b3] opacity-0 group-hover:opacity-100 transition-opacity duration-200 font-semibold">✓ Documented</span>
-              </div>
+
             </motion.div>
           ))}
         </div>

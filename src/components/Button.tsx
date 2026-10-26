@@ -6,7 +6,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   icon?: React.ReactNode;
@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   if (href) {
     return (
-      <Link href={href} className={combinedClasses}>
+      <Link href={href} onClick={onClick} className={combinedClasses}>
         {children}
         {icon && <span className="transition-transform duration-300 group-hover:translate-x-1">{icon}</span>}
       </Link>

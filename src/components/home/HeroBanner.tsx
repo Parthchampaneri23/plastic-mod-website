@@ -91,10 +91,43 @@ export const HeroBanner: React.FC = () => {
 
             {/* CTAs matched exactly to graphic banner */}
             <div className="pt-2 flex flex-wrap gap-4 items-center">
-              <Button href={slide.primaryCtaLink} variant="secondary" size="lg" icon={<ArrowRight className="w-5 h-5" />}>
+              <Button
+                href={slide.primaryCtaLink}
+                variant="secondary"
+                size="lg"
+                icon={<ArrowRight className="w-5 h-5" />}
+                onClick={
+                  slide.primaryCtaLink?.startsWith('#')
+                    ? (e: React.MouseEvent) => {
+                        const target = document.querySelector(slide.primaryCtaLink);
+                        if (target) {
+                          e.preventDefault();
+                          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    : undefined
+                }
+              >
                 {slide.primaryCtaText}
               </Button>
-              <Button href={slide.secondaryCtaLink} variant="outline" size="lg" className="bg-white/10 border-white/40 text-white hover:bg-white hover:text-slate-900" icon={<ArrowRight className="w-5 h-5" />}>
+              <Button
+                href={slide.secondaryCtaLink}
+                variant="outline"
+                size="lg"
+                className="bg-white/10 border-white/40 text-white hover:bg-white hover:text-slate-900"
+                icon={<ArrowRight className="w-5 h-5" />}
+                onClick={
+                  slide.secondaryCtaLink?.startsWith('#')
+                    ? (e: React.MouseEvent) => {
+                        const target = document.querySelector(slide.secondaryCtaLink);
+                        if (target) {
+                          e.preventDefault();
+                          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    : undefined
+                }
+              >
                 {slide.secondaryCtaText}
               </Button>
             </div>

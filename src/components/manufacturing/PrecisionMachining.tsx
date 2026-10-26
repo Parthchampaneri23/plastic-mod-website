@@ -263,19 +263,6 @@ export const PrecisionMachining: React.FC = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Inquiry CTA */}
-              <div className="pt-2 flex flex-wrap items-center gap-3.5">
-                <Button
-                  href="/contact"
-                  variant="primary"
-                  size="sm"
-                  className="inline-flex items-center gap-1.5 shadow-xs"
-                >
-                  <span>Inquire Machining Capacity</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Button>
-              </div>
             </div>
           </div>
 

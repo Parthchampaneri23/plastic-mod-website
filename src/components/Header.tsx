@@ -53,11 +53,17 @@ export const Header: React.FC = () => {
             </a>
           </div>
 
-          {/* Right: Company Location */}
-          <div className="flex items-center space-x-2 text-slate-300">
-            <MapPin className="w-3.5 h-3.5 text-[#ff6b00] shrink-0" />
-            <span>Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
-          </div>
+          {/* Right: Company Location (Clickable Google Maps link) */}
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
+            title="Open in Google Maps"
+          >
+            <MapPin className="w-3.5 h-3.5 text-[#ff6b00] shrink-0 transition-transform group-hover:scale-110" />
+            <span className="no-underline">Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
+          </a>
         </div>
       </div>
 
@@ -211,14 +217,14 @@ export const Header: React.FC = () => {
               <Link href="/blogs" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
                 Blogs
               </Link>
-              <Link href="/contact" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
+              <Link href="/contact#contact-details-section" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
                 Contact Us
               </Link>
             </div>
 
             {/* Request Quote Button */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button href="/contact" variant="primary" size="md">
+              <Button href="/contact#inquiry-form-section" variant="primary" size="md">
                 Request a Quote
               </Button>
             </div>
@@ -352,7 +358,7 @@ export const Header: React.FC = () => {
               Blogs
             </Link>
             <Link
-              href="/contact"
+              href="/contact#contact-details-section"
               className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -360,7 +366,7 @@ export const Header: React.FC = () => {
             </Link>
 
             <div className="pt-4 border-t border-slate-200">
-              <Button href="/contact" variant="primary" size="md" className="w-full">
+              <Button href="/contact#inquiry-form-section" variant="primary" size="md" className="w-full">
                 Request a Quote
               </Button>
             </div>

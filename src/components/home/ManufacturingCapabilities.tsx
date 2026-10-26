@@ -14,7 +14,7 @@ export const ManufacturingCapabilities: React.FC = () => {
   const itemDelays = [0.05, 0.12, 0.19, 0.26, 0.33, 0.40];
 
   return (
-    <section id="capabilities" className="py-13 sm:py-13 bg-white relative border-t border-b border-slate-200 overflow-hidden">
+    <section id="capabilities" className="py-13 sm:py-13 bg-white relative border-t border-b border-slate-200 overflow-hidden scroll-mt-28 sm:scroll-mt-32">
       {/* Subtle Technical Grid Background */}
       <div className="absolute inset-0 tech-grid-pattern opacity-30 pointer-events-none" />
 
@@ -338,19 +338,6 @@ export const ManufacturingCapabilities: React.FC = () => {
           </div>
 
         </div>
-
-        {/* BOTTOM CTA BUTTON */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-14 text-center"
-        >
-          <Button href="#infrastructure" variant="primary" size="lg" icon={<ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />}>
-            View All Capabilities & Machine Specs
-          </Button>
-        </motion.div>
 
       </div>
     </section>

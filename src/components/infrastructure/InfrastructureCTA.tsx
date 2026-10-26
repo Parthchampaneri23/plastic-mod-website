@@ -74,23 +74,15 @@ export const InfrastructureCTA: React.FC = () => {
                 <p className="text-xs text-slate-600 leading-relaxed">
                   Connect directly with our tooling engineers for feasibility reviews, cycle analysis, and application-specific mould development.
                 </p>
-                <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 pt-1">
+                <div className="pt-2">
                   <Button
-                    href="/contact"
-                    variant="secondary"
+                    href="/contact#inquiry-form-section"
+                    variant="primary"
                     size="md"
-                    className="w-full justify-center shadow-xs"
+                    className="w-full justify-center shadow-md hover:shadow-lg"
                     icon={<ArrowRight className="w-4 h-4 ml-1" />}
                   >
-                    Discuss Your Requirements
-                  </Button>
-                  <Button
-                    href="/products"
-                    variant="outline"
-                    size="md"
-                    className="w-full justify-center bg-white border-slate-300 hover:border-[#0056b3] text-slate-700"
-                  >
-                    Explore Mould Solutions
+                    Request a Quote
                   </Button>
                 </div>
               </div>

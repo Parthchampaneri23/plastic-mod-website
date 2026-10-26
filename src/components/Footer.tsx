@@ -120,47 +120,47 @@ export const Footer: React.FC = () => {
               <li>
                 <Link href="/manufacturing" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Manufacturing Capabilities</span>
+                  <span>Manufacturing</span>
                 </Link>
               </li>
               <li>
                 <Link href="/infrastructure" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Infrastructure &amp; Facilities</span>
+                  <span>Infrastructure</span>
                 </Link>
               </li>
               <li>
                 <Link href="/products" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Product Catalog</span>
+                  <span>Products</span>
                 </Link>
               </li>
               <li>
                 <Link href="/industries" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Industries Served</span>
+                  <span>Industries</span>
                 </Link>
               </li>
               <li>
                 <Link href="/quality" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Quality &amp; Testing</span>
+                  <span>Quality & Testing</span>
                 </Link>
               </li>
               <li>
                 <Link href="/gallery" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span className="font-semibold text-white">Gallery</span>
+                  <span>Gallery</span>
                 </Link>
               </li>
               <li>
                 <Link href="/blogs" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Technical Blogs</span>
+                  <span>Blogs</span>
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/contact#contact-details-section" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
                   <span>Contact Us</span>
                 </Link>
@@ -201,18 +201,30 @@ export const Footer: React.FC = () => {
               Contact Information
             </h4>
             <div className="space-y-4 text-xs text-slate-300">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                <span className="leading-relaxed">Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 text-[#ff6b00] shrink-0" />
-                <span>91+ 7784758347</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 text-blue-400 shrink-0" />
-                <span>sales@patelmould.com</span>
-              </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
+                title="Open in Google Maps"
+              >
+                <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5 transition-transform group-hover:scale-110" />
+                <span className="leading-relaxed no-underline">Precision Mould Park, Phase-IV GIDC, Gujarat, India</span>
+              </a>
+              <a
+                href="tel:+917784758347"
+                className="flex items-center space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
+              >
+                <Phone className="w-4 h-4 text-[#ff6b00] shrink-0 transition-transform group-hover:scale-110" />
+                <span className="no-underline">91+ 7784758347</span>
+              </a>
+              <a
+                href="mailto:sales@patelmould.com"
+                className="flex items-center space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
+              >
+                <Mail className="w-4 h-4 text-blue-400 shrink-0 transition-transform group-hover:scale-110" />
+                <span className="no-underline">sales@patelmould.com</span>
+              </a>
             </div>
           </div>
 
@@ -225,9 +237,8 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex space-x-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms &amp; Conditions</a>
-            <Link href="/quality#quality-policy" className="hover:text-white transition-colors">Quality Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

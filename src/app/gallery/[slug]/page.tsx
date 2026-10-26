@@ -215,24 +215,7 @@ export default async function GalleryDetailPage({ params }: GalleryDetailPagePro
                     </div>
                   )}
 
-                  {/* Action CTAs */}
-                  <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                    <a
-                      href="tel:+917784758347"
-                      className="flex-1 inline-flex items-center justify-center px-6 py-3.5 bg-[#0056b3] hover:bg-blue-800 text-white font-semibold rounded-xl transition-colors shadow-sm text-xs uppercase tracking-wider text-center"
-                    >
-                      Contact Technical Team
-                    </a>
-                    {item.relatedCategoryLink && (
-                      <Link
-                        href={item.relatedCategoryLink}
-                        className="inline-flex items-center justify-center gap-1.5 px-5 py-3.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-800 font-semibold rounded-xl transition-colors text-xs text-center"
-                      >
-                        <span>Explore Section</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
-                      </Link>
-                    )}
-                  </div>
+
                 </div>
               </div>
 
@@ -273,9 +256,6 @@ export default async function GalleryDetailPage({ params }: GalleryDetailPagePro
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <span className="absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#0b1f3a]/90 text-white">
-                        {rel.badge}
-                      </span>
                     </div>
                     <div className="p-4 flex-grow flex flex-col justify-between space-y-2">
                       <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#0056b3] transition-colors line-clamp-1">

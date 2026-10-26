@@ -12,6 +12,8 @@ import TestingValidationSection from '@/components/infrastructure/TestingValidat
 import WarehouseLogisticsSection from '@/components/infrastructure/WarehouseLogisticsSection';
 import EngineeringDesignSection from '@/components/infrastructure/EngineeringDesignSection';
 import { InfrastructureCTA } from '@/components/infrastructure/InfrastructureCTA';
+import { FAQSection } from '@/components/FAQSection';
+import { INFRASTRUCTURE_FAQS } from '@/data/faqs';
 
 export const metadata: Metadata = {
   title: 'Infrastructure & Manufacturing Facilities | Patel Mould Industries',
@@ -61,7 +63,15 @@ export default function InfrastructurePage() {
         {/* Section 9: Engineering Design & Planning (Dedicated Blueprint Studio Layout) */}
         <EngineeringDesignSection />
 
-        {/* Section 10: Manufacturing Partnership CTA */}
+        {/* Section 10: Infrastructure & Toolroom Facilities FAQ */}
+        <FAQSection
+          faqs={INFRASTRUCTURE_FAQS}
+          badge="TOOLROOM & PLANT CAPABILITIES"
+          title="Facility & Infrastructure FAQs"
+          subtitle="Explore technical details regarding our precision CNC centers, EDM die-sinking, metrology inspection protocols, and mold trial machines."
+        />
+
+        {/* Section 11: Manufacturing Partnership CTA */}
         <InfrastructureCTA />
       </main>
 

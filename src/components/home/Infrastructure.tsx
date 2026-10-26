@@ -61,18 +61,6 @@ export const Infrastructure: React.FC = () => {
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
               Take a virtual tour through our <strong className="text-slate-900 font-medium">15,000 m² climate-controlled</strong> manufacturing center equipped with 5-axis CNCs, mirror EDMs, and <strong className="text-[#0056b3] font-medium">Zeiss 3D CMM labs</strong>.
             </p>
-
-            {/* Micro Technical Highlight Pills */}
-            <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-              <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
-                5-Axis CNC & EDM Tech
-              </span>
-              <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
-                Zeiss 3D Quality Audit
-              </span>
-            </div>
           </motion.div>
         </div>
 
@@ -88,60 +76,34 @@ export const Infrastructure: React.FC = () => {
               whileHover={{ y: -8, scale: 1.01 }}
             >
               <Link
-                href="#inquiry-section"
+                href={facility.link || "/infrastructure"}
                 className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl hover:border-[#0056b3] transition-all duration-500 relative flex flex-col justify-between block cursor-pointer"
               >
-                {/* Image Container with Dark Gradient Overlay */}
-                <div className="relative h-80 overflow-hidden bg-slate-900">
+                {/* Clean Image Container without text overlay */}
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-slate-900">
                   <motion.img
-                    whileHover={{ scale: 1.08 }}
+                    whileHover={{ scale: 1.06 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
                     src={facility.image}
                     alt={facility.title}
                     className="w-full h-full object-cover"
                   />
-
-                  {/* Multi-stage dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f3a]/95 via-[#0b1f3a]/50 to-transparent group-hover:from-[#0b1f3a]/80 transition-colors duration-500" />
-
-                  {/* Bottom Overlay Text */}
-                  <div className="absolute bottom-6 left-6 right-6 space-y-2 text-white z-10">
-                    <h3 className="text-2xl font-semibold text-white group-hover:text-blue-200 transition-colors flex items-center justify-between gap-3">
-                      <span>{facility.title}</span>
-                      <div className="w-9 h-9 rounded-full bg-white/10 group-hover:bg-[#ff6b00] border border-white/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110">
-                        <ArrowRight className="w-5 h-5 text-white transition-transform group-hover:translate-x-0.5" />
-                      </div>
-                    </h3>
-                    <p className="text-sm text-slate-200 font-normal leading-relaxed line-clamp-2">
-                      {facility.description}
-                    </p>
-                  </div>
                 </div>
 
-                {/* Bottom Interactive Bar */}
-                <div className="p-3.5 px-6 bg-slate-50 group-hover:bg-blue-50/80 border-t border-slate-100 flex items-center justify-center text-xs font-bold transition-all duration-300">
-                  <span className="text-[#0056b3] font-semibold flex items-center justify-center gap-2 group-hover:text-[#ff6b00] transition-colors">
-                    <span>View Details</span>
-                    <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                {/* Bottom Bar: Heading on Left & Explore Button on Right */}
+                <div className="p-5 px-6 bg-white group-hover:bg-blue-50/40 border-t border-slate-100 flex items-center justify-between gap-4 transition-all duration-300">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#0056b3] transition-colors line-clamp-1">
+                    {facility.title}
+                  </h3>
+                  <span className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 group-hover:bg-[#ff6b00] text-[#0056b3] group-hover:text-white text-xs font-semibold transition-all duration-300 shadow-2xs">
+                    <span>Explore</span>
+                    <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </div>
               </Link>
             </motion.div>
           ))}
         </div>
-
-        {/* View Gallery Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-14 text-center"
-        >
-          <Button href="#inquiry-section" variant="primary" size="lg" icon={<Eye className="w-5 h-5 transition-transform group-hover:scale-110" />}>
-            View Gallery & Virtual Plant Tour
-          </Button>
-        </motion.div>
 
       </div>
     </section>

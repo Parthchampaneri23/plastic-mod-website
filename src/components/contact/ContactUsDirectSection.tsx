@@ -30,7 +30,7 @@ export const ContactUsDirectSection: React.FC = () => {
   };
 
   return (
-    <section id="contact-details-section" className="py-13 sm:py-13 bg-white">
+    <section id="contact-details-section" className="py-13 sm:py-13 bg-white scroll-mt-24 sm:scroll-mt-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* Section Header */}

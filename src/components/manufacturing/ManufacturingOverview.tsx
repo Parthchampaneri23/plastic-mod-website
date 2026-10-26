@@ -152,9 +152,6 @@ export const ManufacturingOverview: React.FC = () => {
                 Precision Engineering.{' '}
                 <span className="text-[#075BBB] block sm:inline">Manufacturing Excellence.</span>
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base font-normal leading-relaxed max-w-2xl">
-                Patel Mould Industries operates a specialized, fully integrated tooling facility engineered for high-performance plastic injection moulds. Combining state-of-the-art Japanese 5-axis CNC machining, Swiss mirror-finish EDM, and rigorous Zeiss 3D coordinate metrology, we manufacture high-cavitation tooling with sub-micron repeatable precision.
-              </p>
             </motion.div>
 
             {/* Right: Concise Manufacturing Summary with Subtle Blue/Orange Vertical Accent */}
@@ -168,9 +165,6 @@ export const ManufacturingOverview: React.FC = () => {
               {/* Subtle dual-color vertical accent line */}
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] via-[#075BBB] to-[#FF792D]" />
               <div className="space-y-2">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#53718F] block">
-                  Integrated Toolroom · Gujarat, India
-                </span>
                 <p className="text-slate-700 text-sm sm:text-[15px] leading-relaxed">
                   Every tooling phase—from metallurgical steel verification and parametric 3D CAD design to finish machining, optical assembly, and in-house press trials—is managed under one roof to assure complete dimensional integrity and on-schedule execution.
                 </p>
@@ -361,16 +355,6 @@ export const ManufacturingOverview: React.FC = () => {
                   </button>
                 );
               })}
-            </div>
-
-            {/* 3. CTA Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-              <Button href="#machinery" variant="primary" size="md">
-                Explore Our Machinery
-              </Button>
-              <Button href="/contact" variant="outline" size="md">
-                Schedule a Factory Visit
-              </Button>
             </div>
           </motion.div>
 

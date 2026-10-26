@@ -49,6 +49,7 @@ export interface FacilityHighlight {
   image: string;
   description: string;
   equipmentCount: string;
+  link?: string;
 }
 
 export interface IndustryApplication {
@@ -57,6 +58,7 @@ export interface IndustryApplication {
   description: string;
   image: string;
   badge: string;
+  link?: string;
 }
 
 export interface QualityStandard {
@@ -293,36 +295,40 @@ export const WHY_CHOOSE_US: WhyChooseUsFeature[] = [
 
 export const FACILITIES: FacilityHighlight[] = [
   {
-    id: "cnc-hall",
-    title: "High-Speed 5-Axis CNC Machining Center",
-    category: "Precision Machining Bay",
-    image: "/Home/inf1.png",
-    description: "State-of-the-art Japanese & European 5-axis high-speed CNC milling centers delivering sub-micron core and cavity machining accuracy.",
-    equipmentCount: "12 High-Speed CNC Centers"
+    id: "cnc-machining",
+    title: "High-Speed CNC Machining Center",
+    category: "Precision Machining Facility",
+    image: "/infrastructure/cnc-machining.jpg",
+    description: "Multi-axis vertical CNC milling centers producing precision mould plates, core and cavity inserts with sub-micron accuracy.",
+    equipmentCount: "12 CNC Machining Centers",
+    link: "/infrastructure#cnc-machining"
   },
   {
-    id: "edm-hall",
-    title: "Precision Mirror EDM & Spark Tooling Workshop",
-    category: "Electrical Discharge Machining",
-    image: "/Home/inf2.png",
-    description: "Automated mirror EDM spark erosion machines achieving ultra-fine Ra 0.1 surface polish for complex thread inserts and deep cavities.",
-    equipmentCount: "8 Mirror EDMs & Wire Cuts"
+    id: "edm-machining",
+    title: "Die-Sinking EDM & Spark Tooling Workshop",
+    category: "Spark Erosion Facility",
+    image: "/infrastructure/edm-machining.jpg",
+    description: "Advanced mirror EDM and wire erosion achieving complex profiles, sharp internal corners, and deep cavity ribs with ultra-fine Ra 0.1 finish.",
+    equipmentCount: "8 Mirror EDMs & Wire Cuts",
+    link: "/infrastructure#edm-machining"
   },
   {
-    id: "cmm-lab",
-    title: "Zeiss 3D CMM Metrology & Inspection Lab",
-    category: "Quality Control & Metrology",
-    image: "/Home/inf3.png",
-    description: "Climate-controlled 3D Coordinate Measuring Machine (CMM) lab for 100% 3D CAD dimensional verification and zero-defect quality assurance.",
-    equipmentCount: "3 Zeiss 3D CMM Scanners"
-  },
-  {
-    id: "assembly-bay",
-    title: "Master Mold Assembly & Trial Fitting Hall",
+    id: "mould-assembly",
+    title: "Mould Assembly & Precision Fitting Hall",
     category: "Toolroom Fitting & Assembly",
-    image: "/Home/inf4.png",
-    description: "Heavy-tonnage fitting bay equipped with overhead cranes for precision core alignment, action fitting, and pre-shipment trial testing.",
-    equipmentCount: "15,000 m² Fitting Facility"
+    image: "/infrastructure/mold-assembly.jpg",
+    description: "Careful component fitting, alignment verification, manifold cooling routing, and mechanical action checks by master toolmakers.",
+    equipmentCount: "15,000 m² Fitting Facility",
+    link: "/infrastructure#mould-assembly"
+  },
+  {
+    id: "quality-inspection",
+    title: "Quality Inspection & Metrology Laboratory",
+    category: "Metrology & Quality Assurance",
+    image: "/infrastructure/quality-inspection.jpg",
+    description: "Comprehensive 3D coordinate verification, critical dimension audits, and drawing conformity tests ensuring zero-defect tooling reliability.",
+    equipmentCount: "3 Zeiss 3D CMM Scanners",
+    link: "/infrastructure#quality-inspection"
   }
 ];
 
@@ -331,43 +337,49 @@ export const INDUSTRIES: IndustryApplication[] = [
     id: "packaging",
     name: "Packaging",
     description: "Thin-wall containers, caps, closures, and industrial packaging solutions with ultra-fast cycle times.",
-    image: "/Home/ind-packaging.png",
-    badge: "High-Speed Cycle"
+    image: "/industries/packaging-clean.jpg",
+    badge: "High-Speed Cycle",
+    link: "/industries/packaging"
   },
   {
     id: "food-beverage",
     name: "Food & Beverage",
     description: "PET bottle preforms, wide-mouth food jars, juice containers, and mineral water packaging molds.",
-    image: "/Home/ind-food.png",
-    badge: "FDA Standard"
+    image: "/industries/food-beverage-clean.jpg",
+    badge: "FDA Standard",
+    link: "/industries/food-beverage"
   },
   {
     id: "pharmaceutical",
     name: "Pharmaceutical",
     description: "Medical-grade liquid bottles, pill containers, dropper bottles, and cleanroom compliant tooling.",
-    image: "/Home/ind-pharma.png",
-    badge: "Cleanroom Grade"
+    image: "/industries/pharmaceutical-clean.jpg",
+    badge: "Cleanroom Grade",
+    link: "/industries/pharmaceutical"
   },
   {
     id: "personal-care",
     name: "Personal Care",
     description: "Shampoo bottles, lotion pumps, cosmetic jars, and high-end aesthetic packaging molds.",
-    image: "/Home/ind-personal.png",
-    badge: "Premium Finish"
+    image: "/industries/personal-care-clean.jpg",
+    badge: "Premium Finish",
+    link: "/industries/personal-care"
   },
   {
-    id: "plastic-packaging",
-    name: "Plastic Packaging",
+    id: "plastic-containers",
+    name: "Plastic Containers",
     description: "Industrial chemical jerrycans, lubricant bottles, storage drums, and heavy-duty blow containers.",
-    image: "/Home/ind-plastic.png",
-    badge: "Heavy Duty"
+    image: "/industries/plastic-containers-clean.jpg",
+    badge: "Heavy Duty",
+    link: "/industries/plastic-containers"
   },
   {
-    id: "industrial-apps",
-    name: "Other Industrial Applications",
-    description: "Automotive fluid reservoirs, technical plastic components, and specialized blow-molded parts.",
-    image: "/Home/ind-industrial.png",
-    badge: "Custom Tooling"
+    id: "chemical-packaging",
+    name: "Chemical Packaging",
+    description: "Hazardous chemical containers, agrochemical bottles, and high-barrier industrial packaging.",
+    image: "/industries/chemical-packaging-clean.jpg",
+    badge: "Chemical Resistant",
+    link: "/industries/chemical-packaging"
   }
 ];
 

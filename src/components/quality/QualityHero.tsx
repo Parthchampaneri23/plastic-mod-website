@@ -169,15 +169,7 @@ export const QualityHero: React.FC = () => {
               ))}
             </div>
 
-            {/* Quick Action Navigation Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              <Button href="#quality-process" variant="primary" size="sm">
-                Our Quality Process
-              </Button>
-              <Button href="#inquiry-section" variant="outline" size="sm">
-                Contact Us
-              </Button>
-            </div>
+
 
           </div>
 
