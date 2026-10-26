@@ -10,8 +10,7 @@ import {
   Target,
   ShieldCheck,
   Cpu,
-  Clock,
-  Cog
+  Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -68,11 +67,6 @@ export const HeroBanner: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="lg:col-span-6 space-y-5 max-w-xl"
           >
-            {/* Top Pill Subtitle Tag matching graphic design */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-blue-400/30 text-white text-[11px] font-semibold tracking-wider uppercase backdrop-blur-md">
-              <Cog className="w-3.5 h-3.5 text-[#ff6b00] animate-spin-slow" />
-              <span>{slide.subtitle}</span>
-            </div>
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white leading-[1.15] tracking-tight">
