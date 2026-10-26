@@ -217,7 +217,7 @@ export const Header: React.FC = () => {
               <Link href="/blogs" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
                 Blogs
               </Link>
-              <Link href="/contact#contact-details-section" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
+              <Link href="/contact" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
                 Contact Us
               </Link>
             </div>
@@ -358,7 +358,7 @@ export const Header: React.FC = () => {
               Blogs
             </Link>
             <Link
-              href="/contact#contact-details-section"
+              href="/contact"
               className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
               onClick={() => setMobileMenuOpen(false)}
             >

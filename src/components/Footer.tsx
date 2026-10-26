@@ -160,7 +160,7 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/contact#contact-details-section" className="hover:text-white transition-colors flex items-center gap-1.5 group">
+                <Link href="/contact" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
                   <span>Contact Us</span>
                 </Link>
