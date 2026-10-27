@@ -52,9 +52,45 @@ const STRENGTH_STAGES = [
   },
 ];
 
-export const CompanyStrength: React.FC = () => {
+interface CompanyStrengthProps {
+  companyStrength?: {
+    eyebrow?: string;
+    badge?: string;
+    headingPrefix?: string;
+    heading?: string;
+    headingHighlight?: string;
+    highlightHeading?: string;
+    description?: string;
+    image?: string;
+    centralMetric?: any;
+    strengths?: Array<{
+      id?: string;
+      num: string;
+      title: string;
+      shortDesc?: string;
+      metric: string;
+      metricLabel?: string;
+      description: string;
+      accent?: string;
+    }>;
+  };
+}
+
+export const CompanyStrength: React.FC<CompanyStrengthProps> = ({ companyStrength }) => {
   const [activeStageIdx, setActiveStageIdx] = useState<number>(0);
-  const activeStage = STRENGTH_STAGES[activeStageIdx] || STRENGTH_STAGES[0];
+
+  const eyebrow = companyStrength?.eyebrow || companyStrength?.badge || "OUR STRENGTH";
+  const headingPrefix = companyStrength?.headingPrefix || companyStrength?.heading || "Built on Experience.";
+  const headingHighlight = companyStrength?.headingHighlight || companyStrength?.highlightHeading || "Powered by Expertise.";
+  const description = companyStrength?.description || "Over three decades of specialized mold making crafted into four core pillars of tooling superiority.";
+  const featuredImage = companyStrength?.image || "/About/Aboutstrenght.png";
+
+  const stagesList = companyStrength?.strengths && companyStrength.strengths.length > 0
+    ? companyStrength.strengths
+    : STRENGTH_STAGES;
+
+  const activeStage = stagesList[activeStageIdx] || stagesList[0];
+
 
   return (
     <section className="py-13 sm:py-13 bg-white relative overflow-hidden border-b border-slate-200">
@@ -79,7 +115,7 @@ export const CompanyStrength: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            OUR STRENGTH
+            {eyebrow}
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
@@ -91,8 +127,8 @@ export const CompanyStrength: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-                <span className="text-slate-900 block">Built on Experience.</span>
-                <span className="text-[#0056b3] block">Powered by Expertise.</span>
+                <span className="text-slate-900 block">{headingPrefix}</span>
+                <span className="text-[#0056b3] block">{headingHighlight}</span>
               </h2>
             </motion.div>
 
@@ -105,7 +141,7 @@ export const CompanyStrength: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                Experience, skilled people, advanced technology, and manufacturing capability working together to deliver precision tooling.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -137,7 +173,7 @@ export const CompanyStrength: React.FC = () => {
                 className="relative w-full h-[380px] sm:h-[440px] lg:h-[480px]"
               >
                 <img
-                  src="/About/Aboutstrenght.png"
+                  src={featuredImage}
                   alt="Patel Mould Manufacturing Facility & Precision Tooling"
                   className="w-full h-full object-cover rounded-[22px]"
                 />
@@ -184,12 +220,12 @@ export const CompanyStrength: React.FC = () => {
 
           {/* RIGHT COLUMN: COMPACT INTERACTIVE CAPABILITY LIST (40% Width - Matching Core Expertise style) */}
           <div className="md:col-span-5 lg:col-span-5 space-y-2">
-            {STRENGTH_STAGES.map((stage, idx) => {
+            {stagesList.map((stage, idx) => {
               const isActive = activeStageIdx === idx;
 
               return (
                 <motion.div
-                  key={stage.num}
+                  key={stage.num || idx}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -251,7 +287,7 @@ export const CompanyStrength: React.FC = () => {
           {/* Factory Image */}
           <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg h-64">
             <img
-              src="/About/Aboutstrenght.png"
+              src={featuredImage}
               alt="Patel Mould Facility"
               className="w-full h-full object-cover"
             />
@@ -266,11 +302,11 @@ export const CompanyStrength: React.FC = () => {
 
           {/* 4 Editorial Vertical Items */}
           <div className="space-y-3">
-            {STRENGTH_STAGES.map((stage, idx) => {
+            {stagesList.map((stage, idx) => {
               const isActive = activeStageIdx === idx;
               return (
                 <div
-                  key={stage.id}
+                  key={stage.id || idx}
                   onClick={() => setActiveStageIdx(idx)}
                   className={`p-4 rounded-xl border transition-all cursor-pointer ${isActive
                     ? 'bg-blue-50/90 border-blue-200 shadow-xs'

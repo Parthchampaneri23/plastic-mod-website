@@ -123,7 +123,7 @@ const COMPANY_3_STATS = [
 ];
 
 // Interactive Timeline Component with Smooth Scroll-Progress Line & Hover Expansion
-const TimelineSection: React.FC = () => {
+const TimelineSection: React.FC<{ milestones: Array<{ year: string; title: string; description: string; accent?: boolean }> }> = ({ milestones }) => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-50px' });
@@ -131,7 +131,7 @@ const TimelineSection: React.FC = () => {
   // Compute animated line width percentage based on hover index or default in-view progression
   const getLineWidth = () => {
     if (hoveredIdx !== null) {
-      return `${((hoveredIdx + 1) / TIMELINE_MILESTONES.length) * 100}%`;
+      return `${((hoveredIdx + 1) / milestones.length) * 100}%`;
     }
     return isInView ? '100%' : '0%';
   };
@@ -150,7 +150,7 @@ const TimelineSection: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 relative z-10">
-        {TIMELINE_MILESTONES.map((item, idx) => {
+        {milestones.map((item, idx) => {
           const isCurrentOrPassedHover = hoveredIdx !== null && idx <= hoveredIdx;
           const isDirectlyHovered = hoveredIdx === idx;
 
@@ -229,6 +229,7 @@ const TimelineSection: React.FC = () => {
   );
 };
 
+
 // Company Timeline Milestones
 const TIMELINE_MILESTONES = [
   {
@@ -304,9 +305,21 @@ const CORE_EXPERTISE_ITEMS = [
 ];
 
 // Interactive Capability Explorer Component
-const CapabilityExplorer: React.FC = () => {
+const CapabilityExplorer: React.FC<{
+  items: Array<{
+    id?: string;
+    num?: string;
+    title: string;
+    machineBadge?: string;
+    description: string;
+    specs?: string[];
+    image?: string;
+  }>;
+  featuredImage?: string;
+}> = ({ items, featuredImage }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const activeItem = CORE_EXPERTISE_ITEMS[activeIndex] || CORE_EXPERTISE_ITEMS[0];
+  const activeItem = items[activeIndex] || items[0] || CORE_EXPERTISE_ITEMS[0];
+  const mainImg = featuredImage || "/Home/inf3.png";
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -329,7 +342,7 @@ const CapabilityExplorer: React.FC = () => {
             className="relative w-full h-[320px] xs:h-[380px] sm:h-[440px] lg:h-[480px]"
           >
             <Image
-              src="/Home/inf3.png"
+              src={mainImg}
               alt="Patel Mould Precision Manufacturing Facility & Equipment"
               fill
               sizes="(max-width: 1024px) 100vw, 60vw"
@@ -344,7 +357,7 @@ const CapabilityExplorer: React.FC = () => {
             <AnimatePresence mode="popLayout">
               {activeItem && (
                 <motion.div
-                  key={activeItem.num}
+                  key={activeItem.num || activeIndex}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
@@ -353,14 +366,14 @@ const CapabilityExplorer: React.FC = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <div className="p-2.5 bg-[#0056b3] rounded-lg text-white font-mono text-xs font-bold shrink-0">
-                      {activeItem.num}
+                      {activeItem.num || `0${activeIndex + 1}`}
                     </div>
                     <div>
                       <div className="text-xs sm:text-sm font-bold text-slate-900 tracking-wide">
                         {activeItem.title}
                       </div>
                       <div className="text-[11px] text-slate-700 font-bold">
-                        {activeItem.machineBadge}
+                        {activeItem.machineBadge || activeItem.description}
                       </div>
                     </div>
                   </div>
@@ -377,12 +390,12 @@ const CapabilityExplorer: React.FC = () => {
 
       {/* RIGHT: Compact Vertical Capability List (5 cols) */}
       <div className="lg:col-span-5 space-y-2">
-        {CORE_EXPERTISE_ITEMS.map((item, idx) => {
+        {items.map((item, idx) => {
           const isActive = activeIndex === idx;
 
           return (
             <motion.div
-              key={item.num}
+              key={item.num || idx}
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -406,7 +419,7 @@ const CapabilityExplorer: React.FC = () => {
                   className={`font-mono text-xs font-bold transition-colors duration-300 mt-0.5 ${isActive ? 'text-[#0056b3]' : 'text-slate-400'
                     }`}
                 >
-                  {item.num}
+                  {item.num || `0${idx + 1}`}
                 </span>
 
                 {/* Title & Description */}
@@ -438,13 +451,83 @@ const CapabilityExplorer: React.FC = () => {
   );
 };
 
-export const AboutCompanyIntro: React.FC = () => {
+
+interface AboutCompanyIntroProps {
+  companyIntro?: {
+    eyebrow?: string;
+    headingPrefix?: string;
+    headingHighlight?: string;
+    paragraph1?: string;
+    paragraph2?: string;
+    mainImage?: string;
+    stats?: Array<{
+      value: string;
+      label: string;
+      sublabel: string;
+      description?: string;
+    }>;
+    milestones?: Array<{
+      year: string;
+      title: string;
+      description: string;
+      accent?: boolean;
+    }>;
+    capabilities?: Array<{
+      id?: string;
+      num?: string;
+      title: string;
+      description: string;
+      metric?: string;
+      metricLabel?: string;
+      specs?: string[];
+      image?: string;
+    }>;
+  };
+}
+
+export const AboutCompanyIntro: React.FC<AboutCompanyIntroProps> = ({ companyIntro }) => {
   const [hoveredStatIndex, setHoveredStatIndex] = useState<number | null>(null);
 
-  const activeStat = hoveredStatIndex !== null ? COMPANY_3_STATS[hoveredStatIndex] : null;
+  const eyebrow = companyIntro?.eyebrow || "ABOUT PATEL MOULD";
+  const headingPrefix = companyIntro?.headingPrefix || "Built on Precision.";
+  const headingHighlight = companyIntro?.headingHighlight || "Driven by Experience.";
+  const paragraph1 = companyIntro?.paragraph1 || "Founded in 1994, Patel Mould Industries has grown into a precision tooling partner specializing in high-cavitation PET preform, ISBM and extrusion blow moulds. With advanced machining, EDM and inspection capabilities, we engineer tooling for demanding high-volume production environments.";
+  const paragraph2 = companyIntro?.paragraph2 || "Operating out of a 15,000 m² state-of-the-art facility in Gujarat, our master toolmakers and design engineers combine 30+ years of tooling craft with sub-micron 5-axis CNC machining and Zeiss 3D CMM metrology to deliver zero-defect mold performance worldwide.";
+  const mainImage = companyIntro?.mainImage || "/About/about company.png";
+
+  const statsList = companyIntro?.stats && companyIntro.stats.length > 0
+    ? companyIntro.stats.map((s, idx) => ({
+      id: `stat-${idx}`,
+      value: s.value,
+      label: s.label,
+      subtext: s.sublabel,
+      badgeText: s.label.toUpperCase(),
+      tagColor: idx === 1 ? 'bg-orange-50 text-[#ff6b00] border-orange-200' : 'bg-blue-50 text-[#0056b3] border-blue-200',
+      title: `${s.value} ${s.label}`,
+      detail: s.description || `${s.label} — ${s.sublabel}`,
+      icon: idx === 1 ? <Sparkles className="w-5 h-5 text-[#ff6b00]" /> : <Award className="w-5 h-5 text-[#0056b3]" />,
+    }))
+    : COMPANY_3_STATS;
+
+  const milestonesList = companyIntro?.milestones && companyIntro.milestones.length > 0
+    ? companyIntro.milestones
+    : TIMELINE_MILESTONES;
+
+  const capabilitiesList = companyIntro?.capabilities && companyIntro.capabilities.length > 0
+    ? companyIntro.capabilities.map((c, idx) => ({
+      num: `0${idx + 1}`,
+      title: c.title,
+      machineBadge: c.specs && c.specs.length > 0 ? c.specs[0] : (c.metric || 'Precision Tooling System'),
+      description: c.description,
+      image: c.image,
+    }))
+    : CORE_EXPERTISE_ITEMS;
+
+  const activeStat = hoveredStatIndex !== null ? statsList[hoveredStatIndex] : null;
 
   return (
     <section className="py-13 sm:py-13 bg-white relative overflow-hidden border-b border-slate-200">
+
       {/* Background Subtle Technical Grid */}
       <div className="absolute inset-0 tech-grid-pattern opacity-35 pointer-events-none" />
 
@@ -466,7 +549,7 @@ export const AboutCompanyIntro: React.FC = () => {
             >
               <div className="relative w-full h-[300px] xs:h-[350px] sm:h-[400px] lg:h-[440px]">
                 <Image
-                  src="/About/about company.png"
+                  src={mainImage}
                   alt="Patel Mould Industries precision manufacturing plant in Gujarat"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
@@ -549,22 +632,22 @@ export const AboutCompanyIntro: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
               </span>
-              ABOUT PATEL MOULD
+              {eyebrow}
             </div>
 
             {/* Main Heading */}
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-              Built on Precision.<br />
-              <span className="text-[#0056b3]">Driven by Experience.</span>
+              {headingPrefix}<br />
+              <span className="text-[#0056b3]">{headingHighlight}</span>
             </h2>
 
             {/* Concise Introduction Copy */}
             <div className="space-y-3.5 text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
               <p>
-                Founded in 1994, Patel Mould Industries has grown into a precision tooling partner specializing in high-cavitation PET preform, ISBM and extrusion blow moulds. With advanced machining, EDM and inspection capabilities, we engineer tooling for demanding high-volume production environments.
+                {paragraph1}
               </p>
               <p>
-                Operating out of a 15,000 m² state-of-the-art facility in Gujarat, our master toolmakers and design engineers combine 30+ years of tooling craft with sub-micron 5-axis CNC machining and Zeiss 3D CMM metrology to deliver zero-defect mold performance worldwide.
+                {paragraph2}
               </p>
             </div>
 
@@ -573,7 +656,7 @@ export const AboutCompanyIntro: React.FC = () => {
             {/* ======================================================== */}
             <div className="pt-4 border-t border-slate-200">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
-                {COMPANY_3_STATS.map((st, idx) => (
+                {statsList.map((st, idx) => (
                   <MetricBlock
                     key={st.id}
                     valueStr={st.value}
@@ -643,7 +726,7 @@ export const AboutCompanyIntro: React.FC = () => {
           </div>
 
           {/* Clean Milestone Panels Connected by Dynamic Animated Timeline Line */}
-          <TimelineSection />
+          <TimelineSection milestones={milestonesList} />
 
         </div>
 
@@ -713,7 +796,7 @@ export const AboutCompanyIntro: React.FC = () => {
           </div>
 
           {/* 2-Column Capability Explorer Layout */}
-          <CapabilityExplorer />
+          <CapabilityExplorer items={capabilitiesList} featuredImage="/Home/inf3.png" />
 
         </div>
 

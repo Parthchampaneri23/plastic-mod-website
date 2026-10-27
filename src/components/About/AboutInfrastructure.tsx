@@ -75,16 +75,72 @@ const FACILITY_HOTSPOTS = [
   { id: 'inspection', label: 'INSPECTION', x: 78, y: 60, index: 4 },
 ];
 
-export const AboutInfrastructure: React.FC = () => {
+interface AboutInfrastructureProps {
+  infrastructure?: {
+    eyebrow?: string;
+    badge?: string;
+    headingPrefix?: string;
+    heading?: string;
+    headingHighlight?: string;
+    highlightHeading?: string;
+    description?: string;
+    image?: string;
+    items?: Array<{
+      id: string;
+      num: string;
+      navTitle: string;
+      subtitle: string;
+      description: string;
+      tag: string;
+      image?: string;
+    }>;
+    departments?: Array<{
+      id: string;
+      num: string;
+      navTitle: string;
+      subtitle: string;
+      description: string;
+      tag: string;
+      image?: string;
+    }>;
+  };
+}
+
+export const AboutInfrastructure: React.FC<AboutInfrastructureProps> = ({ infrastructure }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [activeHotspotHover, setActiveHotspotHover] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
-  const currentItem = INFRASTRUCTURE_DATA[activeIndex];
+  const eyebrow = infrastructure?.eyebrow || infrastructure?.badge || "OUR INFRASTRUCTURE";
+  const headingPrefix = infrastructure?.headingPrefix || infrastructure?.heading || "Where Precision";
+  const headingHighlight = infrastructure?.headingHighlight || infrastructure?.highlightHeading || "Takes Shape.";
+  const description = infrastructure?.description || "Our 15,000 m² integrated tooling facility is designed for precision, efficiency, and multi-cavitation manufacturing.";
+  const facilityImage = infrastructure?.image || "/About/FACILITY.png";
+
+  const rawList = (infrastructure?.items && infrastructure.items.length > 0)
+    ? infrastructure.items
+    : (infrastructure?.departments && infrastructure.departments.length > 0)
+      ? infrastructure.departments
+      : null;
+
+  const itemsList: InfrastructureItem[] = rawList
+    ? rawList.map((dept, idx) => ({
+      id: dept.id || `dept-${idx}`,
+      num: dept.num || `0${idx + 1}`,
+      navTitle: dept.navTitle,
+      subtitle: dept.subtitle,
+      description: dept.description,
+      tag: dept.tag,
+      icon: idx === 1 ? <Cpu className="w-5 h-5 text-[#0056b3]" /> : idx === 2 ? <Zap className="w-5 h-5 text-[#ff6b00]" /> : idx === 3 ? <Wrench className="w-5 h-5 text-[#0056b3]" /> : idx === 4 ? <ShieldCheck className="w-5 h-5 text-[#ff6b00]" /> : <Building2 className="w-5 h-5 text-[#0056b3]" />,
+    }))
+    : INFRASTRUCTURE_DATA;
+
+  const currentItem = itemsList[activeIndex] || itemsList[0];
 
   const handleSelect = (index: number) => {
     setActiveIndex(index);
   };
+
 
   return (
     <section
@@ -111,7 +167,7 @@ export const AboutInfrastructure: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            OUR INFRASTRUCTURE
+            {eyebrow}
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
@@ -123,8 +179,8 @@ export const AboutInfrastructure: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-                <span className="text-slate-900 block">Where Precision</span>
-                <span className="text-[#0056b3] block">Takes Shape.</span>
+                <span className="text-slate-900 block">{headingPrefix}</span>
+                <span className="text-[#0056b3] block">{headingHighlight}</span>
               </h2>
             </motion.div>
 
@@ -137,7 +193,7 @@ export const AboutInfrastructure: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                Explore the manufacturing environment, advanced machinery, and precision capabilities behind our mould manufacturing.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -160,7 +216,7 @@ export const AboutInfrastructure: React.FC = () => {
               className="relative w-full h-[340px] sm:h-[400px] lg:h-[420px] rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-slate-200/90 shadow-xl group"
             >
               <Image
-                src="/About/FACILITY.png"
+                src={facilityImage}
                 alt="Patel Mould Industries Main Manufacturing Facility"
                 fill
                 priority
@@ -242,7 +298,7 @@ export const AboutInfrastructure: React.FC = () => {
                 SELECT CATEGORY
               </div>
 
-              {INFRASTRUCTURE_DATA.map((item, idx) => {
+              {itemsList.map((item, idx) => {
                 const isActive = activeIndex === idx;
 
                 return (

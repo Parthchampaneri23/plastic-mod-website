@@ -10,10 +10,43 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+export interface FooterProps {
+  footer?: {
+    logoImage?: string;
+    companyBio?: string;
+    phone?: string;
+    email?: string;
+    address?: string;
+    mapsUrl?: string;
+    copyrightText?: string;
+    socialLinks?: {
+      linkedin?: string;
+      facebook?: string;
+      twitter?: string;
+      instagram?: string;
+      youtube?: string;
+    };
+  };
+}
+
+export const Footer: React.FC<FooterProps> = ({ footer }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const logoImage = footer?.logoImage || "/PMlogo.png";
+  const companyBio = footer?.companyBio || "Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Molds for the beverage, pharmaceutical, packaging, and personal care industries.";
+  const phone = footer?.phone || "91+ 7784758347";
+  const email = footer?.email || "sales@patelmould.com";
+  const address = footer?.address || "Patel Mould Park, Phase-IV GIDC, Gujarat, India";
+  const mapsUrl = footer?.mapsUrl || "https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India";
+  const copyrightText = footer?.copyrightText || `© ${new Date().getFullYear()} Patel Mould Industries. All rights reserved.`;
+
+  const linkedinUrl = footer?.socialLinks?.linkedin || "https://linkedin.com";
+  const facebookUrl = footer?.socialLinks?.facebook || "https://facebook.com";
+  const twitterUrl = footer?.socialLinks?.twitter || "https://twitter.com";
+  const instagramUrl = footer?.socialLinks?.instagram || "https://instagram.com";
+  const youtubeUrl = footer?.socialLinks?.youtube || "https://youtube.com";
 
   return (
     <footer className="bg-[#0b1f3a] border-t border-slate-800 text-slate-300 text-sm">
@@ -24,20 +57,20 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="inline-block group py-1">
               <img
-                src="/PMlogo.png"
+                src={logoImage}
                 alt="Patel Mould Industries"
                 className="h-16 sm:h-20 w-auto object-contain group-hover:scale-102 transition-all drop-shadow-md"
               />
             </Link>
 
             <p className="text-xs text-slate-300 leading-relaxed pr-6">
-              Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Molds for the beverage, pharmaceutical, packaging, and personal care industries.
+              {companyBio}
             </p>
 
             {/* Social Media Links */}
             <div className="flex items-center space-x-2.5 pt-2">
               <a
-                href="https://linkedin.com"
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#0077b5] hover:border-[#0077b5] hover:scale-110 transition-all shadow-sm"
@@ -49,7 +82,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://facebook.com"
+                href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#1877f2] hover:border-[#1877f2] hover:scale-110 transition-all shadow-sm"
@@ -61,7 +94,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://twitter.com"
+                href={twitterUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:bg-black hover:border-slate-600 hover:scale-110 transition-all shadow-sm"
@@ -73,7 +106,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://instagram.com"
+                href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#e4405f] hover:border-[#e4405f] hover:scale-110 transition-all shadow-sm"
@@ -85,7 +118,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://youtube.com"
+                href={youtubeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-slate-300 hover:text-white hover:bg-[#ff0000] hover:border-[#ff0000] hover:scale-110 transition-all shadow-sm"
@@ -202,28 +235,28 @@ export const Footer: React.FC = () => {
             </h4>
             <div className="space-y-4 text-xs text-slate-300">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India"
+                href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
                 title="Open in Google Maps"
               >
                 <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5 transition-transform group-hover:scale-110" />
-                <span className="leading-relaxed no-underline">Patel Mould Park, Phase-IV GIDC, Gujarat, India</span>
+                <span className="leading-relaxed no-underline">{address}</span>
               </a>
               <a
-                href="tel:+917784758347"
+                href={`tel:${phone.replace(/\s+/g, '')}`}
                 className="flex items-center space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
               >
                 <Phone className="w-4 h-4 text-[#ff6b00] shrink-0 transition-transform group-hover:scale-110" />
-                <span className="no-underline">91+ 7784758347</span>
+                <span className="no-underline">{phone}</span>
               </a>
               <a
-                href="mailto:sales@patelmould.com"
+                href={`mailto:${email}`}
                 className="flex items-center space-x-3 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
               >
                 <Mail className="w-4 h-4 text-blue-400 shrink-0 transition-transform group-hover:scale-110" />
-                <span className="no-underline">sales@patelmould.com</span>
+                <span className="no-underline">{email}</span>
               </a>
             </div>
           </div>
@@ -233,7 +266,7 @@ export const Footer: React.FC = () => {
         {/* Bottom copyright & legal */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 space-y-4 sm:space-y-0">
           <div>
-            © {new Date().getFullYear()} Patel Mould Industries. All rights reserved.
+            {copyrightText}
           </div>
 
           <div className="flex space-x-6">

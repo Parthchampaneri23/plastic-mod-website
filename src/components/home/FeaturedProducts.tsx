@@ -7,7 +7,19 @@ import { SectionHeading } from '../SectionHeading';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const FeaturedProducts: React.FC = () => {
+export interface FeaturedProductsProps {
+  featuredProducts?: Array<{
+    id: string;
+    slug: string;
+    name: string;
+    image: string;
+    shortDesc: string;
+    link?: string;
+  }>;
+}
+
+export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ featuredProducts }) => {
+  const productList = (featuredProducts && featuredProducts.length > 0) ? featuredProducts : FEATURED_PRODUCTS;
   return (
     <section id="featured-products" className="py-13 bg-slate-50 relative overflow-hidden">
       {/* Subtle Grid Background */}
@@ -65,7 +77,7 @@ export const FeaturedProducts: React.FC = () => {
 
         {/* 3 Featured Products Grid (1 from each main category) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {FEATURED_PRODUCTS.map((product, index) => (
+          {productList.map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 35 }}

@@ -10,8 +10,32 @@ import {
   FileText
 } from 'lucide-react';
 
-export const InquiryCTA: React.FC = () => {
+export interface InquiryCTAProps {
+  inquiryCta?: {
+    badge?: string;
+    title?: string;
+    highlightTitle?: string;
+    description?: string;
+    features?: string[];
+    phone?: string;
+    email?: string;
+    address?: string;
+    formTitle?: string;
+    buttonText?: string;
+  };
+}
+
+export const InquiryCTA: React.FC<InquiryCTAProps> = ({ inquiryCta }) => {
   const [submitted, setSubmitted] = useState(false);
+
+  const badge = inquiryCta?.badge || "Rapid 24-Hour Quote Turnaround";
+  const title = inquiryCta?.title || "Have a Mold Requirement?";
+  const highlightTitle = inquiryCta?.highlightTitle;
+  const description = inquiryCta?.description || "Connect with our senior tooling engineers today. Send us your 2D/3D container drawings or preform specs for a free DFM review and detailed quote within 24 hours.";
+  const phone = inquiryCta?.phone || "91+ 7784758347";
+  const email = inquiryCta?.email || "quotes@plastic-mold.com";
+  const formTitle = inquiryCta?.formTitle || "Request Technical Quotation";
+  const buttonText = inquiryCta?.buttonText || "Request a Quote / Send Inquiry";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,15 +56,15 @@ export const InquiryCTA: React.FC = () => {
             <div className="lg:col-span-6 space-y-6">
               <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#ff6b00] bg-white/10 border border-white/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00] animate-pulse"></span>
-                Rapid 24-Hour Quote Turnaround
+                {badge}
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white">
-                Have a Mold Requirement?
+                {title}{highlightTitle ? ` ${highlightTitle}` : ""}
               </h2>
 
               <p className="text-base text-slate-200 leading-relaxed font-normal">
-                Connect with our senior tooling engineers today. Send us your 2D/3D container drawings or preform specs for a free DFM review and detailed quote within 24 hours.
+                {description}
               </p>
 
               <div className="space-y-3 pt-2">
@@ -60,21 +84,21 @@ export const InquiryCTA: React.FC = () => {
 
               {/* Contact Mini Details */}
               <div className="pt-6 border-t border-white/15 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
-                <div className="flex items-center space-x-3 text-slate-200">
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="flex items-center space-x-3 text-slate-200 hover:text-white transition-colors">
                   <Phone className="w-4 h-4 text-[#ff6b00]" />
-                  <span>91+ 7784758347</span>
-                </div>
-                <div className="flex items-center space-x-3 text-slate-200">
+                  <span>{phone}</span>
+                </a>
+                <a href={`mailto:${email}`} className="flex items-center space-x-3 text-slate-200 hover:text-white transition-colors">
                   <Mail className="w-4 h-4 text-[#ff6b00]" />
-                  <span>quotes@plastic-mold.com</span>
-                </div>
+                  <span>{email}</span>
+                </a>
               </div>
             </div>
 
             {/* Right Quote Form - Clean White Card */}
             <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-2xl text-slate-900">
               <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0056b3]" /> Request Technical Quotation
+                <FileText className="w-5 h-5 text-[#0056b3]" /> {formTitle}
               </h3>
 
               {submitted ? (

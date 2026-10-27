@@ -39,9 +39,17 @@ const CORE_VALUES_COMPASS = [
 ];
 
 // Interactive Central Compass Dial Component
-const CoreValuesCompass: React.FC = () => {
+const CoreValuesCompass: React.FC<{
+  coreValues?: Array<{
+    num: string;
+    title: string;
+    description: string;
+  }>;
+}> = ({ coreValues }) => {
   const [activeIdx, setActiveIdx] = useState<number>(0);
-  const activeValue = CORE_VALUES_COMPASS[activeIdx] || CORE_VALUES_COMPASS[0];
+  const valuesList = coreValues && coreValues.length >= 6 ? coreValues : CORE_VALUES_COMPASS;
+  const activeValue = valuesList[activeIdx] || valuesList[0];
+
 
   return (
     <div className="relative pt-6 sm:pt-10 pb-6 min-h-[540px] flex flex-col justify-center items-center">
@@ -304,11 +312,58 @@ const CoreValuesCompass: React.FC = () => {
   );
 };
 
-export const VisionMission: React.FC = () => {
+interface VisionMissionProps {
+  visionMission?: {
+    eyebrow?: string;
+    headingPrefix?: string;
+    headingHighlight?: string;
+    description?: string;
+    vision?: {
+      tag?: string;
+      title?: string;
+      description?: string;
+      quote?: string;
+    };
+    mission?: {
+      tag?: string;
+      title?: string;
+      description?: string;
+      quote?: string;
+    };
+    coreValues?: Array<{
+      num: string;
+      title: string;
+      description: string;
+    }>;
+  };
+}
+
+export const VisionMission: React.FC<VisionMissionProps> = ({ visionMission }) => {
   const [hoveredPanel, setHoveredPanel] = useState<'vision' | 'mission' | null>(null);
+
+  const eyebrow = (visionMission as any)?.badge || visionMission?.eyebrow || "OUR DIRECTION";
+  const headingPrefix = (visionMission as any)?.heading || visionMission?.headingPrefix || "Purpose That Drives";
+  const headingHighlight = (visionMission as any)?.highlightHeading || visionMission?.headingHighlight || "Precision.";
+  const description = visionMission?.description || "Purpose, precision, and performance guide everything we engineer at Patel Mould Industries.";
+
+  const vision = visionMission?.vision || {
+    tag: (visionMission as any)?.visionTitle || "OUR VISION",
+    title: (visionMission as any)?.visionTitle || "Global Leadership in High-Cavitation Tooling",
+    quote: (visionMission as any)?.visionQuote || '"To be global leaders in high-cavitation plastic mold engineering, setting world-class standards for precision, sustainability, and tool durability."',
+    description: (visionMission as any)?.visionDescription || "We aspire to continually push the boundaries of PET preform, ISBM, and blow mold technology — enabling manufacturers across 50+ countries to produce flawless packaging with zero-defect consistency and energy-efficient cycle times.",
+  };
+
+  const mission = visionMission?.mission || {
+    tag: (visionMission as any)?.missionTitle || "OUR MISSION",
+    title: (visionMission as any)?.missionTitle || "Engineered for Cycle Efficiency & Value",
+    quote: (visionMission as any)?.missionQuote || '"To empower beverage, packaging, and pharma brands worldwide with ultra-reliable tooling engineered for maximum cycle efficiency and long-term performance."',
+    description: (visionMission as any)?.missionDescription || "Through continuous investments in 5-axis CNC machining, Zeiss 3D CMM quality testing, and master toolmaker craftsmanship, we provide custom multi-cavity solutions that maximize productivity while lowering cost per component for our clients.",
+  };
+
 
   return (
     <section className="py-13 sm:py-13 bg-white relative overflow-hidden border-b border-slate-200/80">
+
       {/* Background Subtle Technical Blueprint & Grid Overlay */}
       <div className="absolute inset-0 tech-grid-pattern opacity-30 pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(#0056b3_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
@@ -337,7 +392,7 @@ export const VisionMission: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            OUR DIRECTION
+            {eyebrow}
           </motion.div>
 
           {/* 2-Column Split Header (Matching Home Page Product Categories style) */}
@@ -351,8 +406,8 @@ export const VisionMission: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-                <span className="text-slate-900 block">Purpose That Drives</span>
-                <span className="text-[#0056b3] block">Precision.</span>
+                <span className="text-slate-900 block">{headingPrefix}</span>
+                <span className="text-[#0056b3] block">{headingHighlight}</span>
               </h2>
             </motion.div>
 
@@ -368,7 +423,7 @@ export const VisionMission: React.FC = () => {
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                Purpose, precision, and performance guide everything we engineer at Patel Mould Industries.
+                {description}
               </p>
 
               {/* Micro Highlight Pills */}
@@ -439,11 +494,11 @@ export const VisionMission: React.FC = () => {
 
                 {/* Large Bold Quote Statement */}
                 <blockquote className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight mb-5">
-                  "To be global leaders in high-cavitation plastic mold engineering, setting world-class standards for precision, sustainability, and tool durability."
+                  {vision.quote}
                 </blockquote>
 
                 <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
-                  We aspire to continually push the boundaries of PET preform, ISBM, and blow mold technology — enabling manufacturers across 50+ countries to produce flawless packaging with zero-defect consistency and energy-efficient cycle times.
+                  {vision.description}
                 </p>
               </div>
 
@@ -499,18 +554,18 @@ export const VisionMission: React.FC = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#ff6b00] text-xs font-mono font-bold uppercase tracking-wider">
                     <Target className="w-4 h-4 text-[#ff6b00]" />
-                    OUR MISSION
+                    {mission.tag || "OUR MISSION"}
                   </div>
                   <span className="text-xs font-mono font-bold text-[#ff6b00]">STAGE 02</span>
                 </div>
 
                 {/* Large Bold Quote Statement */}
                 <blockquote className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug tracking-tight mb-5">
-                  "To empower beverage, packaging, and pharma brands worldwide with ultra-reliable tooling engineered for maximum cycle efficiency and long-term performance."
+                  {mission.quote}
                 </blockquote>
 
                 <p className="text-sm text-slate-600 leading-relaxed font-normal mb-6">
-                  Through continuous investments in 5-axis CNC machining, Zeiss 3D CMM quality testing, and master toolmaker craftsmanship, we provide custom multi-cavity solutions that maximize productivity while lowering cost per component for our clients.
+                  {mission.description}
                 </p>
               </div>
 
@@ -569,7 +624,7 @@ export const VisionMission: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
               </span>
-              OUR CORE VALUES
+              {(visionMission as any)?.valuesBadge || "OUR CORE VALUES"}
             </motion.div>
 
             {/* 2-Column Split Header */}
@@ -583,8 +638,8 @@ export const VisionMission: React.FC = () => {
                 className="lg:col-span-7"
               >
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-                  <span className="text-slate-900 block">The Principles Behind</span>
-                  <span className="text-[#0056b3] block">Our Precision.</span>
+                  <span className="text-slate-900 block">{(visionMission as any)?.valuesHeading || "The Principles Behind"}</span>
+                  <span className="text-[#0056b3] block">{(visionMission as any)?.valuesHighlight || "Our Precision."}</span>
                 </h3>
               </motion.div>
 
@@ -600,7 +655,7 @@ export const VisionMission: React.FC = () => {
                 <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
                 <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                  The principles that shape how we engineer, manufacture, and build lasting partnerships at Patel Mould Industries.
+                  {(visionMission as any)?.valuesDescription || "The principles that shape how we engineer, manufacture, and build lasting partnerships at Patel Mould Industries."}
                 </p>
 
                 {/* Micro Highlight Pills */}
@@ -619,7 +674,7 @@ export const VisionMission: React.FC = () => {
           </div>
 
           {/* Central Engineering Compass Dial System (Replaces 3x2 Grid!) */}
-          <CoreValuesCompass />
+          <CoreValuesCompass coreValues={visionMission?.coreValues} />
 
         </div>
 

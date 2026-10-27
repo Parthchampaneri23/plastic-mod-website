@@ -7,11 +7,48 @@ import { Button } from '../Button';
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Cpu, Award, Zap, Check, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export const ManufacturingCapabilities: React.FC = () => {
-  const [activeId, setActiveId] = useState<string>(CAPABILITIES[0]?.id || 'cnc-machining');
+interface ManufacturingCapabilitiesProps {
+  capabilities?: Array<{
+    id: string;
+    title: string;
+    shortDesc: string;
+    machineBadge?: string;
+    specifications?: string[];
+  }>;
+  sectionInfo?: {
+    badge?: string;
+    headlineDark?: string;
+    headlineBlue?: string;
+    description?: string;
+    pill1Text?: string;
+    pill2Text?: string;
+    showcaseImage?: string;
+  };
+}
 
-  const activeCapability = CAPABILITIES.find((c) => c.id === activeId) || CAPABILITIES[0];
-  const itemDelays = [0.05, 0.12, 0.19, 0.26, 0.33, 0.40];
+export const ManufacturingCapabilities: React.FC<ManufacturingCapabilitiesProps> = ({
+  capabilities,
+  sectionInfo,
+}) => {
+  const currentCapabilities =
+    capabilities && capabilities.length > 0 ? capabilities : CAPABILITIES;
+  const [activeId, setActiveId] = useState<string>(
+    currentCapabilities[0]?.id || 'cnc-machining'
+  );
+
+  const activeCapability =
+    currentCapabilities.find((c) => c.id === activeId) || currentCapabilities[0];
+  const itemDelays = [0.05, 0.12, 0.19, 0.26, 0.33, 0.4];
+
+  const badge = sectionInfo?.badge || 'MANUFACTURING CAPABILITIES';
+  const headlineDark = sectionInfo?.headlineDark || 'Precision Technology.';
+  const headlineBlue = sectionInfo?.headlineBlue || 'Engineering Expertise.';
+  const description =
+    sectionInfo?.description ||
+    'Advanced tooling technology, specialized toolmaker craftsmanship, and state-of-the-art in-house machinery engineered to deliver high-precision molds with consistent cycle times and zero-defect output.';
+  const pill1 = sectionInfo?.pill1Text || 'Sub-Micron CNC Precision';
+  const pill2 = sectionInfo?.pill2Text || '100% In-House Trial Testing';
+  const showcaseImage = sectionInfo?.showcaseImage || '/Home/capablities.png';
 
   return (
     <section id="capabilities" className="py-13 sm:py-13 bg-white relative border-t border-b border-slate-200 overflow-hidden scroll-mt-28 sm:scroll-mt-32">
@@ -33,7 +70,7 @@ export const ManufacturingCapabilities: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            MANUFACTURING CAPABILITIES
+            {badge}
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
@@ -46,8 +83,8 @@ export const ManufacturingCapabilities: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-                Precision Technology.<br />
-                <span className="text-[#0056b3]">Engineering Expertise.</span>
+                {headlineDark}<br />
+                <span className="text-[#0056b3]">{headlineBlue}</span>
               </h2>
             </motion.div>
 
@@ -63,19 +100,23 @@ export const ManufacturingCapabilities: React.FC = () => {
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                Advanced tooling technology, specialized toolmaker craftsmanship, and state-of-the-art in-house machinery engineered to deliver <strong className="text-slate-900 font-medium">high-precision molds</strong> with consistent cycle times and <strong className="text-[#0056b3] font-medium">zero-defect output</strong>.
+                {description}
               </p>
 
               {/* Micro Technical Highlight Pills */}
               <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-                <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white hover:border-[#0056b3] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group/pill">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3] group-hover/pill:bg-white transition-colors"></span>
-                  Sub-Micron CNC Precision
-                </span>
-                <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white hover:border-[#ff6b00] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group/pill">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00] group-hover/pill:bg-white transition-colors"></span>
-                  100% In-House Trial Testing
-                </span>
+                {pill1 && (
+                  <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white hover:border-[#0056b3] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group/pill">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3] group-hover/pill:bg-white transition-colors"></span>
+                    {pill1}
+                  </span>
+                )}
+                {pill2 && (
+                  <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white hover:border-[#ff6b00] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer group/pill">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00] group-hover/pill:bg-white transition-colors"></span>
+                    {pill2}
+                  </span>
+                )}
               </div>
             </motion.div>
           </div>
@@ -105,7 +146,7 @@ export const ManufacturingCapabilities: React.FC = () => {
                 className="relative w-full h-[320px] xs:h-[380px] sm:h-[460px] lg:h-[500px]"
               >
                 <Image
-                  src="/Home/capablities.png"
+                  src={showcaseImage}
                   alt="Patel Mould Industries precision manufacturing capabilities"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 580px"
@@ -239,9 +280,9 @@ export const ManufacturingCapabilities: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN: 6 Compact Interactive Capability Rows (~50-52%) */}
+          {/* RIGHT COLUMN: Interactive Capability Rows (~50-52%) */}
           <div className="lg:col-span-6 space-y-3">
-            {CAPABILITIES.map((cap, idx) => {
+            {currentCapabilities.map((cap, idx) => {
               const isActive = activeId === cap.id;
               const numStr = String(idx + 1).padStart(2, '0');
 

@@ -43,8 +43,18 @@ interface ProofPointData {
   delay: number;
 }
 
-export const WhyChooseUs: React.FC = () => {
-  const proofPoints: ProofPointData[] = [
+export interface WhyChooseUsProps {
+  whyChooseUs?: Array<{
+    id: string;
+    title: string;
+    description: string;
+    iconName?: string;
+    highlight?: string;
+  }>;
+}
+
+export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ whyChooseUs }) => {
+  const defaultProofPoints: ProofPointData[] = [
     {
       id: "proof-1",
       num: "01",
@@ -94,6 +104,26 @@ export const WhyChooseUs: React.FC = () => {
       delay: 0.55
     }
   ];
+
+  const iconMap: Record<string, React.ReactElement> = {
+    target: <Target className="w-4 h-4" />,
+    cpu: <Cpu className="w-4 h-4" />,
+    award: <Award className="w-4 h-4" />,
+    users: <Users className="w-4 h-4" />,
+    settings: <SlidersHorizontal className="w-4 h-4" />,
+    clock: <ClockCheck className="w-4 h-4" />,
+  };
+
+  const proofPoints: ProofPointData[] = (whyChooseUs && whyChooseUs.length > 0)
+    ? whyChooseUs.map((item, idx) => ({
+        id: item.id || `proof-${idx + 1}`,
+        num: String(idx + 1).padStart(2, "0"),
+        title: item.title,
+        desc: item.description,
+        icon: iconMap[item.iconName?.toLowerCase() || ""] || defaultProofPoints[idx % defaultProofPoints.length].icon,
+        delay: 0.05 + idx * 0.1,
+      }))
+    : defaultProofPoints;
 
   const leftPoints = [proofPoints[0], proofPoints[2], proofPoints[4]]; // 01, 03, 05
   const rightPoints = [proofPoints[1], proofPoints[3], proofPoints[5]]; // 02, 04, 06

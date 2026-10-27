@@ -8,7 +8,17 @@ import Link from 'next/link';
 import { Eye, Factory, ArrowRight, ShieldCheck, ExternalLink, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const Infrastructure: React.FC = () => {
+export interface InfrastructureProps {
+  facilities?: Array<{
+    id: string;
+    title: string;
+    image: string;
+    link?: string;
+  }>;
+}
+
+export const Infrastructure: React.FC<InfrastructureProps> = ({ facilities }) => {
+  const facilityList = (facilities && facilities.length > 0) ? facilities : FACILITIES;
   return (
     <section id="infrastructure" className="py-13 bg-white relative border-t border-b border-slate-200 overflow-hidden">
       {/* Background Pattern */}
@@ -66,7 +76,7 @@ export const Infrastructure: React.FC = () => {
 
         {/* 4 Feature Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {FACILITIES.map((facility, idx) => (
+          {facilityList.map((facility, idx) => (
             <motion.div
               key={facility.id}
               initial={{ opacity: 0, y: 20 }}

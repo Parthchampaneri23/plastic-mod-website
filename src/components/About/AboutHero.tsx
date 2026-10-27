@@ -6,13 +6,33 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 
-export const AboutHero: React.FC = () => {
+interface AboutHeroProps {
+  hero?: {
+    backgroundImage?: string;
+    titlePrefix?: string;
+    title?: string;
+    titleHighlight?: string;
+    highlightText?: string;
+    breadcrumbHome?: string;
+    breadcrumbHomeText?: string;
+    breadcrumbCurrent?: string;
+    breadcrumbCurrentText?: string;
+  };
+}
+
+export const AboutHero: React.FC<AboutHeroProps> = ({ hero }) => {
+  const bgImg = hero?.backgroundImage || "/About/about banner.png";
+  const prefix = hero?.titlePrefix || hero?.title || "About";
+  const highlight = hero?.titleHighlight || hero?.highlightText || "Us";
+  const breadcrumbHome = hero?.breadcrumbHome || hero?.breadcrumbHomeText || "Home";
+  const breadcrumbCurrent = hero?.breadcrumbCurrent || hero?.breadcrumbCurrentText || "About Us";
+
   return (
     <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/About/about banner.png"
+          src={bgImg}
           alt="Patel Mould Industries Corporate Facility"
           fill
           priority
@@ -37,7 +57,7 @@ export const AboutHero: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
           >
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">Us</span>
+            {prefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">{highlight}</span>
           </motion.h1>
 
           {/* Breadcrumb Navigation Below Title */}
@@ -48,11 +68,11 @@ export const AboutHero: React.FC = () => {
             className="inline-flex items-center space-x-2 text-xs font-mono text-white/90 bg-[#0b1f3a]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-blue-400/30 uppercase tracking-wider shadow-sm"
           >
             <Link href="/" className="hover:text-[#ff6b00] transition-colors flex items-center gap-1 font-semibold">
-              Home
+              {breadcrumbHome}
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-blue-300 font-bold">
-              About Us
+              {breadcrumbCurrent}
             </span>
           </motion.div>
 
@@ -61,3 +81,4 @@ export const AboutHero: React.FC = () => {
     </section>
   );
 };
+

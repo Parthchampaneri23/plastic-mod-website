@@ -19,10 +19,36 @@ import { PRODUCT_CATEGORIES } from '@/data/content';
 import { PRODUCTS } from '@/data/products';
 import { Button } from './Button';
 
-export const Header: React.FC = () => {
+export interface HeaderProps {
+  topBar?: {
+    phone?: string;
+    email?: string;
+    address?: string;
+    mapsUrl?: string;
+  };
+  navbar?: {
+    logoImage?: string;
+    logoAlt?: string;
+    ctaButtonText?: string;
+    ctaButtonLink?: string;
+    menuLinks?: { label: string; href: string; isMegaMenu?: boolean }[];
+  };
+}
+
+export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Defaults
+  const phone = topBar?.phone || "91+ 7784758347";
+  const email = topBar?.email || "sales@patelmould.com";
+  const address = topBar?.address || "Patel Mould Park, Phase-IV GIDC, Gujarat, India";
+  const mapsUrl = topBar?.mapsUrl || "https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India";
+  const logoImage = navbar?.logoImage || "/PMlogo.png";
+  const logoAlt = navbar?.logoAlt || "Patel Mould Industries";
+  const ctaText = navbar?.ctaButtonText || "Request a Quote";
+  const ctaLink = navbar?.ctaButtonLink || "/contact#inquiry-form-section";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,26 +69,26 @@ export const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           {/* Left: Contact Information */}
           <div className="flex items-center space-x-6">
-            <a href="tel:+917784758347" className="flex items-center space-x-1.5 hover:text-white transition-colors">
+            <a href={`tel:${phone.replace(/\s+/g, '')}`} className="flex items-center space-x-1.5 hover:text-white transition-colors">
               <Phone className="w-3.5 h-3.5 text-[#ff6b00]" />
-              <span>91+ 7784758347</span>
+              <span>{phone}</span>
             </a>
-            <a href="mailto:sales@patelmould.com" className="flex items-center space-x-1.5 hover:text-white transition-colors">
+            <a href={`mailto:${email}`} className="flex items-center space-x-1.5 hover:text-white transition-colors">
               <Mail className="w-3.5 h-3.5 text-blue-400" />
-              <span>sales@patelmould.com</span>
+              <span>{email}</span>
             </a>
           </div>
 
           {/* Right: Company Location (Clickable Google Maps link) */}
           <a
-            href="https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India"
+            href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors group cursor-pointer no-underline"
             title="Open in Google Maps"
           >
             <MapPin className="w-3.5 h-3.5 text-[#ff6b00] shrink-0 transition-transform group-hover:scale-110" />
-            <span className="no-underline">Patel Mould Park, Phase-IV GIDC, Gujarat, India</span>
+            <span className="no-underline">{address}</span>
           </a>
         </div>
       </div>
@@ -78,8 +104,8 @@ export const Header: React.FC = () => {
             {/* Logo Image */}
             <Link href="/" className="flex items-center group shrink-0">
               <img
-                src="/PMlogo.png"
-                alt="Patel Mould Industries"
+                src={logoImage}
+                alt={logoAlt}
                 className="h-14 sm:h-16 w-auto object-contain transition-transform group-hover:scale-102"
               />
             </Link>
@@ -224,8 +250,8 @@ export const Header: React.FC = () => {
 
             {/* Request Quote Button */}
             <div className="hidden md:flex items-center space-x-4">
-              <Button href="/contact#inquiry-form-section" variant="primary" size="md">
-                Request a Quote
+              <Button href={ctaLink} variant="primary" size="md">
+                {ctaText}
               </Button>
             </div>
 

@@ -7,7 +7,17 @@ import { SectionHeading } from '../SectionHeading';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const Industries: React.FC = () => {
+export interface IndustriesProps {
+  industries?: Array<{
+    id: string;
+    name: string;
+    image: string;
+    link?: string;
+  }>;
+}
+
+export const Industries: React.FC<IndustriesProps> = ({ industries }) => {
+  const industryList = (industries && industries.length > 0) ? industries : INDUSTRIES;
   return (
     <section id="industries" className="py-13 bg-slate-50 relative overflow-hidden">
       {/* Subtle Background Grid Pattern */}
@@ -65,7 +75,7 @@ export const Industries: React.FC = () => {
 
         {/* 6 Industry Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {INDUSTRIES.map((industry, index) => (
+          {industryList.map((industry, index) => (
             <motion.div
               key={industry.id}
               initial={{ opacity: 0, y: 30 }}

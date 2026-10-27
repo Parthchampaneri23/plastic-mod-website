@@ -7,7 +7,35 @@ import { SectionHeading } from '../SectionHeading';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export const ProductCategories: React.FC = () => {
+interface ProductCategoriesProps {
+  categories?: Array<{
+    id: string;
+    name: string;
+    shortDesc: string;
+    image: string;
+    link?: string;
+  }>;
+  sectionInfo?: {
+    badge?: string;
+    headlineDark?: string;
+    headlineBlue?: string;
+    description?: string;
+    pill1Text?: string;
+    pill2Text?: string;
+  };
+}
+
+export const ProductCategories: React.FC<ProductCategoriesProps> = ({ categories, sectionInfo }) => {
+  const currentCategories = categories && categories.length > 0 ? categories : PRODUCT_CATEGORIES;
+  const badge = sectionInfo?.badge || "PRODUCT CATEGORIES";
+  const headlineDark = sectionInfo?.headlineDark || "Precision Moulds for";
+  const headlineBlue = sectionInfo?.headlineBlue || "Diverse Applications.";
+  const description =
+    sectionInfo?.description ||
+    "High-precision PET preform, ISBM, and EBM tooling engineered for 5M+ cycle tool life, rapid cycle times, and high-volume container production.";
+  const pill1 = sectionInfo?.pill1Text || "Preform & ISBM Tooling";
+  const pill2 = sectionInfo?.pill2Text || "Zero-Flash Gating";
+
   return (
     <section id="product-categories" className="py-13 bg-slate-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +52,7 @@ export const ProductCategories: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
           </span>
-          PRODUCT CATEGORIES
+          {badge}
         </motion.div>
 
         {/* 2-Column Split Header */}
@@ -38,8 +66,8 @@ export const ProductCategories: React.FC = () => {
             className="lg:col-span-7"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-              <span className="text-slate-900 block">Precision Moulds for</span>
-              <span className="text-[#0056b3] block">Diverse Applications.</span>
+              <span className="text-slate-900 block">{headlineDark}</span>
+              <span className="text-[#0056b3] block">{headlineBlue}</span>
             </h2>
           </motion.div>
 
@@ -55,32 +83,36 @@ export const ProductCategories: React.FC = () => {
             <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-              High-precision PET preform, ISBM, and EBM tooling engineered for <strong className="text-slate-900 font-medium">5M+ cycle tool life</strong>, rapid cycle times, and <strong className="text-[#0056b3] font-medium">high-volume container production</strong>.
+              {description}
             </p>
 
             {/* Micro Highlight Pills */}
             <div className="flex items-center flex-wrap gap-2.5 mt-3.5">
-              <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
-                Preform & ISBM Tooling
-              </span>
-              <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
-                Zero-Flash Gating
-              </span>
+              {pill1 && (
+                <span className="text-[11px] font-medium text-[#0056b3] bg-blue-50 border border-blue-200/90 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#0056b3] hover:text-white transition-all duration-300 cursor-pointer">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
+                  {pill1}
+                </span>
+              )}
+              {pill2 && (
+                <span className="text-[11px] font-medium text-slate-800 bg-slate-100 border border-slate-200 px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs hover:bg-[#ff6b00] hover:text-white transition-all duration-300 cursor-pointer">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00]"></span>
+                  {pill2}
+                </span>
+              )}
             </div>
           </motion.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {PRODUCT_CATEGORIES.map((category, index) => {
+          {currentCategories.map((category, index) => {
             const categorySlugMap: Record<string, string> = {
               'preform-jar-mold': 'preform-jar',
               'isbm-mold': 'isbm',
               'ebm-mold': 'ebm',
             };
             const categorySlug = categorySlugMap[category.id] || '';
-            const categoryUrl = `/products?category=${categorySlug}#catalog`;
+            const categoryUrl = ('link' in category && category.link) ? (category.link as string) : `/products?category=${categorySlug}#catalog`;
 
             return (
               <motion.div

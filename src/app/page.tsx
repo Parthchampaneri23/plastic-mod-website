@@ -13,53 +13,66 @@ import { ClientSection } from '@/components/home/ClientSection';
 import { InquiryCTA } from '@/components/home/InquiryCTA';
 import { Footer } from '@/components/Footer';
 
+import { getDynamicHomeContent } from '@/services/homeService';
+
 export const metadata = {
   title: 'Plastic Mold Tooling | High-Precision Preform, ISBM & EBM Molds Manufacturer',
   description: 'ISO 9001:2015 certified high-cavitation PET preform molds, ISBM, and Extrusion Blow Molding (EBM) tooling engineered with sub-micron precision for packaging, beverage, and pharma.',
   keywords: 'plastic injection mold, PET preform mold, ISBM mold, EBM mold, blow molding tooling, precision mold manufacturer, CNC machining, EDM tooling',
 };
 
-export default function Home() {
+export default async function Home() {
+  const content = await getDynamicHomeContent();
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
-      {/* 1. HEADER */}
-      <Header />
+      {/* 1. HEADER (DYNAMIC TOPBAR & NAVBAR) */}
+      <Header topBar={content.topBar} navbar={content.navbar} />
 
-      {/* 2. HERO BANNER */}
-      <HeroBanner />
+      {/* 2. HERO BANNER (DYNAMIC SLIDERS & CONTENT) */}
+      <HeroBanner slides={content.heroSlides} />
 
       {/* 3. COMPANY INTRODUCTION */}
-      <CompanyIntro />
+      <CompanyIntro intro={content.companyIntro} stats={content.companyStats} />
 
       {/* 4. PRODUCT CATEGORIES */}
-      <ProductCategories />
+      <ProductCategories
+        categories={content.productCategories}
+        sectionInfo={content.categoriesSection}
+      />
 
       {/* 5. MANUFACTURING CAPABILITIES */}
-      <ManufacturingCapabilities />
+      <ManufacturingCapabilities
+        capabilities={content.capabilities}
+        sectionInfo={content.capabilitiesSection}
+      />
 
       {/* 6. WHY CHOOSE US */}
-      <WhyChooseUs />
+      <WhyChooseUs whyChooseUs={content.whyChooseUs} />
 
       {/* 7. INFRASTRUCTURE / FACILITIES */}
-      <Infrastructure />
+      <Infrastructure facilities={content.facilities} />
 
       {/* 8. INDUSTRIES / APPLICATIONS */}
-      <Industries />
+      <Industries industries={content.industries} />
 
       {/* 9. QUALITY & TECHNOLOGY */}
       <QualityTechnology />
 
       {/* 10. FEATURED PRODUCTS */}
-      <FeaturedProducts />
+      <FeaturedProducts featuredProducts={content.featuredProducts} />
 
       {/* 11. CLIENT / CUSTOMER SECTION */}
-      <ClientSection />
+      <ClientSection
+        clientLogoImages={content.clientLogoImages}
+        indianTestimonials={content.indianTestimonials}
+      />
 
       {/* 12. INQUIRY CTA */}
-      <InquiryCTA />
+      <InquiryCTA inquiryCta={content.inquiryCta} />
 
-      {/* 13. FOOTER */}
-      <Footer />
+      {/* 13. FOOTER (DYNAMIC BRAND, SOCIALS & CONTACT) */}
+      <Footer footer={content.footer} />
     </main>
   );
 }

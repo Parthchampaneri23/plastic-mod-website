@@ -21,17 +21,22 @@ const iconMap: Record<string, React.ReactNode> = {
   Clock: <Clock className="w-5 h-5 text-[#0056b3]" />,
 };
 
-export const HeroBanner: React.FC = () => {
+interface HeroBannerProps {
+  slides?: typeof HERO_SLIDES;
+}
+
+export const HeroBanner: React.FC<HeroBannerProps> = ({ slides }) => {
+  const activeSlides = slides && slides.length > 0 ? slides : HERO_SLIDES;
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+      setCurrentSlideIndex((prev) => (prev + 1) % activeSlides.length);
     }, 8000);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeSlides.length]);
 
-  const slide = HERO_SLIDES[currentSlideIndex];
+  const slide = activeSlides[currentSlideIndex] || activeSlides[0];
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-slate-900">
@@ -151,7 +156,7 @@ export const HeroBanner: React.FC = () => {
       {/* Slider Nav Controls */}
       <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center space-x-2">
-          {HERO_SLIDES.map((_, idx) => (
+          {activeSlides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlideIndex(idx)}
@@ -164,14 +169,14 @@ export const HeroBanner: React.FC = () => {
 
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => setCurrentSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1))}
+            onClick={() => setCurrentSlideIndex((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1))}
             className="p-2.5 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
-            onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length)}
+            onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % activeSlides.length)}
             className="p-2.5 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Next slide"
           >

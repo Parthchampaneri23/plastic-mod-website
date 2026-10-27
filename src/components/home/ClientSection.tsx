@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CLIENT_LOGO_IMAGES, INDIAN_TESTIMONIALS } from '@/data/home';
+import { CLIENT_LOGO_IMAGES, INDIAN_TESTIMONIALS, Testimonial } from '@/data/home';
 import { SectionHeading } from '../SectionHeading';
 import {
   Building2,
@@ -15,7 +15,23 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export const ClientSection: React.FC = () => {
+export interface ClientSectionProps {
+  clientLogoImages?: Array<{ id: string; name: string; image: string }>;
+  indianTestimonials?: Testimonial[];
+}
+
+export const ClientSection: React.FC<ClientSectionProps> = ({
+  clientLogoImages,
+  indianTestimonials,
+}) => {
+  const testimonials = (indianTestimonials && indianTestimonials.length > 0)
+    ? indianTestimonials
+    : INDIAN_TESTIMONIALS;
+
+  const logoImages = (clientLogoImages && clientLogoImages.length > 0)
+    ? clientLogoImages
+    : CLIENT_LOGO_IMAGES;
+
   // Testimonials Slider State
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -23,21 +39,21 @@ export const ClientSection: React.FC = () => {
   // Auto slide ticker for testimonials
   useEffect(() => {
     const timer = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % INDIAN_TESTIMONIALS.length);
+      setTestimonialIndex((prev) => (prev + 1) % testimonials.length);
     }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
-  const currentTestimonial = INDIAN_TESTIMONIALS[testimonialIndex];
+  const currentTestimonial = testimonials[testimonialIndex] || testimonials[0];
 
   // Repeat logo images array for seamless infinite marquee loop across wide screens
   const marqueeLogos = [
-    ...CLIENT_LOGO_IMAGES,
-    ...CLIENT_LOGO_IMAGES,
-    ...CLIENT_LOGO_IMAGES,
-    ...CLIENT_LOGO_IMAGES,
-    ...CLIENT_LOGO_IMAGES,
-    ...CLIENT_LOGO_IMAGES,
+    ...logoImages,
+    ...logoImages,
+    ...logoImages,
+    ...logoImages,
+    ...logoImages,
+    ...logoImages,
   ];
 
   return (
@@ -192,7 +208,7 @@ export const ClientSection: React.FC = () => {
               <div className="lg:col-span-7 space-y-6">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center space-x-1 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/80 shadow-xs">
-                    {[...Array(currentTestimonial.rating)].map((_, i) => (
+                    {[...Array(currentTestimonial.rating || 5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
                     ))}
                   </div>
@@ -222,7 +238,7 @@ export const ClientSection: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-lg font-black text-slate-900 group-hover:text-[#0056b3] transition-colors">{currentTestimonial.author}</div>
-                    <div className="text-xs font-bold text-[#0056b3] mt-0.5">{currentTestimonial.position}</div>
+                    <div className="text-xs font-bold text-[#0056b3] mt-0.5">{currentTestimonial.position || (currentTestimonial as any).role || "Operations Lead"}</div>
                   </div>
                 </div>
 
@@ -237,14 +253,13 @@ export const ClientSection: React.FC = () => {
                   </div>
                 </div>
 
-
               </motion.div>
             </motion.div>
           </AnimatePresence>
 
           {/* Testimonial Indicators */}
           <div className="flex items-center justify-center space-x-2.5 pt-10 relative z-10">
-            {INDIAN_TESTIMONIALS.map((_, idx) => (
+            {testimonials.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setTestimonialIndex(idx)}

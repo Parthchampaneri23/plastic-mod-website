@@ -57,10 +57,43 @@ const QUALITY_STAGES = [
   },
 ];
 
-export const QualityCommitment: React.FC = () => {
-  const [activeStageId, setActiveStageId] = useState<string>(QUALITY_STAGES[0].id);
+interface QualityCommitmentProps {
+  qualityCommitment?: {
+    eyebrow?: string;
+    badge?: string;
+    headingPrefix?: string;
+    heading?: string;
+    headingHighlight?: string;
+    highlightHeading?: string;
+    description?: string;
+    stages?: Array<{
+      id: string;
+      num: string;
+      title: string;
+      tagline: string;
+      description: string;
+      metrics: string[];
+      equipment: string;
+    }>;
+  };
+}
 
-  const activeStage = QUALITY_STAGES.find((s) => s.id === activeStageId) || QUALITY_STAGES[0];
+export const QualityCommitment: React.FC<QualityCommitmentProps> = ({ qualityCommitment }) => {
+  const eyebrow = qualityCommitment?.eyebrow || qualityCommitment?.badge || "QUALITY COMMITMENT";
+  const headingPrefix = qualityCommitment?.headingPrefix || qualityCommitment?.heading || "Precision Doesn't End";
+  const headingHighlight = qualityCommitment?.headingHighlight || qualityCommitment?.highlightHeading || "at Machining.";
+  const description = qualityCommitment?.description || "Every mould undergoes comprehensive quality verification at every milestone of manufacture.";
+
+  const stagesList = qualityCommitment?.stages && qualityCommitment.stages.length > 0
+    ? qualityCommitment.stages.map((st, idx) => ({
+      ...st,
+      icon: idx === 0 ? <FileCheck className="w-5 h-5 text-[#0056b3]" /> : idx === 1 ? <Search className="w-5 h-5 text-[#ff6b00]" /> : idx === 2 ? <Gauge className="w-5 h-5 text-[#0056b3]" /> : idx === 3 ? <ShieldCheck className="w-5 h-5 text-[#ff6b00]" /> : <Award className="w-5 h-5 text-[#0056b3]" />,
+    }))
+    : QUALITY_STAGES;
+
+  const [activeStageId, setActiveStageId] = useState<string>(stagesList[0]?.id || 'stage-1');
+  const activeStage = stagesList.find((s) => s.id === activeStageId) || stagesList[0];
+
 
   return (
     <section className="py-13 sm:py-13 bg-white text-slate-900 relative overflow-hidden border-b border-slate-200">
@@ -85,7 +118,7 @@ export const QualityCommitment: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            QUALITY COMMITMENT
+            {eyebrow}
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
@@ -97,8 +130,8 @@ export const QualityCommitment: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.15]">
-                <span className="text-slate-900 block">Precision Doesn't End</span>
-                <span className="text-[#0056b3] block">at Machining.</span>
+                <span className="text-slate-900 block">{headingPrefix}</span>
+                <span className="text-[#0056b3] block">{headingHighlight}</span>
               </h2>
             </motion.div>
 
@@ -111,7 +144,7 @@ export const QualityCommitment: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                Our end-to-end Quality Assurance Journey guarantees zero-defect tooling, verified tolerances, and maximum cycle efficiency for every mold.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -125,7 +158,7 @@ export const QualityCommitment: React.FC = () => {
           <div className="hidden lg:block absolute top-1/2 left-8 right-8 h-0.5 bg-slate-200 -translate-y-1/2 z-0" />
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 relative z-10">
-            {QUALITY_STAGES.map((stage) => {
+            {stagesList.map((stage) => {
               const isActive = activeStageId === stage.id;
               return (
                 <motion.button

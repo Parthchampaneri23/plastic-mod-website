@@ -57,7 +57,31 @@ const CounterStat: React.FC<{ valueStr: string }> = ({ valueStr }) => {
   return <span ref={ref}>{valueStr}</span>;
 };
 
-export const CompanyIntro: React.FC = () => {
+interface CompanyIntroProps {
+  intro?: {
+    badge?: string;
+    heading?: string;
+    paragraph1?: string;
+    paragraph2?: string;
+    paragraph3?: string;
+    image?: string;
+  };
+  stats?: Array<{
+    value: string;
+    label: string;
+    subtext: string;
+  }>;
+}
+
+export const CompanyIntro: React.FC<CompanyIntroProps> = ({ intro, stats }) => {
+  const currentBadge = intro?.badge || "Engineering Excellence Since 1994";
+  const currentHeading = intro?.heading || "About Patel Mould Industries";
+  const currentP1 = intro?.paragraph1 || "Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform molds, ISBM tooling, and Extrusion Blow Molds.";
+  const currentP2 = intro?.paragraph2 || "Spanning three decades of Indian toolmaking craftsmanship, Patel Mould Industries operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.";
+  const currentP3 = intro?.paragraph3 || "We specialize in custom multi-cavity mold solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.";
+  const currentImage = intro?.image || "/Home/company image about.png";
+  const currentStats = stats && stats.length > 0 ? stats : COMPANY_STATS;
+
   return (
     <section id="company-intro" className="py-13 bg-white relative overflow-hidden border-b border-slate-200">
       {/* Background Subtle Tech Pattern */}
@@ -78,8 +102,8 @@ export const CompanyIntro: React.FC = () => {
             >
               <div className="relative w-full h-full min-h-[340px] sm:min-h-[420px]">
                 <Image
-                  src="/Home/company image about.png"
-                  alt="Patel Mould Industries manufacturing facility"
+                  src={currentImage}
+                  alt={currentHeading}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                   className="object-cover object-center rounded-[22px] group-hover/main:scale-103 transition-transform duration-700"
@@ -98,20 +122,22 @@ export const CompanyIntro: React.FC = () => {
             className="lg:col-span-6 space-y-5 flex flex-col justify-center"
           >
             <SectionHeading
-              badge="Engineering Excellence Since 1994"
-              title="About Patel Mould Industries"
-              subtitle="Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform molds, ISBM tooling, and Extrusion Blow Molds."
+              badge={currentBadge}
+              title={currentHeading}
+              subtitle={currentP1}
               centered={false}
               className="mb-2"
             />
 
             <div className="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
               <p>
-                Spanning three decades of Indian toolmaking craftsmanship, <strong className="text-slate-900 font-medium">Patel Mould Industries</strong> operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.
+                {currentP2}
               </p>
-              <p>
-                We specialize in custom multi-cavity mold solutions engineered for zero-flash production, rapid cycle times, and <strong className="text-[#0056b3] font-medium">guaranteed 5M+ shot tool life</strong> — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.
-              </p>
+              {currentP3 && (
+                <p>
+                  {currentP3}
+                </p>
+              )}
             </div>
           </motion.div>
 
@@ -128,7 +154,7 @@ export const CompanyIntro: React.FC = () => {
           }}
           className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {COMPANY_STATS.map((stat, idx) => (
+          {currentStats.map((stat, idx) => (
             <motion.div
               key={idx}
               variants={{ hidden: { opacity: 0, y: 25 }, show: { opacity: 1, y: 0 } }}
