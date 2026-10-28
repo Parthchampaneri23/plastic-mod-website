@@ -94,19 +94,75 @@ const AnimatedStatNumber: React.FC<{ valueStr: string }> = ({ valueStr }) => {
   return <span ref={ref}>{valueStr}</span>;
 };
 
-export const ManufacturingOverview: React.FC = () => {
+interface ManufacturingOverviewProps {
+  overview?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    summary?: string;
+    facilityImage?: string;
+    facilityLocation?: string;
+    facilityTag?: string;
+    infrastructureTitle?: string;
+    infrastructureDesc?: string;
+    stats?: Array<{ value: string; label: string; detail: string }>;
+    capabilities?: Array<{
+      id: string;
+      title: string;
+      cardDesc: string;
+      panelDesc: string;
+    }>;
+  };
+}
+
+export const ManufacturingOverview: React.FC<ManufacturingOverviewProps> = ({ overview }) => {
   // Track hovered card id and clicked (pinned) card id
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [pinnedId, setPinnedId] = useState<string | null>(null);
 
+  // Icon mapping helper
+  const getIconForCapability = (id: string) => {
+    switch (id) {
+      case 'cnc':
+        return <Cpu className="w-4 h-4 text-[#075BBB]" />;
+      case 'edm':
+        return <Zap className="w-4 h-4 text-[#FF792D]" />;
+      case 'metrology':
+        return <Microscope className="w-4 h-4 text-[#075BBB]" />;
+      case 'testing':
+      default:
+        return <CheckCircle2 className="w-4 h-4 text-[#FF792D]" />;
+    }
+  };
+
+  const capabilities = (overview?.capabilities && overview.capabilities.length > 0)
+    ? overview.capabilities.map((c) => ({
+        ...c,
+        icon: getIconForCapability(c.id),
+      }))
+    : CAPABILITY_HIGHLIGHTS;
+
+  const stats = (overview?.stats && overview.stats.length > 0)
+    ? overview.stats
+    : MANUFACTURING_OVERVIEW_STATS;
+
+  const badge = overview?.badge || 'MANUFACTURING OVERVIEW';
+  const heading = overview?.heading || 'Precision Engineering.';
+  const highlightHeading = overview?.highlightHeading || 'Manufacturing Excellence.';
+  const summary = overview?.summary || 'Every tooling phase—from metallurgical steel verification and parametric 3D CAD design to finish machining, optical assembly, and in-house press trials—is managed under one roof to assure complete dimensional integrity and on-schedule execution.';
+  const facilityImage = overview?.facilityImage || '/About/FACILITY.png';
+  const facilityLocation = overview?.facilityLocation || 'Precision Mould Park, Phase-IV GIDC, Gujarat';
+  const facilityTag = overview?.facilityTag || '15,000 m² Plant';
+  const infrastructureTitle = overview?.infrastructureTitle || 'End-to-End Toolroom Infrastructure';
+  const infrastructureDesc = overview?.infrastructureDesc || 'Our plant integrates dedicated machining cells and metrology labs to support demanding mould builds. Synchronized toolpaths and strict in-process checkpoints ensure zero accumulated tolerance errors across all cavities.';
+
   // Active capability derived from hover first, then pinned
   const activeId = hoveredId || pinnedId;
-  const activeCapability = CAPABILITY_HIGHLIGHTS.find((c) => c.id === activeId) || null;
+  const activeCapability = capabilities.find((c) => c.id === activeId) || null;
 
   // Handle card click / tap
   const handleCardClick = (id: string) => {
     if (pinnedId === id) {
-      // Toggle off / unpin if clicking the already selected card
       setPinnedId(null);
     } else {
       setPinnedId(id);
@@ -136,7 +192,7 @@ export const ManufacturingOverview: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>MANUFACTURING OVERVIEW</span>
+            <span>{badge}</span>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
@@ -149,8 +205,8 @@ export const ManufacturingOverview: React.FC = () => {
               className="lg:col-span-7 space-y-4"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-[#0B1930] tracking-tight leading-[1.15]">
-                Precision Engineering.{' '}
-                <span className="text-[#075BBB] block sm:inline">Manufacturing Excellence.</span>
+                {heading}{' '}
+                <span className="text-[#075BBB] block sm:inline">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -166,7 +222,7 @@ export const ManufacturingOverview: React.FC = () => {
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] via-[#075BBB] to-[#FF792D]" />
               <div className="space-y-2">
                 <p className="text-slate-700 text-sm sm:text-[15px] leading-relaxed">
-                  Every tooling phase—from metallurgical steel verification and parametric 3D CAD design to finish machining, optical assembly, and in-house press trials—is managed under one roof to assure complete dimensional integrity and on-schedule execution.
+                  {summary}
                 </p>
               </div>
             </motion.div>
@@ -189,7 +245,7 @@ export const ManufacturingOverview: React.FC = () => {
             <div className="relative w-full h-[340px] sm:h-[420px] lg:h-full min-h-[380px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-md bg-slate-900">
               {/* Stationary Factory Image (no zoom, flash, or image replacement) */}
               <Image
-                src="/About/FACILITY.png"
+                src={facilityImage}
                 alt="Patel Mould Manufacturing Facility and Toolroom Gujarat"
                 fill
                 priority
@@ -274,12 +330,12 @@ export const ManufacturingOverview: React.FC = () => {
                             MANUFACTURING FACILITY
                           </span>
                           <span className="text-xs font-semibold text-slate-100 truncate block mt-0.5">
-                            Precision Mould Park, Phase-IV GIDC, Gujarat
+                            {facilityLocation}
                           </span>
                         </div>
                       </div>
                       <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-500/20 text-blue-200 border border-blue-400/30 shrink-0">
-                        15,000 m² Plant
+                        {facilityTag}
                       </div>
                     </motion.div>
                   )}
@@ -299,16 +355,16 @@ export const ManufacturingOverview: React.FC = () => {
           >
             <div className="space-y-3">
               <h3 className="text-xl sm:text-2xl font-bold text-[#0B1930]">
-                End-to-End Toolroom Infrastructure
+                {infrastructureTitle}
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Our plant integrates dedicated machining cells and metrology labs to support demanding mould builds. Synchronized toolpaths and strict in-process checkpoints ensure zero accumulated tolerance errors across all cavities.
+                {infrastructureDesc}
               </p>
             </div>
 
             {/* Four Capability Cards with Hover & Click Interactions */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-              {CAPABILITY_HIGHLIGHTS.map((item) => {
+              {capabilities.map((item) => {
                 const isCurrentActive = activeId === item.id;
                 const isPinned = pinnedId === item.id;
 
@@ -371,7 +427,7 @@ export const ManufacturingOverview: React.FC = () => {
           className="rounded-2xl bg-white border border-slate-200/90 shadow-sm overflow-hidden"
         >
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 divide-x-0 sm:divide-x divide-slate-200/80">
-            {MANUFACTURING_OVERVIEW_STATS.map((stat) => (
+            {stats.map((stat) => (
               <div
                 key={stat.label}
                 className="p-5 sm:p-6 lg:p-7 flex flex-col justify-between hover:bg-slate-50/60 transition-colors group"

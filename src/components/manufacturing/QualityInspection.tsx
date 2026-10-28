@@ -85,23 +85,23 @@ const QUALITY_CARDS: QualityCard[] = [
   },
 ];
 
-const PRECISION_STRIP_ITEMS = [
+const PRECISION_STRIP_ITEMS: QualityStripItemType[] = [
   {
-    icon: <Ruler className="w-4 h-4 text-[#075BBB]" />,
+    number: '01',
     label: 'Dimensional Inspection',
     shortDesc: 'Multi-axis measurement of core, cavity, and split neck geometries.',
     fullDesc:
       'Rigorous coordinate checking of core shanks, cavity pockets, and neck finish concentricity against CAD drawings with sub-micron precision.',
   },
   {
-    icon: <CheckCircle2 className="w-4 h-4 text-[#FF792D]" />,
+    number: '02',
     label: 'Manufacturing Checkpoints',
     shortDesc: 'Stage-gate validation across CNC, spark erosion, and assembly bays.',
     fullDesc:
       'In-process probe checkpoints after roughing, EDM spark erosion, and stack plate fitting to prevent cumulative tolerance errors.',
   },
   {
-    icon: <FileCheck2 className="w-4 h-4 text-[#075BBB]" />,
+    number: '03',
     label: 'Final Quality Verification',
     shortDesc: 'Hydrostatic pressure leak tests and complete digital report sign-off.',
     fullDesc:
@@ -109,10 +109,96 @@ const PRECISION_STRIP_ITEMS = [
   },
 ];
 
-export const QualityInspection: React.FC = () => {
-  // Default selected card: Card 1 (Inspection Equipment)
-  const [selectedCardId, setSelectedCardId] = useState<string>('equipment');
-  const activeCard = QUALITY_CARDS.find((c) => c.id === selectedCardId) || QUALITY_CARDS[0];
+interface QualityStripItemType {
+  number?: string;
+  label: string;
+  shortDesc?: string;
+  fullDesc: string;
+}
+
+interface QualityInspectionProps {
+  quality?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    image?: string;
+    processTitle?: string;
+    processDescription?: string;
+    cards?: Array<{
+      id: string;
+      number: string;
+      title: string;
+      description: string;
+      detailTitle: string;
+      detailItems: string[];
+    }>;
+    guaranteeBadge?: string;
+    guaranteeTitle?: string;
+    guaranteeDescription?: string;
+    guaranteePrecision?: string;
+    guaranteeIso?: string;
+    stripBadge?: string;
+    stripItems?: QualityStripItemType[];
+  };
+}
+
+export const QualityInspection: React.FC<QualityInspectionProps> = ({ quality }) => {
+  const getQualityIcon = (id: string) => {
+    switch (id) {
+      case 'in-process':
+        return <Cpu className="w-4 h-4 text-[#FF792D]" />;
+      case 'precision':
+        return <SlidersHorizontal className="w-4 h-4 text-[#075BBB]" />;
+      case 'testing-final':
+        return <ShieldCheck className="w-4 h-4 text-[#FF792D]" />;
+      case 'equipment':
+      default:
+        return <Ruler className="w-4 h-4 text-[#075BBB]" />;
+    }
+  };
+
+  const getStripIcon = (index: number) => {
+    switch (index) {
+      case 1:
+        return <CheckCircle2 className="w-4 h-4 text-[#FF792D]" />;
+      case 2:
+        return <FileCheck2 className="w-4 h-4 text-[#075BBB]" />;
+      case 0:
+      default:
+        return <Ruler className="w-4 h-4 text-[#075BBB]" />;
+    }
+  };
+
+  const cards: QualityCard[] = (quality?.cards && quality.cards.length > 0)
+    ? quality.cards.map((c) => ({
+        ...c,
+        icon: getQualityIcon(c.id),
+      }))
+    : QUALITY_CARDS;
+
+  const [selectedCardId, setSelectedCardId] = useState<string>(cards[0]?.id || 'equipment');
+  const activeCard = cards.find((c) => c.id === selectedCardId) || cards[0];
+
+  const badge = quality?.badge || 'QUALITY & INSPECTION';
+  const heading = quality?.heading || 'Built for Precision.';
+  const highlightHeading = quality?.highlightHeading || 'Verified for Performance.';
+  const description = quality?.description || 'Discover the measurement and quality practices applied across each stage of mould manufacturing to maintain dimensional control.';
+
+  const image = quality?.image || '/manufacturing/mfg_quality_clean.jpg';
+  const processTitle = quality?.processTitle || 'A Structured Approach to Quality Control';
+  const processDescription = quality?.processDescription || 'Click any stage below to inspect verified measurement activities and in-process checkpoints in the panel on the left.';
+
+  const guaranteeBadge = quality?.guaranteeBadge || 'QUALITY ASSURANCE GUARANTEE';
+  const guaranteeTitle = quality?.guaranteeTitle || 'Zeiss 3D CMM & Sub-Micron Inspection Verification';
+  const guaranteeDescription = quality?.guaranteeDescription || 'Every mould stack undergoes full coordinate verification (±0.002 mm tolerance), 10–12 bar hydrostatic cooling circuit testing, and certified inspection reports.';
+  const guaranteePrecision = quality?.guaranteePrecision || '±0.002 mm Precision';
+  const guaranteeIso = quality?.guaranteeIso || 'ISO 9001 Process';
+
+  const stripBadge = quality?.stripBadge || 'Precision Measurement & Verification';
+  const stripItems = (quality?.stripItems && quality.stripItems.length > 0)
+    ? quality.stripItems
+    : PRECISION_STRIP_ITEMS;
 
   return (
     <section
@@ -140,7 +226,7 @@ export const QualityInspection: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>QUALITY &amp; INSPECTION</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -153,8 +239,8 @@ export const QualityInspection: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                Precision You Can Measure.{' '}
-                <span className="text-[#075BBB]">Quality You Can Trust.</span>
+                {heading}{' '}
+                <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -167,7 +253,7 @@ export const QualityInspection: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                Quality-focused inspection and dimensional verification help ensure that mould components meet the specified design and manufacturing requirements.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -189,7 +275,7 @@ export const QualityInspection: React.FC = () => {
             {/* Metrology Inspection Image Frame */}
             <div className="relative aspect-[16/11] w-full rounded-2xl overflow-hidden border border-[#DFE7F1] shadow-md bg-slate-900 group">
               <Image
-                src="/manufacturing/mfg_quality_clean.jpg"
+                src={image}
                 alt="Precision quality inspection environment with coordinate measuring equipment and machined mould component"
                 fill
                 priority
@@ -270,16 +356,16 @@ export const QualityInspection: React.FC = () => {
           >
             <div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#10233F] tracking-tight">
-                A Structured Approach to Quality Control
+                {processTitle}
               </h3>
               <p className="text-xs sm:text-sm text-[#526176] mt-1.5 leading-relaxed">
-                Click any stage below to inspect verified measurement activities and in-process checkpoints in the panel on the left.
+                {processDescription}
               </p>
             </div>
 
             {/* 4 Clean, Compact Interactive Cards */}
             <div className="space-y-3 pt-1">
-              {QUALITY_CARDS.map((card, idx) => {
+              {cards.map((card, idx) => {
                 const isSelected = selectedCardId === card.id;
 
                 return (
@@ -366,14 +452,14 @@ export const QualityInspection: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF792D]" />
                       <span className="text-[11px] font-mono font-bold text-[#075BBB] uppercase tracking-wider">
-                        QUALITY ASSURANCE GUARANTEE
+                        {guaranteeBadge}
                       </span>
                     </div>
                     <h5 className="text-xs sm:text-[14px] font-bold text-[#10233F] group-hover:text-[#075BBB] transition-colors duration-200 tracking-tight">
-                      Zeiss 3D CMM &amp; Sub-Micron Inspection Verification
+                      {guaranteeTitle}
                     </h5>
                     <p className="text-[11px] text-[#526176] leading-relaxed">
-                      Every mould stack undergoes full coordinate verification (±0.002 mm tolerance), 10–12 bar hydrostatic cooling circuit testing, and certified inspection reports.
+                      {guaranteeDescription}
                     </p>
                   </div>
 
@@ -382,13 +468,13 @@ export const QualityInspection: React.FC = () => {
                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50/70 border border-blue-200/80 group-hover:bg-[#075BBB] group-hover:border-[#075BBB] transition-all duration-300">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB] group-hover:bg-white transition-colors" />
                       <span className="font-mono text-[11px] font-bold text-[#075BBB] group-hover:text-white uppercase tracking-wider transition-colors">
-                        ±0.002 mm Precision
+                        {guaranteePrecision}
                       </span>
                     </div>
 
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-600 font-mono text-[10px] font-semibold uppercase tracking-wider">
                       <CheckCircle2 className="w-3 h-3 text-[#FF792D]" />
-                      <span>ISO 9001 Process</span>
+                      <span>{guaranteeIso}</span>
                     </div>
                   </div>
                 </div>
@@ -423,12 +509,12 @@ export const QualityInspection: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB]" />
               <h4 className="text-xs sm:text-sm font-bold text-[#10233F] tracking-tight">
-                Precision Measurement &amp; Verification
+                {stripBadge}
               </h4>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-              {PRECISION_STRIP_ITEMS.map((item, sIdx) => (
+              {stripItems.map((item, sIdx) => (
                 <div
                   key={sIdx}
                   className="group relative p-4 sm:p-5 rounded-xl bg-white border border-[#DFE7F1] hover:border-[#075BBB] shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-default"
@@ -440,10 +526,10 @@ export const QualityInspection: React.FC = () => {
                     {/* Header with Icon & Counter */}
                     <div className="flex items-center justify-between gap-2">
                       <span className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/70 flex items-center justify-center shrink-0 group-hover:border-[#075BBB] group-hover:bg-blue-100/60 transition-all duration-200 shadow-2xs">
-                        {item.icon}
+                        {getStripIcon(sIdx)}
                       </span>
                       <span className="text-[10px] font-mono font-bold text-slate-400 group-hover:text-[#075BBB] transition-colors duration-200">
-                        0{sIdx + 1}
+                        {item.number || `0${sIdx + 1}`}
                       </span>
                     </div>
 

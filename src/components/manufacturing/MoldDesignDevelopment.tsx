@@ -92,15 +92,80 @@ const WORKFLOW_STEPS = [
   },
 ];
 
-export const MoldDesignDevelopment: React.FC = () => {
+interface MoldDesignDevelopmentProps {
+  designDevelopment?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    image?: string;
+    overlayBadge?: string;
+    overlayTitle?: string;
+    overlayTag?: string;
+    workflowTitle?: string;
+    workflowDesc?: string;
+    capabilities?: Array<{
+      id: string;
+      number: string;
+      title: string;
+      panelTitle: string;
+      panelDesc: string;
+      cardDesc: string;
+      points: string[];
+    }>;
+    workflowSteps?: Array<{
+      step: string;
+      title: string;
+      shortDesc: string;
+      fullDesc: string;
+      deliverable: string;
+    }>;
+  };
+}
+
+export const MoldDesignDevelopment: React.FC<MoldDesignDevelopmentProps> = ({ designDevelopment }) => {
   // Track hovered and pinned card state
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [pinnedId, setPinnedId] = useState<string | null>(null);
   // Track hovered/clicked workflow step
   const [hoveredWorkflow, setHoveredWorkflow] = useState<string | null>(null);
 
+  const getIconForDesign = (id: string) => {
+    switch (id) {
+      case 'custom-mold':
+        return <Cpu className="w-5 h-5 text-[#FF792D]" />;
+      case 'engineering-dfm':
+        return <Layers className="w-5 h-5 text-[#075BBB]" />;
+      case 'cad-simulation':
+      default:
+        return <PenTool className="w-5 h-5 text-[#075BBB]" />;
+    }
+  };
+
+  const capabilities = (designDevelopment?.capabilities && designDevelopment.capabilities.length > 0)
+    ? designDevelopment.capabilities.map((c) => ({
+        ...c,
+        icon: getIconForDesign(c.id),
+      }))
+    : DESIGN_CAPABILITIES;
+
+  const workflowSteps = (designDevelopment?.workflowSteps && designDevelopment.workflowSteps.length > 0)
+    ? designDevelopment.workflowSteps
+    : WORKFLOW_STEPS;
+
+  const badge = designDevelopment?.badge || 'MOLD DESIGN & DEVELOPMENT';
+  const heading = designDevelopment?.heading || 'Engineering Design &';
+  const highlightHeading = designDevelopment?.highlightHeading || 'Simulation R&D';
+  const description = designDevelopment?.description || 'Our engineering team develops mould designs around product requirements, tooling geometry and manufacturability, helping prepare designs for reliable production.';
+  const image = designDevelopment?.image || '/manufacturing/mfg_cad.jpg';
+  const overlayBadge = designDevelopment?.overlayBadge || 'IN-HOUSE R&D DESIGN';
+  const overlayTitle = designDevelopment?.overlayTitle || 'CAD Design & Engineering';
+  const overlayTag = designDevelopment?.overlayTag || 'Design-led mould development';
+  const workflowTitle = designDevelopment?.workflowTitle || 'From Concept to Manufacturing';
+  const workflowDesc = designDevelopment?.workflowDesc || 'A structured four-stage design methodology ensuring every tool is fully assessed before shop floor release.';
+
   const activeId = hoveredId || pinnedId;
-  const activeCapability = DESIGN_CAPABILITIES.find((c) => c.id === activeId) || null;
+  const activeCapability = capabilities.find((c) => c.id === activeId) || null;
 
   const handleCardClick = (id: string) => {
     if (pinnedId === id) {
@@ -133,7 +198,7 @@ export const MoldDesignDevelopment: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>MOLD DESIGN &amp; DEVELOPMENT</span>
+            <span>{badge}</span>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end">
@@ -146,7 +211,7 @@ export const MoldDesignDevelopment: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-[#10233F] tracking-tight leading-[1.15]">
-                Engineering Design &amp; <span className="text-[#075BBB]">Simulation R&amp;D</span>
+                {heading} <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -160,7 +225,7 @@ export const MoldDesignDevelopment: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] via-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                Our engineering team develops mould designs around product requirements, tooling geometry and manufacturability, helping prepare designs for reliable production.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -182,7 +247,7 @@ export const MoldDesignDevelopment: React.FC = () => {
             <div className="relative w-full h-[360px] sm:h-[440px] lg:h-full min-h-[460px] rounded-2xl overflow-hidden border border-[#DFE7F1] shadow-md bg-slate-900 group flex-1">
               {/* Stationary Image (no zoom, shaking or flashing) */}
               <Image
-                src="/manufacturing/mfg_cad.jpg"
+                src={image}
                 alt="Patel Mould Indian CAD Design Studio and Mould Flow Engineering"
                 fill
                 priority
@@ -258,15 +323,15 @@ export const MoldDesignDevelopment: React.FC = () => {
                         </div>
                         <div>
                           <span className="text-[10px] font-mono font-bold text-[#FF792D] uppercase tracking-wider block">
-                            IN-HOUSE R&amp;D DESIGN
+                            {overlayBadge}
                           </span>
                           <span className="text-xs sm:text-sm font-semibold text-[#10233F]">
-                            CAD Design &amp; Engineering
+                            {overlayTitle}
                           </span>
                         </div>
                       </div>
                       <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded bg-blue-50 text-[#075BBB] border border-blue-200/90 hidden sm:inline-block">
-                        Design-led mould development
+                        {overlayTag}
                       </span>
                     </motion.div>
                   )}
@@ -284,7 +349,7 @@ export const MoldDesignDevelopment: React.FC = () => {
             className="lg:col-span-6 space-y-3.5"
             onMouseLeave={() => setHoveredId(null)}
           >
-            {DESIGN_CAPABILITIES.map((card, idx) => {
+            {capabilities.map((card, idx) => {
               const isCurrentActive = activeId === card.id;
               const isPinned = pinnedId === card.id;
 
@@ -375,17 +440,17 @@ export const MoldDesignDevelopment: React.FC = () => {
                 ENGINEERING WORKFLOW
               </span>
               <h4 className="text-base sm:text-lg font-bold text-[#10233F] mt-0.5">
-                From Concept to Manufacturing
+                {workflowTitle}
               </h4>
             </div>
             <p className="text-xs text-[#526176] max-w-md">
-              A structured four-stage design methodology ensuring every tool is fully assessed before shop floor release.
+              {workflowDesc}
             </p>
           </div>
 
           {/* Interactive Workflow Steps Flow */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-5">
-            {WORKFLOW_STEPS.map((wf) => {
+            {workflowSteps.map((wf) => {
               const isHovered = hoveredWorkflow === wf.step;
               return (
                 <div

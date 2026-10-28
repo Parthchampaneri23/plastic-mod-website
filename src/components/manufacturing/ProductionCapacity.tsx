@@ -21,6 +21,8 @@ import {
   CAPACITY_HIGHLIGHTS,
   MOULD_PRODUCTION_CAPABILITIES,
   ProductionStatistic,
+  CapacityFeature,
+  MouldCapabilityItem,
 } from '@/data/capacity';
 
 // Icon map for the 4 production statistics
@@ -79,7 +81,57 @@ const CountUpStat: React.FC<{ stat: ProductionStatistic }> = ({ stat }) => {
   );
 };
 
-export const ProductionCapacity: React.FC = () => {
+interface ProductionCapacityProps {
+  capacity?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    facilityBadge?: string;
+    facilitySubheading?: string;
+    facilityTitle?: string;
+    facilityDescription?: string;
+    facilityImage?: string;
+    highlights?: CapacityFeature[];
+    capabilitiesBadge?: string;
+    capabilitiesHeading?: string;
+    capabilities?: MouldCapabilityItem[];
+    statsBadge?: string;
+    statsHeading?: string;
+    stats?: ProductionStatistic[];
+  };
+}
+
+export const ProductionCapacity: React.FC<ProductionCapacityProps> = ({ capacity }) => {
+  const stats = (capacity?.stats && capacity.stats.length > 0)
+    ? capacity.stats
+    : PRODUCTION_STATISTICS_DATA;
+
+  const highlights = (capacity?.highlights && capacity.highlights.length > 0)
+    ? capacity.highlights
+    : CAPACITY_HIGHLIGHTS;
+
+  const capabilities = (capacity?.capabilities && capacity.capabilities.length > 0)
+    ? capacity.capabilities
+    : MOULD_PRODUCTION_CAPABILITIES;
+
+  const badge = capacity?.badge || 'PRODUCTION CAPACITY';
+  const heading = capacity?.heading || 'Scale, Precision &';
+  const highlightHeading = capacity?.highlightHeading || 'Toolroom Capacity';
+  const description = capacity?.description || 'Engineered toolroom infrastructure capable of delivering high-volume multi-cavity stack tooling with synchronized machining shifts.';
+
+  const facilityBadge = capacity?.facilityBadge || 'MANUFACTURING CAPACITY';
+  const facilitySubheading = capacity?.facilitySubheading || 'INFRASTRUCTURE & RESOURCES';
+  const facilityTitle = capacity?.facilityTitle || 'Integrated Facilities Designed for Production Consistency';
+  const facilityDescription = capacity?.facilityDescription || 'Operating from Phase-IV GIDC Gujarat, our toolroom combines high-speed 5-axis CNC machining centers, mirror spark EDMs, precision wire-cut cells, and dedicated assembly bays under one roof. Synchronized workflows eliminate cumulative tolerance build-up across complex multi-cavity tooling.';
+  const facilityImage = capacity?.facilityImage || '/About/FACILITY.png';
+
+  const capabilitiesBadge = capacity?.capabilitiesBadge || 'MOULD PRODUCTION CAPABILITY';
+  const capabilitiesHeading = capacity?.capabilitiesHeading || 'Mould Production Capabilities';
+
+  const statsBadge = capacity?.statsBadge || 'PRODUCTION STATISTICS';
+  const statsHeading = capacity?.statsHeading || 'Verified Manufacturing Metrics';
+
   return (
     <section
       id="capacity"
@@ -106,7 +158,7 @@ export const ProductionCapacity: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>PRODUCTION CAPACITY</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -119,8 +171,8 @@ export const ProductionCapacity: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                Manufacturing Capacity{' '}
-                <span className="text-[#075BBB]">Built Around Precision</span>
+                {heading}{' '}
+                <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -133,7 +185,7 @@ export const ProductionCapacity: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                Our manufacturing infrastructure combines precision tooling, integrated production resources and quality-focused processes to support a range of mould manufacturing requirements.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -146,7 +198,7 @@ export const ProductionCapacity: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-200/90 text-[#075BBB] text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
               <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB]" />
-              <span>MANUFACTURING CAPACITY</span>
+              <span>{facilityBadge}</span>
             </div>
             <div className="flex-1 h-px bg-gradient-to-r from-blue-200/80 via-slate-200 to-transparent" />
           </div>
@@ -163,7 +215,7 @@ export const ProductionCapacity: React.FC = () => {
             >
               <div className="relative aspect-[16/11] w-full rounded-2xl overflow-hidden border border-[#DFE7F1] shadow-md bg-slate-900 group">
                 <Image
-                  src="/About/FACILITY.png"
+                  src={facilityImage}
                   alt="Patel Mould Industries Indian precision mould manufacturing plant and CNC toolroom"
                   fill
                   priority
@@ -184,19 +236,19 @@ export const ProductionCapacity: React.FC = () => {
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-[#FF792D] uppercase tracking-wider mb-1.5">
                   <Factory className="w-3.5 h-3.5 text-[#FF792D]" />
-                  INFRASTRUCTURE &amp; RESOURCES
+                  {facilitySubheading}
                 </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-[#10233F] tracking-tight">
-                  Integrated Facilities Designed for Production Consistency
+                  {facilityTitle}
                 </h3>
                 <p className="text-xs sm:text-sm text-[#526176] mt-2 leading-relaxed">
-                  Operating from Phase-IV GIDC Gujarat, our toolroom combines high-speed 5-axis CNC machining centers, mirror spark EDMs, precision wire-cut cells, and dedicated assembly bays under one roof. Synchronized workflows eliminate cumulative tolerance build-up across complex multi-cavity tooling.
+                  {facilityDescription}
                 </p>
               </div>
 
               {/* Structured Capability Points */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                {CAPACITY_HIGHLIGHTS.map((item, idx) => (
+                {highlights.map((item, idx) => (
                   <div
                     key={idx}
                     className="p-3.5 rounded-xl bg-white border border-[#DFE7F1] hover:border-[#075BBB] hover:shadow-xs transition-all duration-200 group cursor-default"
@@ -230,17 +282,17 @@ export const ProductionCapacity: React.FC = () => {
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-200/90 text-[#075BBB] text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB]" />
-                <span>MOULD PRODUCTION CAPABILITY</span>
+                <span>{capabilitiesBadge}</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#10233F] tracking-tight">
-                Mould Production Capabilities
+                {capabilitiesHeading}
               </h3>
             </div>
             <div className="hidden sm:block flex-1 max-w-xs h-px bg-gradient-to-r from-blue-200/80 to-transparent self-center ml-4" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {MOULD_PRODUCTION_CAPABILITIES.map((cap, cIdx) => (
+            {capabilities.map((cap, cIdx) => (
               <motion.div
                 key={cap.id}
                 initial={{ opacity: 0, y: 16 }}
@@ -306,17 +358,17 @@ export const ProductionCapacity: React.FC = () => {
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-200/90 text-[#075BBB] text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB]" />
-                <span>PRODUCTION STATISTICS</span>
+                <span>{statsBadge}</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#10233F] tracking-tight">
-                Verified Manufacturing Metrics
+                {statsHeading}
               </h3>
             </div>
             <div className="hidden sm:block flex-1 max-w-xs h-px bg-gradient-to-r from-blue-200/80 to-transparent self-center ml-4" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {PRODUCTION_STATISTICS_DATA.map((stat, idx) => (
+            {stats.map((stat, idx) => (
               <motion.div
                 key={stat.id}
                 initial={{ opacity: 0, y: 15 }}

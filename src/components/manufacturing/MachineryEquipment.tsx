@@ -10,13 +10,32 @@ import { Button } from '../Button';
 
 const CATEGORIES = ['All', 'CNC', 'EDM', 'CMM', 'Grinding', 'Trial'] as const;
 
-export const MachineryEquipment: React.FC = () => {
+interface MachineryEquipmentProps {
+  machinery?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    machines?: MachineryItem[];
+  };
+}
+
+export const MachineryEquipment: React.FC<MachineryEquipmentProps> = ({ machinery }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const machineList = (machinery?.machines && machinery.machines.length > 0)
+    ? machinery.machines
+    : MACHINERY_LIST;
 
   const filteredMachines =
     selectedCategory === 'All'
-      ? MACHINERY_LIST
-      : MACHINERY_LIST.filter((m) => m.category === selectedCategory);
+      ? machineList
+      : machineList.filter((m) => m.category === selectedCategory);
+
+  const badge = machinery?.badge || 'MACHINERY & EQUIPMENT';
+  const heading = machinery?.heading || 'Our Machinery.';
+  const highlightHeading = machinery?.highlightHeading || 'Your Manufacturing Confidence.';
+  const description = machinery?.description || 'Explore the machining, inspection and mould-trial equipment supporting our tooling and manufacturing capabilities.';
 
   return (
     <section
@@ -44,7 +63,7 @@ export const MachineryEquipment: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>MACHINERY &amp; EQUIPMENT</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -57,8 +76,8 @@ export const MachineryEquipment: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                Our Machinery.{' '}
-                <span className="text-[#075BBB]">Your Manufacturing Confidence.</span>
+                {heading}{' '}
+                <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -71,7 +90,7 @@ export const MachineryEquipment: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                Explore the machining, inspection and mould-trial equipment supporting our tooling and manufacturing capabilities.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -107,7 +126,7 @@ export const MachineryEquipment: React.FC = () => {
                       className={`ml-1.5 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-slate-200/80 text-[#526176]'
                         }`}
                     >
-                      {MACHINERY_LIST.length}
+                      {machineList.length}
                     </span>
                   )}
                 </button>

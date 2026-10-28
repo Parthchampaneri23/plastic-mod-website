@@ -205,12 +205,31 @@ const getStageIcon = (idx: number, className: string) => {
   }
 };
 
-export const MoldManufacturingProcess: React.FC = () => {
+interface MoldManufacturingProcessProps {
+  process?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    stages?: StageData[];
+  };
+}
+
+export const MoldManufacturingProcess: React.FC<MoldManufacturingProcessProps> = ({ process }) => {
+  const stages = (process?.stages && process.stages.length > 0)
+    ? process.stages
+    : STAGES;
+
   const [activeStageIdx, setActiveStageIdx] = useState<number>(0);
-  const current = STAGES[activeStageIdx] || STAGES[0];
+  const current = stages[activeStageIdx] || stages[0];
+
+  const badge = process?.badge || '9-STAGE MANUFACTURING PROCESS';
+  const heading = process?.heading || 'From Concept to';
+  const highlightHeading = process?.highlightHeading || 'Finished Mould';
+  const description = process?.description || 'A structured manufacturing journey that brings together engineering, precision machining, quality checks and mould trials to support reliable tooling delivery.';
 
   // Calculate navigation progress percentage
-  const progressPercentage = Math.round(((activeStageIdx + 1) / STAGES.length) * 100);
+  const progressPercentage = Math.round(((activeStageIdx + 1) / stages.length) * 100);
 
   return (
     <section
@@ -238,7 +257,7 @@ export const MoldManufacturingProcess: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>MOLD MANUFACTURING PROCESS</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -251,7 +270,7 @@ export const MoldManufacturingProcess: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                From Concept to <span className="text-[#075BBB]">Finished Mould</span>
+                {heading} <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -264,7 +283,7 @@ export const MoldManufacturingProcess: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                A structured manufacturing journey that brings together engineering, precision machining, quality checks and mould trials to support reliable tooling delivery.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -300,14 +319,14 @@ export const MoldManufacturingProcess: React.FC = () => {
           <div className="hidden lg:block absolute top-[36px] left-[3.5%] right-[3.5%] h-[2.5px] bg-slate-100 rounded-full z-0 overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-[#075BBB] via-[#075BBB] to-[#FF792D]"
-              animate={{ width: `${(activeStageIdx / (STAGES.length - 1)) * 100}%` }}
+              animate={{ width: `${(activeStageIdx / Math.max(1, stages.length - 1)) * 100}%` }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
             />
           </div>
 
           {/* 9 Stages Interactive Selector Strip */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-1.5 sm:gap-2 relative z-10">
-            {STAGES.map((stage, idx) => {
+            {stages.map((stage, idx) => {
               const isActive = activeStageIdx === idx;
               const isPassed = idx < activeStageIdx;
 

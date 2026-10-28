@@ -10,6 +10,7 @@ import { MachineryEquipment } from '@/components/manufacturing/MachineryEquipmen
 import { ProductionCapacity } from '@/components/manufacturing/ProductionCapacity';
 import { QualityInspection } from '@/components/manufacturing/QualityInspection';
 import { CustomMoldSolutions } from '@/components/manufacturing/CustomMoldSolutions';
+import { getDynamicManufacturingContent } from '@/services/manufacturingService';
 
 export const metadata = {
   title: 'Manufacturing Capabilities | Patel Mould Industries India',
@@ -17,7 +18,12 @@ export const metadata = {
   keywords: 'Plastic mold manufacturing India, CNC precision machining Gujarat, PET preform mold maker, EDM spark erosion, mold design CAD simulation, Zeiss CMM inspection',
 };
 
-export default function ManufacturingPage() {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // immediate dynamic reflection of admin updates
+
+export default async function ManufacturingPage() {
+  const data = await getDynamicManufacturingContent();
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans" suppressHydrationWarning>
       {/* 1. Header with updated navigation */}
@@ -25,31 +31,31 @@ export default function ManufacturingPage() {
 
       <main className="flex-grow">
         {/* Hero Banner with Indian Toolroom Visual & Breadcrumbs */}
-        <ManufacturingHero />
+        <ManufacturingHero hero={data.hero} />
 
         {/* Section 1: Manufacturing Overview */}
-        <ManufacturingOverview />
+        <ManufacturingOverview overview={data.overview} />
 
         {/* Section 2: Mold Design & Development */}
-        <MoldDesignDevelopment />
+        <MoldDesignDevelopment designDevelopment={data.designDevelopment} />
 
         {/* Section 3: Precision Machining */}
-        <PrecisionMachining />
+        <PrecisionMachining precisionMachining={data.precisionMachining} />
 
         {/* Section 4: Mold Manufacturing Process (9 Stages) */}
-        <MoldManufacturingProcess />
+        <MoldManufacturingProcess process={data.process} />
 
         {/* Section 5: Machinery & Equipment */}
-        <MachineryEquipment />
+        <MachineryEquipment machinery={data.machinery} />
 
         {/* Section 6: Production Capacity */}
-        <ProductionCapacity />
+        <ProductionCapacity capacity={data.capacity} />
 
         {/* Section 7: Quality & Inspection */}
-        <QualityInspection />
+        <QualityInspection quality={data.quality} />
 
         {/* Section 8: Custom Mold Solutions */}
-        <CustomMoldSolutions />
+        <CustomMoldSolutions customSolutions={data.customSolutions} />
       </main>
 
       {/* Footer */}

@@ -72,10 +72,80 @@ const SOLUTION_CARDS: CustomSolutionCard[] = [
   },
 ];
 
-export const CustomMoldSolutions: React.FC = () => {
+interface CustomMoldSolutionsProps {
+  customSolutions?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    image?: string;
+    solutionProcessTitle?: string;
+    solutionProcessDescription?: string;
+    solutions?: Array<{
+      id: string;
+      number: string;
+      title: string;
+      description: string;
+      detail: string;
+      highlights: string[];
+    }>;
+    confidentialityBadge?: string;
+    confidentialityTitle?: string;
+    confidentialityDescription?: string;
+    confidentialityNda?: string;
+    confidentialityDfm?: string;
+    ctaBadge?: string;
+    ctaTitle?: string;
+    ctaDescription?: string;
+    ctaButtonText?: string;
+    ctaButtonLink?: string;
+  };
+}
+
+export const CustomMoldSolutions: React.FC<CustomMoldSolutionsProps> = ({ customSolutions }) => {
+  const getSolutionIcon = (id: string) => {
+    switch (id) {
+      case 'requirements':
+        return <Sliders className="w-4 h-4 text-[#FF792D]" />;
+      case 'support':
+        return <Compass className="w-4 h-4 text-[#075BBB]" />;
+      case 'development':
+      default:
+        return <Settings className="w-4 h-4 text-[#075BBB]" />;
+    }
+  };
+
+  const solutions: CustomSolutionCard[] = (customSolutions?.solutions && customSolutions.solutions.length > 0)
+    ? customSolutions.solutions.map((s) => ({
+        ...s,
+        icon: getSolutionIcon(s.id),
+      }))
+    : SOLUTION_CARDS;
+
   // Default selected card: Card 1 (Customized Mould Development)
-  const [selectedCardId, setSelectedCardId] = useState<string>('development');
-  const activeCard = SOLUTION_CARDS.find((c) => c.id === selectedCardId) || SOLUTION_CARDS[0];
+  const [selectedCardId, setSelectedCardId] = useState<string>(solutions[0]?.id || 'development');
+  const activeCard = solutions.find((c) => c.id === selectedCardId) || solutions[0];
+
+  const badge = customSolutions?.badge || 'CUSTOM MOLD SOLUTIONS';
+  const heading = customSolutions?.heading || 'Customized Solutions for';
+  const highlightHeading = customSolutions?.highlightHeading || 'Demanding Mould Requirements';
+  const description = customSolutions?.description || 'From customer-specific mould designs to engineering coordination and production support, we work to align tooling solutions with your product and manufacturing requirements.';
+
+  const image = customSolutions?.image || '/manufacturing/mfg_custom.jpg';
+  const solutionProcessTitle = customSolutions?.solutionProcessTitle || 'Engineering Tailored Around Your Production';
+  const solutionProcessDescription = customSolutions?.solutionProcessDescription || 'Click any solution below to inspect engineering coordination and technical activities in the panel on the left.';
+
+  const confidentialityBadge = customSolutions?.confidentialityBadge || 'CONFIDENTIALITY & ENGINEERING INTEGRITY';
+  const confidentialityTitle = customSolutions?.confidentialityTitle || 'Protected Development & Technical Coordination';
+  const confidentialityDescription = customSolutions?.confidentialityDescription || 'Custom mould developments are safeguarded under strict NDA agreements with proprietary CAD design security, pre-trial validation, and direct engineering review.';
+  const confidentialityNda = customSolutions?.confidentialityNda || 'Strict NDA Protection';
+  const confidentialityDfm = customSolutions?.confidentialityDfm || 'Free DFM Review';
+
+  const ctaBadge = customSolutions?.ctaBadge || 'TECHNICAL CONSULTATION & FEASIBILITY';
+  const ctaTitle = customSolutions?.ctaTitle || "Let's Discuss Your Custom Mould Requirements";
+  const ctaDescription = customSolutions?.ctaDescription || 'Share your product concept, specifications or tooling requirements with our team to start a technical discussion.';
+  const ctaButtonText = customSolutions?.ctaButtonText || 'Discuss Your Mould Project';
+  const ctaButtonLink = customSolutions?.ctaButtonLink || '/contact?subject=Custom+Mould+Solutions';
 
   return (
     <section
@@ -103,7 +173,7 @@ export const CustomMoldSolutions: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>CUSTOM MOULD SOLUTIONS</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -116,8 +186,8 @@ export const CustomMoldSolutions: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                Custom Mould Solutions,{' '}
-                <span className="text-[#075BBB]">Engineered Around Your Needs</span>
+                {heading}{' '}
+                <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -130,7 +200,7 @@ export const CustomMoldSolutions: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                From customer-specific mould designs to engineering coordination and production support, we work to align tooling solutions with your product and manufacturing requirements.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -152,7 +222,7 @@ export const CustomMoldSolutions: React.FC = () => {
             {/* Authentic Mould Trial Image */}
             <div className="relative aspect-[16/11] w-full rounded-2xl overflow-hidden border border-[#DFE7F1] shadow-md bg-slate-900 group">
               <Image
-                src="/manufacturing/mfg_custom.jpg"
+                src={image}
                 alt="Engineers working with a moulding machine during mould trial in an Indian manufacturing environment"
                 fill
                 priority
@@ -233,16 +303,16 @@ export const CustomMoldSolutions: React.FC = () => {
           >
             <div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#10233F] tracking-tight">
-                Engineering Tailored Around Your Production
+                {solutionProcessTitle}
               </h3>
               <p className="text-xs sm:text-sm text-[#526176] mt-1.5 leading-relaxed">
-                Click any solution below to inspect engineering coordination and technical activities in the panel on the left.
+                {solutionProcessDescription}
               </p>
             </div>
 
             {/* 3 Clean, Compact Interactive Cards */}
             <div className="space-y-3 pt-1">
-              {SOLUTION_CARDS.map((card, idx) => {
+              {solutions.map((card, idx) => {
                 const isSelected = selectedCardId === card.id;
 
                 return (
@@ -329,14 +399,14 @@ export const CustomMoldSolutions: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#FF792D]" />
                       <span className="text-[11px] font-mono font-bold text-[#075BBB] uppercase tracking-wider">
-                        CONFIDENTIALITY &amp; ENGINEERING INTEGRITY
+                        {confidentialityBadge}
                       </span>
                     </div>
                     <h5 className="text-xs sm:text-[14px] font-bold text-[#10233F] group-hover:text-[#075BBB] transition-colors duration-200 tracking-tight">
-                      Protected Development &amp; Technical Coordination
+                      {confidentialityTitle}
                     </h5>
                     <p className="text-[11px] text-[#526176] leading-relaxed">
-                      Custom mould developments are safeguarded under strict NDA agreements with proprietary CAD design security, pre-trial validation, and direct engineering review.
+                      {confidentialityDescription}
                     </p>
                   </div>
 
@@ -345,13 +415,13 @@ export const CustomMoldSolutions: React.FC = () => {
                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50/70 border border-blue-200/80 group-hover:bg-[#075BBB] group-hover:border-[#075BBB] transition-all duration-300">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#075BBB] group-hover:bg-white transition-colors" />
                       <span className="font-mono text-[11px] font-bold text-[#075BBB] group-hover:text-white uppercase tracking-wider transition-colors">
-                        Strict NDA Protection
+                        {confidentialityNda}
                       </span>
                     </div>
 
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-50 border border-slate-200/80 text-slate-600 font-mono text-[10px] font-semibold uppercase tracking-wider">
                       <CheckCircle2 className="w-3 h-3 text-[#FF792D]" />
-                      <span>Free DFM Review</span>
+                      <span>{confidentialityDfm}</span>
                     </div>
                   </div>
                 </div>
@@ -379,23 +449,23 @@ export const CustomMoldSolutions: React.FC = () => {
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FF792D]" />
                 <span className="text-xs font-mono font-bold text-[#075BBB] uppercase tracking-wider">
-                  TECHNICAL CONSULTATION &amp; FEASIBILITY
+                  {ctaBadge}
                 </span>
               </div>
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#10233F] tracking-tight">
-                Let&apos;s Discuss Your Custom Mould Requirements
+                {ctaTitle}
               </h3>
               <p className="text-xs sm:text-sm text-[#526176] max-w-2xl leading-relaxed">
-                Share your product concept, specifications or tooling requirements with our team to start a technical discussion.
+                {ctaDescription}
               </p>
             </div>
 
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col lg:items-end gap-2.5">
               <Button
-                href="/contact?subject=Custom+Mould+Solutions"
+                href={ctaButtonLink}
                 className="bg-[#075BBB] hover:bg-[#054694] text-white font-semibold px-6 py-3 rounded-xl shadow-xs hover:shadow-md text-xs sm:text-sm inline-flex items-center justify-center gap-2 transition-all duration-200"
               >
-                <span>Discuss Your Mould Project</span>
+                <span>{ctaButtonText}</span>
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </div>

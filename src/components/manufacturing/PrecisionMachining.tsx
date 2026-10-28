@@ -91,9 +91,39 @@ const PROCESS_TABS: ProcessTab[] = [
   },
 ];
 
-export const PrecisionMachining: React.FC = () => {
-  const [activeTabId, setActiveTabId] = useState<string>('cnc');
-  const current = PROCESS_TABS.find((p) => p.id === activeTabId) || PROCESS_TABS[0];
+interface PrecisionMachiningProps {
+  precisionMachining?: {
+    badge?: string;
+    heading?: string;
+    highlightHeading?: string;
+    description?: string;
+    tabs?: Array<{
+      id: string;
+      tabLabel: string;
+      badge: string;
+      heading: string;
+      subtitle: string;
+      description: string;
+      image: string;
+      imageAlt?: string;
+      features: string[];
+      specs: Array<{ label: string; value: string }>;
+    }>;
+  };
+}
+
+export const PrecisionMachining: React.FC<PrecisionMachiningProps> = ({ precisionMachining }) => {
+  const tabs = (precisionMachining?.tabs && precisionMachining.tabs.length > 0)
+    ? precisionMachining.tabs
+    : PROCESS_TABS;
+
+  const [activeTabId, setActiveTabId] = useState<string>(tabs[0]?.id || 'cnc');
+  const current = tabs.find((p) => p.id === activeTabId) || tabs[0];
+
+  const badge = precisionMachining?.badge || 'PRECISION MACHINING';
+  const heading = precisionMachining?.heading || 'CNC & EDM';
+  const highlightHeading = precisionMachining?.highlightHeading || 'High-Accuracy Manufacturing';
+  const description = precisionMachining?.description || 'Precision machining processes for mould components, intricate geometries and demanding manufacturing requirements.';
 
   return (
     <section
@@ -121,7 +151,7 @@ export const PrecisionMachining: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF792D] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF792D]"></span>
             </span>
-            <span>PRECISION MACHINING</span>
+            <span>{badge}</span>
           </motion.div>
 
           {/* Heading (left) & Supporting description (right) */}
@@ -134,8 +164,8 @@ export const PrecisionMachining: React.FC = () => {
               className="lg:col-span-7"
             >
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#10233F] tracking-tight leading-[1.2]">
-                CNC & EDM{' '}
-                <span className="text-[#075BBB]">High-Accuracy Manufacturing</span>
+                {heading}{' '}
+                <span className="text-[#075BBB]">{highlightHeading}</span>
               </h2>
             </motion.div>
 
@@ -148,7 +178,7 @@ export const PrecisionMachining: React.FC = () => {
             >
               <div className="absolute left-0 top-1 bottom-1 w-[3px] rounded-full bg-gradient-to-b from-[#075BBB] to-[#FF792D]" />
               <p className="text-[#526176] text-sm sm:text-base font-normal leading-relaxed">
-                Precision machining processes for mould components, intricate geometries and demanding manufacturing requirements.
+                {description}
               </p>
             </motion.div>
           </div>
@@ -166,7 +196,7 @@ export const PrecisionMachining: React.FC = () => {
         >
           {/* Scrollable / wrap container without overflow */}
           <div className="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-2.5 p-1.5 rounded-xl bg-[#F6F8FC] border border-[#DFE7F1] max-w-full overflow-x-auto">
-            {PROCESS_TABS.map((tab) => {
+            {tabs.map((tab) => {
               const isActive = activeTabId === tab.id;
               return (
                 <button
