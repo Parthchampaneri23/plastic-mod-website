@@ -3,6 +3,7 @@ export interface InfrastructureSectionData {
   badge: string;
   heading: string;
   subheading?: string;
+  stepsHeading?: string;
   description: string[];
   imageSrc: string;
   imageAlt: string;

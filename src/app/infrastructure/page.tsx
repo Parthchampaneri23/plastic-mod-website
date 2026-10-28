@@ -13,7 +13,7 @@ import WarehouseLogisticsSection from '@/components/infrastructure/WarehouseLogi
 import EngineeringDesignSection from '@/components/infrastructure/EngineeringDesignSection';
 import { InfrastructureCTA } from '@/components/infrastructure/InfrastructureCTA';
 import { FAQSection } from '@/components/FAQSection';
-import { INFRASTRUCTURE_FAQS } from '@/data/faqs';
+import { getDynamicInfrastructureContent } from '@/services/infrastructureService';
 
 export const metadata: Metadata = {
   title: 'Infrastructure & Manufacturing Facilities | Patel Mould Industries',
@@ -29,7 +29,12 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function InfrastructurePage() {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // immediate dynamic reflection of admin updates
+
+export default async function InfrastructurePage() {
+  const data = await getDynamicInfrastructureContent();
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800" suppressHydrationWarning>
       {/* 1. Header Navigation */}
@@ -37,42 +42,45 @@ export default function InfrastructurePage() {
 
       <main className="flex-grow">
         {/* Section 1: Hero Banner */}
-        <InfrastructureHero />
+        <InfrastructureHero hero={data.hero} />
 
         {/* Section 2: Manufacturing Facility Overview */}
-        <FacilityOverview />
+        <FacilityOverview overview={data.facilityOverview} />
 
-        {/* Section 3: CNC Machining Section (Dedicated Precision Engineering Showcase) */}
-        <CncMachiningSection />
+        {/* Section 3: CNC Machining Section */}
+        <CncMachiningSection data={data.cnc} />
 
-        {/* Section 4: EDM Machining Section (Dedicated Editorial Industrial Showcase) */}
-        <EdmMachiningSection />
+        {/* Section 4: EDM Machining Section */}
+        <EdmMachiningSection data={data.edm} />
 
-        {/* Section 5: Mould Assembly & Fitting (Dedicated Precision Assembly Workstation) */}
-        <MouldAssemblySection />
+        {/* Section 5: Mould Assembly & Fitting */}
+        <MouldAssemblySection data={data.mouldAssembly} />
 
-        {/* Section 6: Quality Inspection (Dedicated Quality Control Dashboard) */}
-        <QualityInspectionSection />
+        {/* Section 6: Quality Inspection */}
+        <QualityInspectionSection data={data.qualityInspection} />
 
-        {/* Section 7: Testing & Validation (Dedicated Feature Band & Sequence) */}
-        <TestingValidationSection />
+        {/* Section 7: Testing & Validation */}
+        <TestingValidationSection data={data.testingValidation} />
 
-        {/* Section 8: Organized Storage & Material Handling (Dedicated Logistics Showcase & Flow) */}
-        <WarehouseLogisticsSection />
+        {/* Section 8: Organized Storage & Material Handling */}
+        <WarehouseLogisticsSection data={data.warehouseLogistics} />
 
-        {/* Section 9: Engineering Design & Planning (Dedicated Blueprint Studio Layout) */}
-        <EngineeringDesignSection />
+        {/* Section 9: Engineering Design & Planning */}
+        <EngineeringDesignSection data={data.engineeringDesign} />
 
         {/* Section 10: Infrastructure & Toolroom Facilities FAQ */}
         <FAQSection
-          faqs={INFRASTRUCTURE_FAQS}
-          badge="TOOLROOM & PLANT CAPABILITIES"
-          title="Facility & Infrastructure FAQs"
-          subtitle="Explore technical details regarding our precision CNC centers, EDM die-sinking, metrology inspection protocols, and mold trial machines."
+          faqs={data.faqs?.faqs || []}
+          badge={data.faqs?.badge || "TOOLROOM & PLANT CAPABILITIES"}
+          title={data.faqs?.title || "Facility & Infrastructure FAQs"}
+          subtitle={
+            data.faqs?.subtitle ||
+            "Explore technical details regarding our precision CNC centers, EDM die-sinking, metrology inspection protocols, and mold trial machines."
+          }
         />
 
         {/* Section 11: Manufacturing Partnership CTA */}
-        <InfrastructureCTA />
+        <InfrastructureCTA cta={data.cta} />
       </main>
 
       {/* Footer Navigation */}

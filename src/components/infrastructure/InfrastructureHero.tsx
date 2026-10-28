@@ -3,18 +3,37 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
-import { ChevronRight, ArrowDown } from 'lucide-react';
-import { INFRASTRUCTURE_HERO_DATA } from '@/data/infrastructure';
+import { motion } from 'framer-motion';
+import { ChevronRight } from 'lucide-react';
 
-export const InfrastructureHero: React.FC = () => {
+interface InfrastructureHeroProps {
+  hero?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    imageSrc?: string;
+    imageAlt?: string;
+    breadcrumbHome?: string;
+    breadcrumbCurrent?: string;
+  };
+}
+
+export const InfrastructureHero: React.FC<InfrastructureHeroProps> = ({ hero }) => {
+  const imageSrc = hero?.imageSrc || '/infrastructure/facility-hero.jpg';
+  const imageAlt =
+    hero?.imageAlt ||
+    'Patel Mould Industries Precision Manufacturing Facility and Toolroom Gujarat India';
+  const title = hero?.title || 'Built on Precision. Powered by Infrastructure.';
+  const breadcrumbHome = hero?.breadcrumbHome || 'Home';
+  const breadcrumbCurrent = hero?.breadcrumbCurrent || 'Infrastructure';
+
   return (
     <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Facility Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={INFRASTRUCTURE_HERO_DATA.imageSrc}
-          alt={INFRASTRUCTURE_HERO_DATA.imageAlt}
+          src={imageSrc}
+          alt={imageAlt}
           fill
           priority
           sizes="100vw"
@@ -30,7 +49,6 @@ export const InfrastructureHero: React.FC = () => {
       {/* 3. Left Content Block: Title (Top) + Breadcrumbs (Below) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
         <div className="max-w-xl space-y-3">
-
           {/* Main Title matching About Us / Manufacturing / Products */}
           <motion.h1
             initial={{ opacity: 0, x: -15 }}
@@ -49,14 +67,13 @@ export const InfrastructureHero: React.FC = () => {
             className="inline-flex items-center space-x-2 text-xs font-mono text-white/90 bg-[#0b1f3a]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-blue-400/30 uppercase tracking-wider shadow-sm"
           >
             <Link href="/" className="hover:text-[#ff6b00] transition-colors flex items-center gap-1 font-semibold">
-              Home
+              {breadcrumbHome}
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-blue-300 font-bold">
-              Infrastructure
+              {breadcrumbCurrent}
             </span>
           </motion.div>
-
         </div>
       </div>
     </section>

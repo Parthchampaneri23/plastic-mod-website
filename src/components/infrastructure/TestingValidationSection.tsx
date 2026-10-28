@@ -6,35 +6,23 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   TESTING_SECTION_DATA,
   VALIDATION_SEQUENCE_STAGES,
+  InfrastructureSectionData,
 } from "@/data/infrastructure";
 
-export default function TestingValidationSection() {
-  const data = TESTING_SECTION_DATA;
+interface TestingValidationSectionProps {
+  data?: InfrastructureSectionData & {
+    stages?: Array<{ step: string; title: string; description?: string }>;
+  };
+}
+
+export default function TestingValidationSection({ data: propData }: TestingValidationSectionProps) {
+  const data = propData || TESTING_SECTION_DATA;
   const shouldReduceMotion = useReducedMotion();
 
-  // Combine validation sequence stages with highlights for comprehensive testing steps
-  const testingSteps = VALIDATION_SEQUENCE_STAGES || [
-    {
-      step: "01",
-      title: "Trial Preparation",
-      description: "Prepare the mould and confirm the applicable trial requirements.",
-    },
-    {
-      step: "02",
-      title: "Functional Evaluation",
-      description: "Observe relevant mould movement and operating behavior.",
-    },
-    {
-      step: "03",
-      title: "Sample Inspection",
-      description: "Review available trial samples against agreed requirements.",
-    },
-    {
-      step: "04",
-      title: "Results & Adjustments",
-      description: "Document findings and identify any required modifications.",
-    },
-  ];
+  const testingSteps =
+    propData?.stages && propData.stages.length > 0
+      ? propData.stages
+      : VALIDATION_SEQUENCE_STAGES;
 
   return (
     <section
@@ -73,7 +61,7 @@ export default function TestingValidationSection() {
                 id="testing-validation-heading"
                 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]"
               >
-                Testing &amp; <span className="text-[#0056b3]">Validation</span>
+                {data.heading || "Testing & Validation"}
               </h2>
             </motion.div>
 
@@ -92,7 +80,7 @@ export default function TestingValidationSection() {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {data.description[0]}
+                {data.description?.[0] || ""}
               </p>
             </motion.div>
 
@@ -104,8 +92,8 @@ export default function TestingValidationSection() {
         {/* ======================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
-          {/* Left Column: Testing Showcase Image (5 cols) */}
-          <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-start justify-center">
+          {/* Left Column: Image Card */}
+          <div className="lg:col-span-5 w-full flex flex-col justify-center">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -115,8 +103,8 @@ export default function TestingValidationSection() {
             >
               <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
-                  src={data.imageSrc}
-                  alt={data.imageAlt}
+                  src={data.imageSrc || "/infrastructure/testing-trials.jpg"}
+                  alt={data.imageAlt || "Testing & Validation"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
@@ -132,14 +120,14 @@ export default function TestingValidationSection() {
             <div className="flex items-center gap-2.5 pb-1">
               <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
               <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                Trial &amp; Testing Validation Steps
+                {data.stepsHeading || "Trial & Testing Validation Steps"}
               </h3>
             </div>
 
             <div className="space-y-3 w-full">
               {testingSteps.map((stage, idx) => (
                 <motion.div
-                  key={stage.step}
+                  key={stage.step || idx}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -156,7 +144,7 @@ export default function TestingValidationSection() {
                   {/* Step Number Badge */}
                   <div className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/80 text-[#0056b3] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] group-hover:shadow-sm group-hover:shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
                     <span className="text-xs font-mono font-bold tracking-tight">
-                      {stage.step}
+                      {stage.step || `0${idx + 1}`}
                     </span>
                   </div>
 

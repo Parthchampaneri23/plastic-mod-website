@@ -5,10 +5,15 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   WAREHOUSE_SECTION_DATA,
+  InfrastructureSectionData,
 } from "@/data/infrastructure";
 
-export default function WarehouseLogisticsSection() {
-  const data = WAREHOUSE_SECTION_DATA;
+interface WarehouseLogisticsSectionProps {
+  data?: InfrastructureSectionData;
+}
+
+export default function WarehouseLogisticsSection({ data: propData }: WarehouseLogisticsSectionProps) {
+  const data = propData || WAREHOUSE_SECTION_DATA;
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -48,7 +53,7 @@ export default function WarehouseLogisticsSection() {
                 id="warehouse-storage-heading"
                 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]"
               >
-                Organized Storage &amp; <span className="text-[#0056b3]">Material Handling</span>
+                {data.heading || "Organized Storage & Material Handling"}
               </h2>
             </motion.div>
 
@@ -67,7 +72,7 @@ export default function WarehouseLogisticsSection() {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {data.description[0]}
+                {data.description?.[0] || ""}
               </p>
             </motion.div>
 
@@ -79,8 +84,8 @@ export default function WarehouseLogisticsSection() {
         {/* ======================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
-          {/* Left Column: Warehouse Photograph (5 cols) */}
-          <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-start justify-center">
+          {/* Left Column: Storage Image Frame */}
+          <div className="lg:col-span-5 w-full flex flex-col justify-center">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -90,8 +95,8 @@ export default function WarehouseLogisticsSection() {
             >
               <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
-                  src={data.imageSrc}
-                  alt={data.imageAlt}
+                  src={data.imageSrc || "/infrastructure/warehouse-storage.jpg"}
+                  alt={data.imageAlt || "Warehouse Storage"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
@@ -101,20 +106,21 @@ export default function WarehouseLogisticsSection() {
             </motion.div>
           </div>
 
-          {/* Right Column: 4 Storage & Handling Step Cards (7 cols) with generous breathing room */}
+          {/* Right Column: Step Cards */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-4 lg:pl-2">
             {/* Process Steps Heading */}
             <div className="flex items-center gap-2.5 pb-1">
               <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
               <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                Storage &amp; Dispatch Handling Steps
+                {data.stepsHeading || "Logistics & Material Protection Steps"}
               </h3>
             </div>
 
+            {/* Capability Cards */}
             <div className="space-y-3 w-full">
-              {data.highlights.map((item, idx) => (
+              {(data.highlights || []).map((item, idx) => (
                 <motion.div
-                  key={item.title}
+                  key={item.title || idx}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}

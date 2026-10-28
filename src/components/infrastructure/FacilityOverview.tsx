@@ -11,6 +11,17 @@ interface FacilityCapability {
   description: string;
 }
 
+interface FacilityOverviewProps {
+  overview?: {
+    badge?: string;
+    heading?: string;
+    description?: string;
+    imageSrc?: string;
+    imageAlt?: string;
+    capabilities?: FacilityCapability[];
+  };
+}
+
 const capabilityIcons = [
   <Layers key="0" className="w-4 h-4 text-[#0056b3]" />,
   <Factory key="1" className="w-4 h-4 text-[#ff6b00]" />,
@@ -18,8 +29,15 @@ const capabilityIcons = [
   <ShieldCheck key="3" className="w-4 h-4 text-[#0056b3]" />,
 ];
 
-export const FacilityOverview: React.FC = () => {
+export const FacilityOverview: React.FC<FacilityOverviewProps> = ({ overview }) => {
   const shouldReduceMotion = useReducedMotion();
+
+  const badge = overview?.badge || FACILITY_OVERVIEW_DATA.badge;
+  const heading = overview?.heading || FACILITY_OVERVIEW_DATA.heading;
+  const description = overview?.description || FACILITY_OVERVIEW_DATA.description;
+  const imageSrc = overview?.imageSrc || FACILITY_OVERVIEW_DATA.imageSrc;
+  const imageAlt = overview?.imageAlt || FACILITY_OVERVIEW_DATA.imageAlt;
+  const capabilities = overview?.capabilities || FACILITY_OVERVIEW_DATA.capabilities;
 
   return (
     <section
@@ -49,13 +67,12 @@ export const FacilityOverview: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6b00]"></span>
                 </span>
-                <span>{FACILITY_OVERVIEW_DATA.badge}</span>
+                <span>{badge}</span>
               </div>
 
               {/* Heading */}
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]">
-                A Facility Designed for <br className="hidden sm:inline" />
-                <span className="text-[#0056b3]">Precision Tooling.</span>
+                {heading}
               </h2>
             </motion.div>
 
@@ -74,7 +91,7 @@ export const FacilityOverview: React.FC = () => {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {FACILITY_OVERVIEW_DATA.description}
+                {description}
               </p>
             </motion.div>
 
@@ -92,8 +109,8 @@ export const FacilityOverview: React.FC = () => {
           className="relative w-full h-[220px] sm:h-[280px] md:h-[310px] lg:h-[320px] rounded-lg overflow-hidden border border-slate-200/90 shadow-sm mb-7 sm:mb-8 bg-slate-900"
         >
           <Image
-            src={FACILITY_OVERVIEW_DATA.imageSrc}
-            alt={FACILITY_OVERVIEW_DATA.imageAlt}
+            src={imageSrc}
+            alt={imageAlt}
             fill
             sizes="(max-width: 1200px) 100vw, 1160px"
             priority={false}
@@ -105,9 +122,9 @@ export const FacilityOverview: React.FC = () => {
         {/* 3. FOUR COMPACT INFORMATION PANELS WITH PREMIUM HOVER     */}
         {/* ======================================================== */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
-          {FACILITY_OVERVIEW_DATA.capabilities.map((cap: FacilityCapability, idx: number) => (
+          {capabilities.map((cap: FacilityCapability, idx: number) => (
             <motion.div
-              key={cap.title}
+              key={cap.title || idx}
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -138,12 +155,12 @@ export const FacilityOverview: React.FC = () => {
               </div>
 
               {/* Card Title with brand blue highlight */}
-              <h3 className="relative text-[14.5px] font-semibold text-slate-900 mb-1.5 group-hover:text-[#0056b3] transition-colors duration-200 leading-snug">
+              <h3 className="text-sm font-semibold text-slate-900 group-hover:text-[#0056b3] transition-colors duration-200 leading-snug mb-1.5">
                 {cap.title}
               </h3>
 
               {/* Card Description */}
-              <p className="relative text-[12px] sm:text-[12.5px] text-slate-600 leading-relaxed font-normal group-hover:text-slate-700 transition-colors duration-200">
+              <p className="text-xs text-slate-500 group-hover:text-slate-600 transition-colors duration-200 leading-relaxed font-normal">
                 {cap.description}
               </p>
             </motion.div>

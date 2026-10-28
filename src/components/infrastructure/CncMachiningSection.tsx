@@ -3,8 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { CheckCircle2, ChevronRight, Cpu, Layers, Disc, Crosshair } from 'lucide-react';
-import { CNC_SECTION_DATA } from '@/data/infrastructure';
+import { Layers, Disc, Crosshair } from 'lucide-react';
+import { CNC_SECTION_DATA, InfrastructureSectionData } from '@/data/infrastructure';
 
 const capabilityIcons = [
   <Crosshair key="0" className="w-4 h-4 text-inherit" />,
@@ -12,8 +12,13 @@ const capabilityIcons = [
   <Disc key="2" className="w-4 h-4 text-inherit" />,
 ];
 
-export const CncMachiningSection: React.FC = () => {
+interface CncMachiningSectionProps {
+  data?: InfrastructureSectionData;
+}
+
+export const CncMachiningSection: React.FC<CncMachiningSectionProps> = ({ data: propData }) => {
   const shouldReduceMotion = useReducedMotion();
+  const data = propData || CNC_SECTION_DATA;
 
   return (
     <section
@@ -43,12 +48,12 @@ export const CncMachiningSection: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6b00]"></span>
                 </span>
-                <span>{CNC_SECTION_DATA.badge}</span>
+                <span>{data.badge || 'MACHINING FACILITY'}</span>
               </div>
 
               {/* Heading */}
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]">
-                CNC <span className="text-[#0056b3]">Machining</span>
+                {data.heading || 'CNC Machining'}
               </h2>
             </motion.div>
 
@@ -67,7 +72,7 @@ export const CncMachiningSection: React.FC = () => {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {CNC_SECTION_DATA.description[0]}
+                {data.description?.[0] || ''}
               </p>
             </motion.div>
 
@@ -90,8 +95,8 @@ export const CncMachiningSection: React.FC = () => {
             >
               <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
-                  src={CNC_SECTION_DATA.imageSrc}
-                  alt={CNC_SECTION_DATA.imageAlt}
+                  src={data.imageSrc || '/infrastructure/cnc-machining.jpg'}
+                  alt={data.imageAlt || 'CNC Machining Center'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
@@ -108,15 +113,15 @@ export const CncMachiningSection: React.FC = () => {
             <div className="flex items-center gap-2.5 pb-1">
               <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
               <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                CNC Machining Execution Steps
+                {data.stepsHeading || "CNC Machining Execution Steps"}
               </h3>
             </div>
 
             {/* Compact Vertical Capability List / Cards */}
             <div className="space-y-3 w-full">
-              {CNC_SECTION_DATA.highlights.map((item, idx) => (
+              {(data.highlights || []).map((item, idx) => (
                 <motion.div
-                  key={item.title}
+                  key={item.title || idx}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}

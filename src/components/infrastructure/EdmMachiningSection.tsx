@@ -3,10 +3,15 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { EDM_SECTION_DATA } from '@/data/infrastructure';
+import { EDM_SECTION_DATA, InfrastructureSectionData } from '@/data/infrastructure';
 
-export const EdmMachiningSection: React.FC = () => {
+interface EdmMachiningSectionProps {
+  data?: InfrastructureSectionData;
+}
+
+export const EdmMachiningSection: React.FC<EdmMachiningSectionProps> = ({ data: propData }) => {
   const shouldReduceMotion = useReducedMotion();
+  const data = propData || EDM_SECTION_DATA;
 
   return (
     <section
@@ -36,12 +41,12 @@ export const EdmMachiningSection: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6b00]"></span>
                 </span>
-                <span>{EDM_SECTION_DATA.badge}</span>
+                <span>{data.badge || 'SPARK EROSION FACILITY'}</span>
               </div>
 
               {/* Heading */}
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]">
-                EDM <span className="text-[#0056b3]">Machining</span>
+                {data.heading || 'EDM Machining'}
               </h2>
             </motion.div>
 
@@ -60,7 +65,7 @@ export const EdmMachiningSection: React.FC = () => {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {EDM_SECTION_DATA.description[0]}
+                {data.description?.[0] || ''}
               </p>
             </motion.div>
 
@@ -83,8 +88,8 @@ export const EdmMachiningSection: React.FC = () => {
             >
               <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
-                  src={EDM_SECTION_DATA.imageSrc}
-                  alt={EDM_SECTION_DATA.imageAlt}
+                  src={data.imageSrc || '/infrastructure/edm-machining.jpg'}
+                  alt={data.imageAlt || 'EDM Machining'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
@@ -94,22 +99,22 @@ export const EdmMachiningSection: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* RIGHT SIDE: Supporting Copy & Numbered Capability Cards with generous breathing room */}
+          {/* RIGHT SIDE: Supporting Copy & Numbered Capability Cards */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-4 lg:pl-2">
 
             {/* Process Steps Heading */}
             <div className="flex items-center gap-2.5 pb-1">
               <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
               <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                EDM Spark Erosion Steps
+                {data.stepsHeading || "EDM Spark Erosion Steps"}
               </h3>
             </div>
 
-            {/* Numbered Capability Cards with Premium Hover & Animations */}
+            {/* Numbered Capability Cards */}
             <div className="space-y-3 w-full">
-              {EDM_SECTION_DATA.highlights.map((item, idx) => (
+              {(data.highlights || []).map((item, idx) => (
                 <motion.div
-                  key={item.title}
+                  key={item.title || idx}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -126,7 +131,7 @@ export const EdmMachiningSection: React.FC = () => {
                   {/* Restrained Blue Number Column / Badge */}
                   <div className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/80 text-[#0056b3] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] group-hover:shadow-sm group-hover:shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
                     <span className="text-xs font-mono font-bold tracking-tight">
-                      {item.label}
+                      {item.label || `0${idx + 1}`}
                     </span>
                   </div>
 

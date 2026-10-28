@@ -3,11 +3,15 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { CheckCircle2, ChevronRight, Wrench } from 'lucide-react';
-import { ASSEMBLY_SECTION_DATA, ASSEMBLY_TIMELINE_STEPS } from '@/data/infrastructure';
+import { ASSEMBLY_SECTION_DATA, InfrastructureSectionData } from '@/data/infrastructure';
 
-export const MouldAssemblySection: React.FC = () => {
+interface MouldAssemblySectionProps {
+  data?: InfrastructureSectionData;
+}
+
+export const MouldAssemblySection: React.FC<MouldAssemblySectionProps> = ({ data: propData }) => {
   const shouldReduceMotion = useReducedMotion();
+  const data = propData || ASSEMBLY_SECTION_DATA;
 
   return (
     <section
@@ -37,12 +41,12 @@ export const MouldAssemblySection: React.FC = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6b00]"></span>
                 </span>
-                <span>{ASSEMBLY_SECTION_DATA.badge}</span>
+                <span>{data.badge || 'TOOLROOM FITTING'}</span>
               </div>
 
               {/* Heading */}
               <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold text-slate-900 tracking-tight leading-[1.18]">
-                Mould Assembly &amp; <span className="text-[#0056b3]">Fitting</span>
+                {data.heading || 'Mould Assembly & Fitting'}
               </h2>
             </motion.div>
 
@@ -61,7 +65,7 @@ export const MouldAssemblySection: React.FC = () => {
               />
 
               <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-normal">
-                {ASSEMBLY_SECTION_DATA.description[0]}
+                {data.description?.[0] || ''}
               </p>
             </motion.div>
 
@@ -73,8 +77,8 @@ export const MouldAssemblySection: React.FC = () => {
         {/* ======================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
 
-          {/* Left: Assembly Image (5 cols) */}
-          <div className="lg:col-span-5 w-full flex flex-col items-center lg:items-start justify-center">
+          {/* LEFT SIDE: Mould Assembly Image Frame */}
+          <div className="lg:col-span-5 w-full flex flex-col justify-center">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -84,8 +88,8 @@ export const MouldAssemblySection: React.FC = () => {
             >
               <div className="relative w-full aspect-[4/4.3] max-h-[440px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group-hover:border-slate-300 transition-colors duration-300">
                 <Image
-                  src={ASSEMBLY_SECTION_DATA.imageSrc}
-                  alt={ASSEMBLY_SECTION_DATA.imageAlt}
+                  src={data.imageSrc || '/infrastructure/mold-assembly.jpg'}
+                  alt={data.imageAlt || 'Mould Assembly'}
                   fill
                   sizes="(max-width: 1024px) 100vw, 420px"
                   priority={false}
@@ -95,22 +99,22 @@ export const MouldAssemblySection: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right: Supporting Copy & 4 Focus Steps (7 cols) with generous breathing room */}
+          {/* RIGHT SIDE: Supporting Copy & Step Cards */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-4 lg:pl-2">
 
             {/* Process Steps Heading */}
             <div className="flex items-center gap-2.5 pb-1">
               <span className="w-2 h-2 rounded-full bg-[#ff6b00]" />
               <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                Mould Fitting & Assembly Steps
+                {data.stepsHeading || "Mould Fitting & Assembly Steps"}
               </h3>
             </div>
 
-            {/* 4 Focus Step Cards with Interactive Hover */}
+            {/* 4 Focus Step Cards */}
             <div className="space-y-3 w-full">
-              {ASSEMBLY_SECTION_DATA.highlights.map((item, idx) => (
+              {(data.highlights || []).map((item, idx) => (
                 <motion.div
-                  key={item.title}
+                  key={item.title || idx}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
@@ -127,7 +131,7 @@ export const MouldAssemblySection: React.FC = () => {
                   {/* Step Number Badge */}
                   <div className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/80 text-[#0056b3] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] group-hover:shadow-sm group-hover:shadow-blue-500/20 group-hover:scale-105 transition-all duration-300">
                     <span className="text-xs font-mono font-bold tracking-tight">
-                      {item.label}
+                      {item.label || `0${idx + 1}`}
                     </span>
                   </div>
 
