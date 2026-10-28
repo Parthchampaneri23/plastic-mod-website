@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import ProductHero from '@/components/products/ProductHero';
 import ProductSearch from '@/components/products/ProductSearch';
 import ProductGrid from '@/components/products/ProductGrid';
-import { PRODUCTS } from '@/data/products';
+import { PRODUCTS as DEFAULT_PRODUCTS } from '@/data/products';
+import { getDynamicProductsContent } from '@/services/productService';
 
 function ProductsContent() {
   const searchParams = useSearchParams();
@@ -15,6 +16,26 @@ function ProductsContent() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
+  const [products, setProducts] = useState<any[]>(DEFAULT_PRODUCTS);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  // Fetch dynamic products from admin API
+  useEffect(() => {
+    let isMounted = true;
+    getDynamicProductsContent().then((res) => {
+      if (isMounted && res) {
+        if (res.products && res.products.length > 0) {
+          setProducts(res.products);
+        }
+        if (res.categories && res.categories.length > 0) {
+          setCategories(res.categories);
+        }
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Sync category param if query changes
   React.useEffect(() => {
@@ -24,7 +45,7 @@ function ProductsContent() {
   }, [categoryParam]);
 
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       // Category Filter
       if (selectedCategory && product.categorySlug !== selectedCategory) {
         return false;
@@ -33,12 +54,15 @@ function ProductsContent() {
       // Search Term Filter
       if (searchTerm.trim() !== '') {
         const query = searchTerm.toLowerCase().trim();
-        const matchName = product.name.toLowerCase().includes(query);
-        const matchCategory = product.category.toLowerCase().includes(query);
-        const matchApp = product.application.toLowerCase().includes(query);
-        const matchKeywords = product.keywords.some((k) => k.toLowerCase().includes(query));
-        const matchSpecs = product.specifications.some(
-          (s) => s.label.toLowerCase().includes(query) || s.value.toLowerCase().includes(query)
+        const matchName = product.name?.toLowerCase().includes(query);
+        const matchCategory = product.category?.toLowerCase().includes(query);
+        const matchApp = product.application?.toLowerCase().includes(query);
+        const matchKeywords = (product.keywords || []).some((k: string) =>
+          k.toLowerCase().includes(query)
+        );
+        const matchSpecs = (product.specifications || []).some(
+          (s: any) =>
+            s.label?.toLowerCase().includes(query) || s.value?.toLowerCase().includes(query)
         );
 
         return matchName || matchCategory || matchApp || matchKeywords || matchSpecs;
@@ -46,7 +70,7 @@ function ProductsContent() {
 
       return true;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [products, searchTerm, selectedCategory]);
 
   const handleClearFilters = () => {
     setSearchTerm('');
@@ -66,6 +90,7 @@ function ProductsContent() {
           setSearchTerm={setSearchTerm}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          categories={categories}
         />
 
         {/* Main Catalog Section */}

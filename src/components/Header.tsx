@@ -16,7 +16,8 @@ import {
   Box
 } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '@/data/content';
-import { PRODUCTS } from '@/data/products';
+import { PRODUCTS as DEFAULT_PRODUCTS } from '@/data/products';
+import { getDynamicProductsContent } from '@/services/productService';
 import { Button } from './Button';
 
 export interface HeaderProps {
@@ -39,6 +40,29 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [productsList, setProductsList] = useState<any[]>(DEFAULT_PRODUCTS);
+  const [categoriesList, setCategoriesList] = useState<any[]>([
+    { id: 'preform-jar', slug: 'preform-jar', name: 'Preform & Jar Moulds' },
+    { id: 'isbm', slug: 'isbm', name: 'ISBM Moulds' },
+    { id: 'ebm', slug: 'ebm', name: 'EBM Moulds' },
+  ]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getDynamicProductsContent().then((res) => {
+      if (isMounted && res) {
+        if (res.products && res.products.length > 0) {
+          setProductsList(res.products);
+        }
+        if (res.categories && res.categories.length > 0) {
+          setCategoriesList(res.categories);
+        }
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Defaults
   const phone = topBar?.phone || "91+ 7784758347";
@@ -133,85 +157,43 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
                 {/* Mega Menu Dropdown Panel */}
                 {dropdownOpen && (
                   <div className="absolute top-full -left-20 w-[780px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 mt-1 animate-in fade-in duration-200 z-50">
-                    {/* 3-Column Layout */}
-                    <div className="grid grid-cols-3 gap-6">
-                      {/* Preform & Jar Moulds */}
-                      <div>
-                        <Link
-                          href="/products?category=preform-jar"
-                          className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
-                          onClick={() => setDropdownOpen(false)}
-                        >
-                          <span>Preform & Jar Moulds</span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <div className="space-y-1.5">
-                          {PRODUCTS.filter((p) => p.categorySlug === 'preform-jar').map((p) => (
-                            <Link
-                              key={p.slug}
-                              href={`/products/${p.slug}`}
-                              className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
-                              onClick={() => setDropdownOpen(false)}
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
-                              <span>{p.name}</span>
-                              <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
+                    {/* Dynamic Categories Columns */}
+                    <div className={`grid grid-cols-${Math.min(categoriesList.length, 3)} gap-6`}>
+                      {categoriesList.map((cat) => {
+                        const catProducts = productsList.filter(
+                          (p) => p.categorySlug === cat.slug || p.category === cat.name
+                        );
 
-                      {/* ISBM Moulds */}
-                      <div>
-                        <Link
-                          href="/products?category=isbm"
-                          className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
-                          onClick={() => setDropdownOpen(false)}
-                        >
-                          <span>ISBM Moulds</span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <div className="space-y-1.5">
-                          {PRODUCTS.filter((p) => p.categorySlug === 'isbm').map((p) => (
+                        return (
+                          <div key={cat.id || cat.slug}>
                             <Link
-                              key={p.slug}
-                              href={`/products/${p.slug}`}
-                              className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
+                              href={`/products?category=${cat.slug}`}
+                              className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
                               onClick={() => setDropdownOpen(false)}
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
-                              <span>{p.name}</span>
-                              <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
+                              <span>{cat.name}</span>
+                              <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* EBM Moulds */}
-                      <div>
-                        <Link
-                          href="/products?category=ebm"
-                          className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
-                          onClick={() => setDropdownOpen(false)}
-                        >
-                          <span>EBM Moulds</span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <div className="space-y-1.5">
-                          {PRODUCTS.filter((p) => p.categorySlug === 'ebm').map((p) => (
-                            <Link
-                              key={p.slug}
-                              href={`/products/${p.slug}`}
-                              className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
-                              onClick={() => setDropdownOpen(false)}
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
-                              <span>{p.name}</span>
-                              <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
+                            <div className="space-y-1.5">
+                              {catProducts.map((p) => (
+                                <Link
+                                  key={p.slug}
+                                  href={`/products/${p.slug}`}
+                                  className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
+                                  onClick={() => setDropdownOpen(false)}
+                                >
+                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
+                                  <span>{p.name}</span>
+                                  <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
+                                </Link>
+                              ))}
+                              {catProducts.length === 0 && (
+                                <span className="text-xs text-slate-400 italic">No products listed</span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
 
                     {/* Footer Action */}
@@ -290,67 +272,33 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
               </Link>
 
               {/* Preform & Jar */}
-              <div className="space-y-1 pl-2">
-                <Link
-                  href="/products?category=preform-jar"
-                  className="block text-xs font-bold text-slate-900 hover:text-blue-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Preform & Jar Moulds
-                </Link>
-                {PRODUCTS.filter((p) => p.categorySlug === 'preform-jar').map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/products/${p.slug}`}
-                    className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    • {p.name}
-                  </Link>
-                ))}
-              </div>
+              {categoriesList.map((cat) => {
+                const catProducts = productsList.filter(
+                  (p) => p.categorySlug === cat.slug || p.category === cat.name
+                );
 
-              {/* ISBM */}
-              <div className="space-y-1 pl-2">
-                <Link
-                  href="/products?category=isbm"
-                  className="block text-xs font-bold text-slate-900 hover:text-blue-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  ISBM Moulds
-                </Link>
-                {PRODUCTS.filter((p) => p.categorySlug === 'isbm').map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/products/${p.slug}`}
-                    className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    • {p.name}
-                  </Link>
-                ))}
-              </div>
-
-              {/* EBM */}
-              <div className="space-y-1 pl-2">
-                <Link
-                  href="/products?category=ebm"
-                  className="block text-xs font-bold text-slate-900 hover:text-blue-600"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  EBM Moulds
-                </Link>
-                {PRODUCTS.filter((p) => p.categorySlug === 'ebm').map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/products/${p.slug}`}
-                    className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    • {p.name}
-                  </Link>
-                ))}
-              </div>
+                return (
+                  <div key={cat.id || cat.slug} className="space-y-1 pl-2">
+                    <Link
+                      href={`/products?category=${cat.slug}`}
+                      className="block text-xs font-bold text-slate-900 hover:text-blue-600"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {cat.name}
+                    </Link>
+                    {catProducts.map((p) => (
+                      <Link
+                        key={p.slug}
+                        href={`/products/${p.slug}`}
+                        className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        • {p.name}
+                      </Link>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
 
             <Link

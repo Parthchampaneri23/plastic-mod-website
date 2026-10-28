@@ -1,13 +1,12 @@
-'use client';
-
 import React from 'react';
-import { CATEGORIES } from '@/data/products';
+import { CATEGORIES as DEFAULT_CATEGORIES } from '@/data/products';
 
 interface ProductSearchProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   selectedCategory: string;
   setSelectedCategory: (cat: string) => void;
+  categories?: Array<{ id: string; label: string; slug: string }>;
 }
 
 export default function ProductSearch({
@@ -15,7 +14,11 @@ export default function ProductSearch({
   setSearchTerm,
   selectedCategory,
   setSelectedCategory,
+  categories,
 }: ProductSearchProps) {
+  const categoryList = categories && categories.length > 0
+    ? [{ id: 'all', label: 'ALL PRODUCTS', slug: '' }, ...categories]
+    : DEFAULT_CATEGORIES;
   return (
     <section className="bg-slate-50 border-b border-slate-200 py-13">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -73,7 +76,7 @@ export default function ProductSearch({
         {/* Category Filter Tabs */}
         <div id="catalog" className="flex justify-center scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
           <div id="search" className="inline-flex flex-wrap justify-center p-1.5 bg-white rounded-xl border border-slate-200 shadow-sm gap-1">
-            {CATEGORIES.map((cat) => {
+            {categoryList.map((cat) => {
               const isActive = selectedCategory === cat.slug;
               return (
                 <button

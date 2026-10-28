@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -11,7 +12,8 @@ import ProductDetailScrollHandler from '@/components/product-detail/ProductDetai
 import RelatedProducts from '@/components/product-detail/RelatedProducts';
 import { FAQSection } from '@/components/FAQSection';
 import { PRODUCT_FAQS } from '@/data/faqs';
-import { PRODUCTS } from '@/data/products';
+import { PRODUCTS as DEFAULT_PRODUCTS } from '@/data/products';
+import { getDynamicProductBySlug, getDynamicProductsContent } from '@/services/productService';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -20,29 +22,80 @@ interface ProductDetailPageProps {
 }
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  try {
+    const data = await getDynamicProductsContent();
+    if (data.products && data.products.length > 0) {
+      return data.products.map((p) => ({ slug: p.slug }));
+    }
+  } catch {
+    // Fallback below
+  }
+  return DEFAULT_PRODUCTS.map((product) => ({
     slug: product.slug,
   }));
 }
 
+export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const { product } = await getDynamicProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: 'Product Not Found | Patel Mould Industries',
+    };
+  }
+
+  const seo = (product as any).seo || {};
+  const metaTitle = seo.metaTitle || `${product.name} | Patel Mould Industries`;
+  const metaDescription = seo.metaDescription || product.shortDescription;
+  const metaKeywords = seo.metaKeywords || product.keywords?.join(', ');
+  const canonicalUrl = seo.canonicalUrl || `https://www.patelmould.com/products/${product.slug}`;
+
+  return {
+    title: metaTitle,
+    description: metaDescription,
+    keywords: metaKeywords,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      url: canonicalUrl,
+      images: [
+        {
+          url: product.image,
+          width: 800,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+      type: 'website',
+    },
+  };
+}
+
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const resolvedParams = await params;
-  const product = PRODUCTS.find((p) => p.slug === resolvedParams.slug);
+  const { product, allProducts } = await getDynamicProductBySlug(resolvedParams.slug);
 
   if (!product) {
     notFound();
   }
 
-  // Get 3 related products from the same category (or other categories if needed)
-  const relatedProducts = PRODUCTS.filter(
-    (p) => p.categorySlug === product.categorySlug && p.slug !== product.slug
+  // Get 3 related products from the same category
+  const relatedProducts = allProducts.filter(
+    (p: any) => p.categorySlug === product.categorySlug && p.slug !== product.slug
   ).slice(0, 3);
 
   // Fallback related products if less than 3
   if (relatedProducts.length < 3) {
-    const extra = PRODUCTS.filter((p) => p.slug !== product.slug && !relatedProducts.includes(p)).slice(0, 3 - relatedProducts.length);
+    const extra = allProducts.filter((p: any) => p.slug !== product.slug && !relatedProducts.includes(p)).slice(0, 3 - relatedProducts.length);
     relatedProducts.push(...extra);
   }
+
+  const seo = (product as any).seo || {};
+  const schemaJson = seo.schemaJson;
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans" suppressHydrationWarning>
@@ -115,10 +168,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             {/* Direct Product Inquiry Form Section */}
             <ProductInquiryForm product={product} />
 
-            {/* Product-Specific FAQ Section (5 Curated FAQs) */}
-            {PRODUCT_FAQS[product.slug] && (
+            {/* Product-Specific FAQ Section (Dynamic from Admin, with static fallback) */}
+            {((product as any).faqs?.length > 0 || PRODUCT_FAQS[product.slug]) && (
               <FAQSection
-                faqs={PRODUCT_FAQS[product.slug]}
+                faqs={(product as any).faqs?.length > 0 ? (product as any).faqs : PRODUCT_FAQS[product.slug]}
                 title={`${product.name} — Technical FAQs`}
                 subtitle={`Frequently asked technical questions regarding cavitation, tool steels, cycle times, tolerances, and machine compatibility for ${product.name}.`}
                 badge="TOOLING SPECIFICATION FAQS"
@@ -131,6 +184,14 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
         </section>
       </main>
+
+      {/* JSON-LD Schema.org Structured Data */}
+      {schemaJson && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: schemaJson }}
+        />
+      )}
 
       <Footer />
     </div>

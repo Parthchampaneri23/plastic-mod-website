@@ -4,17 +4,26 @@ import React from 'react';
 import { Product } from '@/data/products';
 
 interface ProductTechSpecsTableProps {
-  techSpecs: Product['techSpecs'];
+  techSpecs: Product['techSpecs'] & {
+    customSpecs?: Array<{ label: string; value: string }>;
+  };
 }
 
 export default function ProductTechSpecsTable({ techSpecs }: ProductTechSpecsTableProps) {
-  const rows = [
+  const standardRows = [
     { label: 'Mold Type', value: techSpecs.moldType },
     { label: 'Cavity Details', value: techSpecs.cavityDetails },
     { label: 'Material & Hardness', value: techSpecs.material },
     { label: 'Machine Compatibility', value: techSpecs.machineCompatibility },
     { label: 'Application Industry', value: techSpecs.application },
   ];
+
+  const customRows = (techSpecs.customSpecs || []).map((cs) => ({
+    label: cs.label,
+    value: cs.value,
+  }));
+
+  const rows = [...standardRows, ...customRows];
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
