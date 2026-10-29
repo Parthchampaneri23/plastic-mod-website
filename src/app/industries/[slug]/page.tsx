@@ -3,15 +3,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronRight, ArrowLeft, CheckCircle2, ArrowRight, ShieldCheck, HelpCircle } from "lucide-react";
+import { ChevronRight, ArrowLeft, CheckCircle2, ArrowRight, HelpCircle } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { INDUSTRIES_DATA, IndustryItem } from "@/data/industries";
 import { PRODUCTS } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import { Button } from "@/components/Button";
 import { FAQSection } from "@/components/FAQSection";
-import { INDUSTRY_FAQS } from "@/data/faqs";
+import {
+  getDynamicIndustryBySlug,
+  getDynamicIndustriesContent,
+} from "@/services/industriesService";
 
 interface IndustryPageProps {
   params: Promise<{
@@ -20,14 +22,29 @@ interface IndustryPageProps {
 }
 
 export async function generateStaticParams() {
-  return INDUSTRIES_DATA.map((ind) => ({
-    slug: ind.slug,
-  }));
+  try {
+    const data = await getDynamicIndustriesContent();
+    if (data.industries && data.industries.length > 0) {
+      return data.industries.map((ind) => ({ slug: ind.slug }));
+    }
+  } catch {
+    // Fallback
+  }
+  return [
+    { slug: "food-beverage" },
+    { slug: "pharmaceutical" },
+    { slug: "personal-care" },
+    { slug: "packaging" },
+    { slug: "plastic-containers" },
+    { slug: "chemical-packaging" },
+    { slug: "household-products" },
+    { slug: "other-industrial-applications" },
+  ];
 }
 
 export async function generateMetadata({ params }: IndustryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const industry = INDUSTRIES_DATA.find((item) => item.slug === slug);
+  const { industry } = await getDynamicIndustryBySlug(slug);
 
   if (!industry) {
     return {
@@ -48,15 +65,16 @@ export async function generateMetadata({ params }: IndustryPageProps): Promise<M
 
 export default async function IndustryDetailPage({ params }: IndustryPageProps) {
   const { slug } = await params;
-  const industry = INDUSTRIES_DATA.find((item) => item.slug === slug);
+  const { industry } = await getDynamicIndustryBySlug(slug);
 
   if (!industry) {
     notFound();
   }
 
   // Find related products matching the industry's relatedProductSlugs
+  const relatedProductSlugs = industry.relatedProductSlugs || [];
   const relatedProducts = PRODUCTS.filter((prod) =>
-    industry.relatedProductSlugs.includes(prod.slug)
+    relatedProductSlugs.includes(prod.slug)
   );
 
   return (
@@ -100,7 +118,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
               {/* 2. Main Industry Title with Website Heading Gradient Accent */}
               {(() => {
-                const words = industry.name.split(" ");
+                const words = (industry.name || "").split(" ");
                 const firstPart = words.slice(0, -1).join(" ");
                 const lastPart = words[words.length - 1];
 
@@ -148,14 +166,14 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                 </h2>
 
                 <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-                  {industry.overviewParagraphs.map((paragraph, idx) => (
+                  {(industry.overviewParagraphs || []).map((paragraph, idx) => (
                     <p key={idx} className="font-normal">
                       {paragraph}
                     </p>
                   ))}
                 </div>
 
-                {/* Subtle reassurance quote */}
+                {/* Reassurance quote */}
                 <div className="p-4 sm:p-5 rounded-xl bg-slate-50 border-l-4 border-[#0056b3] text-xs sm:text-sm text-slate-700 italic">
                   &ldquo;Every mould designed for the {industry.name.toLowerCase()} sector undergoes finite element flow analysis, cavity balance verification, and continuous cycle testing prior to dispatch.&rdquo;
                 </div>
@@ -163,24 +181,20 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
               {/* Right Column: Key Critical Requirements Grid (5 Cols) */}
               <div className="lg:col-span-5 bg-gradient-to-b from-slate-50 to-slate-100/60 rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-sm">
-                {/* Refined Header */}
                 <div className="pb-4 mb-4 border-b border-slate-200/80">
                   <h3 className="text-lg sm:text-xl font-semibold text-slate-900 tracking-tight leading-snug">
                     Key Manufacturing Requirements
                   </h3>
                 </div>
 
-                {/* Requirements List styled like CncMachiningSection */}
                 <div className="space-y-3">
-                  {industry.keyRequirements.map((req, i) => (
+                  {(industry.keyRequirements || []).map((req, i) => (
                     <div
                       key={i}
                       className="group relative p-3.5 sm:p-4 rounded-xl border border-slate-200/80 bg-white hover:bg-gradient-to-r hover:from-blue-50/40 hover:to-white hover:border-[#0056b3]/40 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex items-start gap-3.5 cursor-default overflow-hidden"
                     >
-                      {/* Left accent gradient on hover */}
                       <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#0056b3] to-[#ff6b00] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                      {/* Icon Badge */}
                       <div className="w-8 h-8 rounded-lg bg-blue-50/80 border border-blue-200/80 text-[#0056b3] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0056b3] group-hover:text-white group-hover:border-[#0056b3] transition-all duration-300">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
@@ -279,7 +293,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
             {/* Editorial Application Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {industry.applications.map((app, index) => (
+              {(industry.applications || []).map((app, index) => (
                 <div
                   key={index}
                   className="bg-slate-50 rounded-2xl p-6 sm:p-7 border border-slate-200/90 hover:border-[#0056b3]/50 transition-all duration-300 flex flex-col justify-between group shadow-sm hover:shadow-md"
@@ -305,7 +319,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                       Typical Articles
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
-                      {app.typicalProducts.map((prod, pIdx) => (
+                      {(app.typicalProducts || []).map((prod, pIdx) => (
                         <span
                           key={pIdx}
                           className="text-xs font-medium bg-white text-slate-700 px-2.5 py-1 rounded-md border border-slate-200 shadow-2xs"
@@ -324,9 +338,9 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
         {/* ========================================================================= */}
         {/* SECTION 4.5: INDUSTRY-SPECIFIC FAQS                                       */}
         {/* ========================================================================= */}
-        {INDUSTRY_FAQS[industry.slug] && (
+        {industry.faqs && industry.faqs.length > 0 && (
           <FAQSection
-            faqs={INDUSTRY_FAQS[industry.slug]}
+            faqs={industry.faqs}
             title={`${industry.name} Moulding — Sector FAQs`}
             subtitle={`Technical clarifications regarding tolerances, resin compatibility, tool steels, and automated filling requirements for ${industry.name}.`}
             badge="INDUSTRY APPLICATION FAQS"
@@ -338,7 +352,6 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
         {/* ========================================================================= */}
         <section className="py-13 sm:py-13 bg-white border-t border-slate-200 relative overflow-hidden">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
               Looking for the Right Mould Solution?
             </h2>

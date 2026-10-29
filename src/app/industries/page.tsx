@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { IndustriesHeroBanner } from "@/components/industries/IndustriesHeroBanner";
 import { IndustryGridSection } from "@/components/industries/IndustryGridSection";
+import { getDynamicIndustriesContent } from "@/services/industriesService";
 
 export const metadata: Metadata = {
   title: "Industries We Serve | Patel Mould Industries",
@@ -17,28 +18,33 @@ export const metadata: Metadata = {
     "chemical jerry can mould",
     "PET preform moulds India",
     "ISBM moulds Gujarat",
-    "extrusion blow mould India"
+    "extrusion blow mould India",
   ],
   openGraph: {
     title: "Industries We Serve | Patel Mould Industries",
     description:
       "Precision tooling solutions engineered for India's premier packaging, pharmaceutical, beverage, and industrial container manufacturers.",
-    images: ["/industries/industries-banner.jpg"]
-  }
+    images: ["/industries/industries-banner.jpg"],
+  },
 };
 
-export default function IndustriesPage() {
+export default async function IndustriesPage() {
+  const data = await getDynamicIndustriesContent();
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800">
       {/* 1. Global Navigation */}
       <Header />
 
-      {/* 2. Page Hero Banner */}
+      {/* 2. Page Hero Banner & Dynamic Grid */}
       <main className="flex-1">
-        <IndustriesHeroBanner />
+        <IndustriesHeroBanner data={data.hero} />
 
-        {/* 3. Industry Showcase: All 8 Sectors */}
-        <IndustryGridSection />
+        {/* 3. Industry Showcase: All Sectors */}
+        <IndustryGridSection
+          gridData={data.gridSection}
+          industries={data.industries}
+        />
       </main>
 
       {/* 4. Global Footer */}
