@@ -2,42 +2,51 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Sparkles } from 'lucide-react';
-import { GalleryItem, GalleryCategory } from '@/data/gallery';
+import { ArrowRight } from 'lucide-react';
+import { GalleryCategory } from '@/data/gallery';
+import { FeaturedCollectionItem } from '@/services/galleryService';
 
 interface FeaturedCollectionsProps {
+  collections?: FeaturedCollectionItem[];
   onSelectCategory: (category: GalleryCategory) => void;
 }
 
-export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({ onSelectCategory }) => {
-  const collections = [
-    {
-      title: 'Inside Our Facility',
-      tagline: 'World-Class Toolroom Infrastructure',
-      description: 'Tour our 25,000+ sq. ft. precision manufacturing bay equipped with heavy gantry cranes, climate-stabilized zones, and integrated CAD/CAM cells.',
-      image: '/infrastructure/facility-hero.jpg',
-      category: 'Manufacturing Facility' as GalleryCategory,
-      badge: '25,000+ Sq. Ft. Facility'
-    },
-    {
-      title: 'Precision in Every Detail',
-      tagline: 'Sub-Micron Machining & Metrology',
-      description: 'Explore high-speed 5-axis CNC machining centers, mirror EDM spark erosion stations, and Zeiss 3D CMM sub-micron inspection.',
-      image: '/infrastructure/cnc-machining.jpg',
-      category: 'Machinery' as GalleryCategory,
-      badge: '±0.002mm Tolerance'
-    },
-    {
-      title: 'Engineered Mold Solutions',
-      tagline: 'High-Cavitation & ISBM Tooling',
-      description: 'Discover balanced hot runner preform molds up to 96 cavities, single-stage ISBM systems, and rugged EBM jerry can canisters.',
-      image: '/product/high-cavitation-preform-mold.png',
-      category: 'Products' as GalleryCategory,
-      badge: 'Up to 96 Cavities'
-    }
-  ];
+export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({
+  collections = [],
+  onSelectCategory,
+}) => {
+  const displayCollections =
+    collections && collections.length > 0
+      ? collections
+      : [
+          {
+            title: 'Inside Our Facility',
+            tagline: 'World-Class Toolroom Infrastructure',
+            description:
+              'Tour our 25,000+ sq. ft. precision manufacturing bay equipped with heavy gantry cranes, climate-stabilized zones, and integrated CAD/CAM cells.',
+            image: '/infrastructure/facility-hero.jpg',
+            category: 'Manufacturing Facility' as GalleryCategory,
+            badge: '25,000+ Sq. Ft. Facility',
+          },
+          {
+            title: 'Precision in Every Detail',
+            tagline: 'Sub-Micron Machining & Metrology',
+            description:
+              'Explore high-speed 5-axis CNC machining centers, mirror EDM spark erosion stations, and Zeiss 3D CMM sub-micron inspection.',
+            image: '/infrastructure/cnc-machining.jpg',
+            category: 'Machinery' as GalleryCategory,
+            badge: '±0.002mm Tolerance',
+          },
+          {
+            title: 'Engineered Mold Solutions',
+            tagline: 'High-Cavitation & ISBM Tooling',
+            description:
+              'Discover balanced hot runner preform molds up to 96 cavities, single-stage ISBM systems, and rugged EBM jerry can canisters.',
+            image: '/product/high-cavitation-preform-mold.png',
+            category: 'Products' as GalleryCategory,
+            badge: 'Up to 96 Cavities',
+          },
+        ];
 
   return (
     <section className="py-10 sm:py-13 bg-white border-b border-slate-200 text-slate-800">
@@ -58,16 +67,16 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({ onSele
 
         {/* 3 Featured Cards (Compact) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {collections.map((col, index) => (
+          {displayCollections.map((col, index) => (
             <div
               key={index}
-              onClick={() => onSelectCategory(col.category)}
+              onClick={() => onSelectCategory(col.category as GalleryCategory)}
               className="group relative rounded-2xl overflow-hidden bg-white border border-slate-200/90 hover:border-blue-400 hover:shadow-lg transition-all duration-300 flex flex-col justify-between shadow-sm cursor-pointer hover:-translate-y-0.5"
             >
               {/* Image Banner */}
               <div className="relative w-full h-44 overflow-hidden bg-slate-100">
                 <Image
-                  src={col.image}
+                  src={col.image || '/infrastructure/facility-hero.jpg'}
                   alt={col.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"

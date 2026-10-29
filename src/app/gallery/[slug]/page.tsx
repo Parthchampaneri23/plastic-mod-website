@@ -14,6 +14,9 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { GALLERY_ITEMS, GalleryItem } from '@/data/gallery';
+import { getDynamicGalleryItem } from '@/services/galleryService';
+
+export const dynamic = 'force-dynamic';
 
 interface GalleryDetailPageProps {
   params: Promise<{
@@ -29,7 +32,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: GalleryDetailPageProps): Promise<Metadata> {
   const resolvedParams = await params;
-  const item = GALLERY_ITEMS.find((i) => i.slug === resolvedParams.slug);
+  const { item } = await getDynamicGalleryItem(resolvedParams.slug);
 
   if (!item) {
     return {
@@ -45,24 +48,10 @@ export async function generateMetadata({ params }: GalleryDetailPageProps): Prom
 
 export default async function GalleryDetailPage({ params }: GalleryDetailPageProps) {
   const resolvedParams = await params;
-  const item = GALLERY_ITEMS.find((i) => i.slug === resolvedParams.slug);
+  const { item, relatedItems } = await getDynamicGalleryItem(resolvedParams.slug);
 
   if (!item) {
     notFound();
-  }
-
-  // Related items from same category
-  const relatedItems = GALLERY_ITEMS.filter(
-    (i) => i.category === item.category && i.slug !== item.slug
-  ).slice(0, 3);
-
-  // If less than 3, add other items
-  if (relatedItems.length < 3) {
-    const extra = GALLERY_ITEMS.filter((i) => i.slug !== item.slug && !relatedItems.includes(i)).slice(
-      0,
-      3 - relatedItems.length
-    );
-    relatedItems.push(...extra);
   }
 
   return (
