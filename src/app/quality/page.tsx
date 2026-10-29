@@ -12,6 +12,7 @@ import { FinalInspectionSection } from "@/components/quality/FinalInspectionSect
 import { MoldTestingJourneySection } from "@/components/quality/MoldTestingJourneySection";
 import { MeasurementEquipmentSection } from "@/components/quality/MeasurementEquipmentSection";
 import { QualityStandardsSection } from "@/components/quality/QualityStandardsSection";
+import { getDynamicQualityContent } from "@/services/qualityService";
 
 export const metadata: Metadata = {
   title: "Quality & Testing | Precision Mould Inspection | Patel Mould Industries",
@@ -27,48 +28,50 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function QualityPage() {
+export default async function QualityPage() {
+  const data = await getDynamicQualityContent();
+
   return (
     <div
       className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800"
       suppressHydrationWarning
     >
-      {/* 1. Header Navigation (Without Quality in navbar as required) */}
+      {/* 1. Header Navigation */}
       <Header />
 
       <main className="flex-grow">
-        {/* Full-Width Hero Banner (Matching About, Manufacturing, Infrastructure & Products) */}
-        <QualityHeroBanner />
+        {/* Full-Width Hero Banner */}
+        <QualityHeroBanner data={data.heroBanner} />
 
         {/* Hero Section: Precision Checked. Quality Assured. */}
-        <QualityHero />
+        <QualityHero data={data.overview} />
 
         {/* Section 1: Quality Policy */}
-        <QualityPolicySection />
+        <QualityPolicySection data={data.policy} />
 
-        {/* Section 2: Quality Control Process (5-Stage Horizontal / Vertical Timeline) */}
-        <QualityProcessSection />
+        {/* Section 2: Quality Control Process (5-Stage Timeline) */}
+        <QualityProcessSection data={data.process} />
 
         {/* Section 3: Raw Material Inspection */}
-        <RawMaterialInspectionSection />
+        <RawMaterialInspectionSection data={data.rawMaterial} />
 
         {/* Section 4: In-Process Inspection Dashboard */}
-        <InProcessInspectionSection />
+        <InProcessInspectionSection data={data.inProcess} />
 
-        {/* Section 5: Final Pre-Dispatch Inspection & Outlined Quality Seal */}
-        <FinalInspectionSection />
+        {/* Section 5: Final Pre-Dispatch Inspection */}
+        <FinalInspectionSection data={data.finalInspection} />
 
         {/* Section 6: Mold Testing Journey */}
-        <MoldTestingJourneySection />
+        <MoldTestingJourneySection data={data.moldTesting} />
 
         {/* Section 7: Measurement Equipment Categories */}
-        <MeasurementEquipmentSection />
+        <MeasurementEquipmentSection data={data.measurementEquipment} />
 
         {/* Section 8: Quality Standards & Requirements */}
-        <QualityStandardsSection />
+        <QualityStandardsSection data={data.standards} />
       </main>
 
-      {/* Footer Navigation (Contains link to /quality) */}
+      {/* Footer Navigation */}
       <Footer />
     </div>
   );

@@ -5,16 +5,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { QualityHeroBannerData } from "@/services/qualityService";
 
-export const QualityHeroBanner: React.FC = () => {
+interface QualityHeroBannerProps {
+  data?: QualityHeroBannerData;
+}
+
+export const QualityHeroBanner: React.FC<QualityHeroBannerProps> = ({ data }) => {
   const shouldReduceMotion = useReducedMotion();
+
+  const titlePart1 = data?.titlePart1 || "Quality &";
+  const titleHighlight = data?.titleHighlight || "Testing";
+  const breadcrumbHome = data?.breadcrumbHome || "Home";
+  const breadcrumbCurrent = data?.breadcrumbCurrent || "Quality & Testing";
+  const bannerImage = data?.bannerImage || "/quality/quality-banner.jpg";
 
   return (
     <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Quality Metrology Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/quality/quality-banner.jpg"
+          src={bannerImage}
           alt="Patel Mould Industries Precision Quality & Metrology Laboratory"
           fill
           priority
@@ -22,7 +33,7 @@ export const QualityHeroBanner: React.FC = () => {
           className="object-cover object-center filter brightness-95 opacity-100"
         />
 
-        {/* 2. Brand Navy & Slate Gradient for Text Contrast (Matching About / Manufacturing / Infrastructure) */}
+        {/* 2. Brand Navy & Slate Gradient for Text Contrast */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0b1f3a]/95 via-[#0b1f3a]/75 to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-slate-950/50 z-10" />
         <div className="absolute inset-0 tech-grid-pattern opacity-20 pointer-events-none z-10" />
@@ -31,17 +42,16 @@ export const QualityHeroBanner: React.FC = () => {
       {/* 3. Left Content Block: Title (Top) + Breadcrumbs (Below) */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
         <div className="max-w-xl space-y-3">
-
-          {/* Main Title matching About Us / Manufacturing / Our Infrastructure / Our Products */}
+          {/* Main Title */}
           <motion.h1
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
           >
-            Quality &amp;{" "}
+            {titlePart1}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">
-              Testing
+              {titleHighlight}
             </span>
           </motion.h1>
 
@@ -56,12 +66,11 @@ export const QualityHeroBanner: React.FC = () => {
               href="/"
               className="hover:text-[#ff6b00] transition-colors flex items-center gap-1 font-semibold"
             >
-              Home
+              {breadcrumbHome}
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-blue-300 font-bold">Quality &amp; Testing</span>
+            <span className="text-blue-300 font-bold">{breadcrumbCurrent}</span>
           </motion.div>
-
         </div>
       </div>
     </section>
