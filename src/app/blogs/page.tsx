@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { BlogHeroBanner } from "@/components/blogs/BlogHeroBanner";
 import { BlogListSection } from "@/components/blogs/BlogListSection";
+import { getDynamicBlogsContent } from "@/services/blogsService";
 
 export const metadata: Metadata = {
   title: "Mould Engineering Blogs & Technical Articles | Patel Mould Industries",
@@ -16,28 +17,37 @@ export const metadata: Metadata = {
     "ISBM cleanroom tooling",
     "extrusion blow mould design",
     "cycle time optimization injection molding",
-    "Patel Mould Industries Gujarat"
+    "Patel Mould Industries Gujarat",
   ],
   openGraph: {
     title: "Mould Engineering Blogs | Patel Mould Industries",
     description:
       "Authoritative technical insights, metallurgical comparisons, and precision tooling best practices from Patel Mould Industries, Gujarat, India.",
-    images: ["/blogs/blog-banner.jpg"]
-  }
+    images: ["/blogs/blog-banner.jpg"],
+  },
 };
 
-export default function BlogsPage() {
+export default async function BlogsPage() {
+  const data = await getDynamicBlogsContent();
+
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800" suppressHydrationWarning>
+    <div
+      className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800"
+      suppressHydrationWarning
+    >
       {/* 1. Global Navigation */}
       <Header />
 
-      {/* 2. Hero Banner */}
+      {/* 2. Hero Banner & Showcase */}
       <main className="flex-1">
-        <BlogHeroBanner />
+        <BlogHeroBanner data={data.heroBanner} />
 
         {/* 3. Blogs Showcase & Category Filter Grid */}
-        <BlogListSection />
+        <BlogListSection
+          intro={data.intro}
+          categories={data.categories}
+          posts={data.posts}
+        />
       </main>
 
       {/* 4. Global Footer */}

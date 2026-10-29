@@ -27,6 +27,9 @@ import { BLOG_POSTS, BlogPost } from "@/data/blogs";
 import { PRODUCTS } from "@/data/products";
 import { FAQSection } from "@/components/FAQSection";
 import { BLOG_FAQS } from "@/data/faqs";
+import { getDynamicBlogPost } from "@/services/blogsService";
+
+export const dynamic = "force-dynamic";
 
 interface BlogDetailPageProps {
   params: Promise<{
@@ -42,7 +45,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const { post } = await getDynamicBlogPost(slug);
 
   if (!post) {
     return {
@@ -63,7 +66,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const { post, relatedBlogs } = await getDynamicBlogPost(slug);
 
   if (!post) {
     notFound();
@@ -73,9 +76,6 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const relatedProducts = post.relatedProductSlugs
     ? PRODUCTS.filter((prod) => post.relatedProductSlugs?.includes(prod.slug))
     : [];
-
-  // Related blogs (other 2 blogs)
-  const relatedBlogs = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800" suppressHydrationWarning>
@@ -407,11 +407,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               </aside>
 
             </div>
-            {/* Article Technical FAQs (5 Curated FAQs) */}
-            {BLOG_FAQS[post.slug] && (
+            {/* Article Technical FAQs (Dynamic from Post or Fallback from BLOG_FAQS) */}
+            {((post.faqs && post.faqs.length > 0) || BLOG_FAQS[post.slug]) && (
               <div className="pt-12 mt-12 border-t border-slate-200">
                 <FAQSection
-                  faqs={BLOG_FAQS[post.slug]}
+                  faqs={post.faqs && post.faqs.length > 0 ? post.faqs : BLOG_FAQS[post.slug]}
                   title="Technical Article FAQs"
                   subtitle={`Key engineering questions, material parameters, and cycle considerations examined in this guide.`}
                   badge="ENGINEERING INSIGHTS & FAQS"

@@ -39,6 +39,7 @@ export interface BlogPost {
     conclusion: string[];
   };
   relatedProductSlugs?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export const BLOG_POSTS: BlogPost[] = [

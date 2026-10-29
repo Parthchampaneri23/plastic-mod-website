@@ -5,16 +5,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { BlogHeroBannerData } from "@/services/blogsService";
 
-export const BlogHeroBanner: React.FC = () => {
+interface BlogHeroBannerProps {
+  data?: BlogHeroBannerData;
+}
+
+export const BlogHeroBanner: React.FC<BlogHeroBannerProps> = ({ data }) => {
   const shouldReduceMotion = useReducedMotion();
+
+  const titlePart1 = data?.titlePart1 || "Insights &";
+  const titleHighlight = data?.titleHighlight || "Articles";
+  const breadcrumbHome = data?.breadcrumbHome || "Home";
+  const breadcrumbCurrent = data?.breadcrumbCurrent || "Blogs";
+  const bannerImage = data?.bannerImage || "/blogs/blog-banner.jpg";
 
   return (
     <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Indian Toolroom Facility Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/blogs/blog-banner.jpg"
+          src={bannerImage}
           alt="Patel Mould Industries Technical Engineering Knowledge Hub and Mold Manufacturing Facility"
           fill
           priority
@@ -31,7 +42,6 @@ export const BlogHeroBanner: React.FC = () => {
       {/* 3. Left Content Block: Title + Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
         <div className="max-w-2xl space-y-3">
-
           {/* Main Title matching Quality / Manufacturing / Infrastructure / Industries */}
           <motion.h1
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -15 }}
@@ -39,9 +49,9 @@ export const BlogHeroBanner: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
           >
-            Insights &amp;{" "}
+            {titlePart1}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">
-              Articles
+              {titleHighlight}
             </span>
           </motion.h1>
 
@@ -56,12 +66,11 @@ export const BlogHeroBanner: React.FC = () => {
               href="/"
               className="hover:text-[#ff6b00] transition-colors flex items-center gap-1 font-semibold"
             >
-              Home
+              {breadcrumbHome}
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-blue-300 font-bold">Blogs</span>
+            <span className="text-blue-300 font-bold">{breadcrumbCurrent}</span>
           </motion.div>
-
         </div>
       </div>
     </section>
