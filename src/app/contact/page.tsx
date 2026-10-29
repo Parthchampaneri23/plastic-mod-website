@@ -6,6 +6,7 @@ import { ContactHeroBanner } from "@/components/contact/ContactHeroBanner";
 import { ContactIntroSection } from "@/components/contact/ContactIntroSection";
 import { QuoteInquiryFormSection } from "@/components/contact/QuoteInquiryFormSection";
 import { ContactUsDirectSection } from "@/components/contact/ContactUsDirectSection";
+import { getDynamicContactContent } from "@/services/contactService";
 
 export const metadata: Metadata = {
   title: "Contact Us & Request a Quote | Patel Mould Industries",
@@ -27,7 +28,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contactData = await getDynamicContactContent();
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800" suppressHydrationWarning>
       {/* 1. Global Navigation */}
@@ -35,16 +38,16 @@ export default function ContactPage() {
 
       <main className="flex-1">
         {/* 2. Hero Banner matching exact brand architecture */}
-        <ContactHeroBanner />
+        <ContactHeroBanner data={contactData.heroBanner} />
 
         {/* 3. Introduction Section with Indian Company & Team Image */}
-        <ContactIntroSection />
+        <ContactIntroSection data={contactData.intro} />
 
         {/* 4. Section 11: Inquiry / Request a Quote Form (All 11 Fields) */}
-        <QuoteInquiryFormSection />
+        <QuoteInquiryFormSection data={contactData.inquiry} />
 
         {/* 5. Section 12: Contact Us Page (Address, Google Map, Phone, Email, WhatsApp, Hours, Form, Social Links) */}
-        <ContactUsDirectSection />
+        <ContactUsDirectSection data={contactData.direct} />
       </main>
 
       {/* 6. Global Footer */}

@@ -22,6 +22,11 @@ import {
 } from "lucide-react";
 import { PRODUCT_CATEGORIES } from "@/data/content";
 import { PRODUCTS } from "@/data/products";
+import { ContactInquirySectionData } from "@/services/contactService";
+
+interface QuoteInquiryFormSectionProps {
+  data?: ContactInquirySectionData;
+}
 
 // Group exact products from the official website catalog by their actual categories
 const CATEGORY_NAMES = [
@@ -36,13 +41,37 @@ const PRODUCTS_BY_CATEGORY: Record<string, string[]> = {
   "EBM Mold": PRODUCTS.filter((p) => p.category === "EBM Mold").map((p) => p.name)
 };
 
-export const QuoteInquiryFormSection: React.FC = () => {
+export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = ({ data }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Preform & Jar Mold");
   const [selectedProduct, setSelectedProduct] = useState<string>("PET Preform Mold");
   const [fileName, setFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState<boolean>(false);
+
+  const badge = data?.badge || "INQUIRY & QUOTE";
+  const headingPart1 = data?.headingPart1 || "Inquiry &";
+  const headingHighlight = data?.headingHighlight || "Request a Quote";
+  const description =
+    data?.description ||
+    "Fill out the technical inquiry form below with your tooling parameters and CAD component drawings. Our engineering division will analyze your requirements and issue a comprehensive DFM quotation within 24 business hours.";
+
+  const formTitle = data?.formTitle || "Project Brief & Tooling Parameter Specifications";
+  const formSubtitle = data?.formSubtitle || "Complete the 3-stage tooling profile below. All CAD components and technical data are protected under our mutual NDA.";
+  const successTitle = data?.successTitle || "Technical Quote Request Received!";
+  const successMessage = data?.successMessage;
+  const supportPhone = data?.supportPhone || "+91 77847 58347";
+  const responseWindow = data?.responseWindow || "Under 24 Business Hours";
+  const fileUploadNote = data?.fileUploadNote || "Accepted: STEP, STP, IGES, DXF, DWG, PDF (Max 25MB)";
+  const requirementOptions = data?.requirementOptions?.length
+    ? data.requirementOptions
+    : [
+        "New Complete Mold Tooling",
+        "Mold Cavity & Core Replacement",
+        "Neck Split & Conversion Kit",
+        "Hot Runner System Overhaul",
+        "Mold Flow Analysis & DFM Only",
+      ];
 
   // Form State
   const [formData, setFormData] = useState({
@@ -122,15 +151,15 @@ export const QuoteInquiryFormSection: React.FC = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ff6b00]"></span>
             </span>
-            <span>INQUIRY &amp; QUOTE</span>
+            <span>{badge}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.15]">
-            Inquiry &amp; <span className="text-[#0056b3]">Request a Quote</span>
+            {headingPart1} <span className="text-[#0056b3]">{headingHighlight}</span>
           </h2>
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-            Fill out the technical inquiry form below with your tooling parameters and CAD component drawings. Our engineering division will analyze your requirements and issue a comprehensive DFM quotation within 24 business hours.
+            {description}
           </p>
         </div>
 
@@ -145,18 +174,22 @@ export const QuoteInquiryFormSection: React.FC = () => {
 
               <div className="space-y-2">
                 <h3 className="text-2xl font-bold text-slate-900">
-                  Technical Quote Request Received!
+                  {successTitle}
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  Thank you, <strong className="text-slate-900">{formData.name || "Valued Client"}</strong>. Your mold specification for{" "}
-                  <strong className="text-[#0056b3]">{selectedProduct}</strong> has been assigned to our senior toolroom engineering team in Gujarat.
+                  {successMessage || (
+                    <>
+                      Thank you, <strong className="text-slate-900">{formData.name || "Valued Client"}</strong>. Your mold specification for{" "}
+                      <strong className="text-[#0056b3]">{selectedProduct}</strong> has been assigned to our senior toolroom engineering team in Gujarat.
+                    </>
+                  )}
                 </p>
               </div>
 
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1 text-left">
                 <div><span className="font-semibold text-slate-800">Assigned Reference:</span> PM-RFQ-{Math.floor(100000 + Math.random() * 900000)}</div>
-                <div><span className="font-semibold text-slate-800">Response Window:</span> Under 24 Business Hours</div>
-                <div><span className="font-semibold text-slate-800">Direct Engineering Line:</span> +91 7784758347</div>
+                <div><span className="font-semibold text-slate-800">Response Window:</span> {responseWindow}</div>
+                <div><span className="font-semibold text-slate-800">Direct Engineering Line:</span> {supportPhone}</div>
               </div>
 
               <button
@@ -355,11 +388,9 @@ export const QuoteInquiryFormSection: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, requirement: e.target.value })}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans cursor-pointer"
                     >
-                      <option value="New Complete Mold Tooling">New Complete Mold Tooling</option>
-                      <option value="Mold Cavity & Core Replacement">Mold Cavity &amp; Core Replacement</option>
-                      <option value="Neck Split & Conversion Kit">Neck Split &amp; Conversion Kit</option>
-                      <option value="Hot Runner System Overhaul">Hot Runner System Overhaul</option>
-                      <option value="Mold Flow Analysis & DFM Only">Mold Flow Analysis &amp; DFM Only</option>
+                      {requirementOptions.map((opt, idx) => (
+                        <option key={idx} value={opt}>{opt}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -405,7 +436,7 @@ export const QuoteInquiryFormSection: React.FC = () => {
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 flex items-center justify-between">
                     <span>Attach Container Drawings / 2D-3D CAD Files</span>
-                    <span className="text-[11px] text-slate-400 font-normal">Accepted: STEP, STP, IGES, DXF, DWG, PDF (Max 25MB)</span>
+                    <span className="text-[11px] text-slate-400 font-normal">{fileUploadNote}</span>
                   </label>
 
                   <div className="relative border-2 border-dashed border-slate-200 hover:border-[#0056b3] rounded-2xl p-6 text-center bg-slate-50/70 hover:bg-blue-50/30 transition-all group cursor-pointer">
