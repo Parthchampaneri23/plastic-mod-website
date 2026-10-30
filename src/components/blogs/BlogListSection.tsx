@@ -128,12 +128,6 @@ export const BlogListSection: React.FC<BlogListSectionProps> = ({
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0056b3] text-white text-xs font-mono uppercase tracking-wider font-bold shadow-md">
-                    <Sparkles className="w-3.5 h-3.5 text-[#ff6b00]" />
-                    <span>Featured Article</span>
-                  </span>
-                </div>
               </div>
 
               {/* Right Details (6 cols) */}
@@ -220,11 +214,6 @@ export const BlogListSection: React.FC<BlogListSectionProps> = ({
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-mono uppercase tracking-wider font-semibold border border-white/20">
-                      {post.category}
-                    </span>
-                  </div>
                 </div>
 
                 {/* Content */}

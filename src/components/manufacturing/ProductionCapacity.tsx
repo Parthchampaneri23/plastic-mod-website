@@ -314,11 +314,6 @@ export const ProductionCapacity: React.FC<ProductionCapacityProps> = ({ capacity
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover object-center filter brightness-[0.98] transition-transform duration-500 ease-out group-hover:scale-105"
                     />
-                    <div className="absolute top-3 left-3">
-                      <span className="px-2.5 py-1 rounded-md bg-[#10233F]/85 backdrop-blur-sm text-white font-mono text-[10px] font-bold uppercase tracking-wider border border-white/10">
-                        {cap.badge}
-                      </span>
-                    </div>
                   </div>
 
                   {/* Compact Content Body */}

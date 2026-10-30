@@ -192,19 +192,6 @@ export const GalleryContainer: React.FC<GalleryContainerProps> = ({
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
 
-                        {/* Top Badges */}
-                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
-                          <span className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-mono uppercase tracking-wider font-semibold border border-white/20">
-                            {item.category}
-                          </span>
-
-                          {item.badge && (
-                            <span className="px-2.5 py-1 rounded-full bg-[#0056b3]/90 backdrop-blur-md text-white text-[11px] font-bold border border-blue-400/30">
-                              {item.badge}
-                            </span>
-                          )}
-                        </div>
-
                         {/* Quick View Button for Lightbox */}
                         <button
                           type="button"
