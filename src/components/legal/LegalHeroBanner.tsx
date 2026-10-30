@@ -12,6 +12,7 @@ interface LegalHeroBannerProps {
   breadcrumbLabel: string;
   badgeLabel?: string;
   lastUpdated?: string;
+  bannerImage?: string;
 }
 
 export const LegalHeroBanner: React.FC<LegalHeroBannerProps> = ({
@@ -20,6 +21,7 @@ export const LegalHeroBanner: React.FC<LegalHeroBannerProps> = ({
   breadcrumbLabel,
   badgeLabel = "Corporate Governance",
   lastUpdated = "March 2026",
+  bannerImage = "/About/about banner.png",
 }) => {
   const shouldReduceMotion = useReducedMotion();
 
@@ -28,7 +30,7 @@ export const LegalHeroBanner: React.FC<LegalHeroBannerProps> = ({
       {/* 1. Background Facility Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/About/about banner.png"
+          src={bannerImage}
           alt="Patel Mould Industries Corporate Facility and Governance"
           fill
           priority
