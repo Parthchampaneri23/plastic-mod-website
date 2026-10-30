@@ -34,15 +34,37 @@ export const metadata: Metadata = {
 };
 
 import { ScrollToTopOnNavigate } from "@/components/ScrollToTopOnNavigate";
+import { DynamicFavicon } from "@/components/DynamicFavicon";
+import { getDynamicHomeContent } from "@/services/homeService";
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  let faviconUrl = "/favicon.ico";
+  let appleTouchIconUrl = "/icon-192.png";
+
+  try {
+    const homeData = await getDynamicHomeContent();
+    if (homeData?.brandIdentity?.faviconUrl) {
+      faviconUrl = homeData.brandIdentity.faviconUrl;
+    }
+    if (homeData?.brandIdentity?.appleTouchIconUrl) {
+      appleTouchIconUrl = homeData.brandIdentity.appleTouchIconUrl;
+    }
+  } catch (e) {
+    // Fall back to default favicon
+  }
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" href={faviconUrl} sizes="any" />
+        <link rel="apple-touch-icon" href={appleTouchIconUrl} />
+      </head>
       <body className="min-h-full flex flex-col">
         <ScrollToTopOnNavigate />
+        <DynamicFavicon faviconUrl={faviconUrl} appleTouchIconUrl={appleTouchIconUrl} />
         {children}
       </body>
     </html>

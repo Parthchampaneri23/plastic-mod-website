@@ -5,7 +5,9 @@ import {
 } from "@/data/products";
 
 const ADMIN_PRODUCTS_URL =
-  process.env.NEXT_PUBLIC_ADMIN_PRODUCTS_URL || "http://localhost:3001/api/products";
+  process.env.ADMIN_PRODUCTS_URL ||
+  process.env.NEXT_PUBLIC_ADMIN_PRODUCTS_URL ||
+  "http://localhost:3001/api/products";
 
 export interface DynamicProductsData {
   hero?: {
@@ -37,8 +39,12 @@ export interface DynamicProductsData {
 
 export async function getDynamicProductsContent(): Promise<DynamicProductsData> {
   try {
-    const res = await fetch(ADMIN_PRODUCTS_URL, {
-      next: { revalidate: 10 }, // automatically revalidates every 10 seconds
+    // When executing in the client browser, fetch via internal proxy route to avoid direct cross-origin localhost issues
+    const targetUrl =
+      typeof window !== "undefined" ? "/api/products" : ADMIN_PRODUCTS_URL;
+
+    const res = await fetch(targetUrl, {
+      cache: "no-store",
     });
     if (!res.ok) throw new Error("Failed to fetch dynamic products content");
     const json = await res.json();
@@ -46,7 +52,7 @@ export async function getDynamicProductsContent(): Promise<DynamicProductsData> 
       return json.data;
     }
   } catch (err) {
-    console.warn("Using fallback static products data (admin backend loading/offline):", err);
+    // Silently fall back to static products data without noisy console spam
   }
 
   // Fallback to static products.ts

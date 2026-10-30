@@ -12,6 +12,16 @@ import {
   INDIAN_TESTIMONIALS as DEFAULT_INDIAN_TESTIMONIALS,
 } from "@/data/home";
 
+export interface DynamicBrandIdentity {
+  logoImage?: string;
+  logoAlt?: string;
+  footerLogoImage?: string;
+  faviconUrl?: string;
+  appleTouchIconUrl?: string;
+  siteTitle?: string;
+  siteTagline?: string;
+}
+
 const ADMIN_API_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "http://localhost:3001/api/home";
 
 export async function getDynamicHomeContent() {
@@ -69,6 +79,15 @@ export async function getDynamicHomeContent() {
         { label: "Blogs", href: "/blogs" },
         { label: "Contact Us", href: "/contact" },
       ],
+    },
+    brandIdentity: {
+      logoImage: "/PMlogo.png",
+      logoAlt: "Patel Mould Industries",
+      footerLogoImage: "/PMlogo.png",
+      faviconUrl: "/favicon.ico",
+      appleTouchIconUrl: "/icon-192.png",
+      siteTitle: "Patel Mould Industries",
+      siteTagline: "Precision Plastic Mould Manufacturer",
     },
     footer: {
       logoImage: "/PMlogo.png",
