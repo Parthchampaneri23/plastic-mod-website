@@ -14,8 +14,8 @@ import { getDynamicManufacturingContent } from '@/services/manufacturingService'
 
 export const metadata = {
   title: 'Manufacturing Capabilities | Patel Mould Industries India',
-  description: 'Explore Patel Mould Industries precision toolroom in Gujarat India: 5-axis CNC machining, mirror EDM, 9-stage mold manufacturing process, machinery specifications, and Zeiss 3D CMM quality inspection.',
-  keywords: 'Plastic mold manufacturing India, CNC precision machining Gujarat, PET preform mold maker, EDM spark erosion, mold design CAD simulation, Zeiss CMM inspection',
+  description: 'Explore Patel Mould Industries precision toolroom in Gujarat India: 5-axis CNC machining, mirror EDM, 9-stage mould manufacturing process, machinery specifications, and Zeiss 3D CMM quality inspection.',
+  keywords: 'Plastic mould manufacturing India, CNC precision machining Gujarat, PET preform mould maker, EDM spark erosion, mould design CAD simulation, Zeiss CMM inspection',
 };
 
 export const dynamic = 'force-dynamic';
@@ -36,13 +36,13 @@ export default async function ManufacturingPage() {
         {/* Section 1: Manufacturing Overview */}
         <ManufacturingOverview overview={data.overview} />
 
-        {/* Section 2: Mold Design & Development */}
+        {/* Section 2: Mould Design & Development */}
         <MoldDesignDevelopment designDevelopment={data.designDevelopment} />
 
         {/* Section 3: Precision Machining */}
         <PrecisionMachining precisionMachining={data.precisionMachining} />
 
-        {/* Section 4: Mold Manufacturing Process (9 Stages) */}
+        {/* Section 4: Mould Manufacturing Process (9 Stages) */}
         <MoldManufacturingProcess process={data.process} />
 
         {/* Section 5: Machinery & Equipment */}
@@ -54,7 +54,7 @@ export default async function ManufacturingPage() {
         {/* Section 7: Quality & Inspection */}
         <QualityInspection quality={data.quality} />
 
-        {/* Section 8: Custom Mold Solutions */}
+        {/* Section 8: Custom Mould Solutions */}
         <CustomMoldSolutions customSolutions={data.customSolutions} />
       </main>
 

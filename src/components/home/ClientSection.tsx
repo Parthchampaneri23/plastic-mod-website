@@ -88,7 +88,7 @@ export const ClientSection: React.FC<ClientSectionProps> = ({
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
               Valued Clients &<br />
-              <span className="text-[#0056b3]">Customer Success.</span>
+              <span className="text-[#0056b3]">Customer Success</span>
             </h2>
           </motion.div>
 

@@ -23,6 +23,16 @@ import {
 import { PRODUCT_CATEGORIES } from "@/data/content";
 import { PRODUCTS } from "@/data/products";
 import { ContactInquirySectionData } from "@/services/contactService";
+import {
+  validateFullName,
+  validateCompanyName,
+  validateEmail,
+  validatePhone,
+  validateCountry,
+  validateQuantity,
+  validateProjectDetails,
+  sanitizeInput,
+} from "@/lib/validations";
 
 interface QuoteInquiryFormSectionProps {
   data?: ContactInquirySectionData;
@@ -30,20 +40,20 @@ interface QuoteInquiryFormSectionProps {
 
 // Group exact products from the official website catalog by their actual categories
 const CATEGORY_NAMES = [
-  "Preform & Jar Mold",
-  "ISBM Mold",
-  "EBM Mold"
+  "Preform & Jar Mould",
+  "ISBM Mould",
+  "EBM Mould"
 ] as const;
 
 const PRODUCTS_BY_CATEGORY: Record<string, string[]> = {
-  "Preform & Jar Mold": PRODUCTS.filter((p) => p.category === "Preform & Jar Mold").map((p) => p.name),
-  "ISBM Mold": PRODUCTS.filter((p) => p.category === "ISBM Mold").map((p) => p.name),
-  "EBM Mold": PRODUCTS.filter((p) => p.category === "EBM Mold").map((p) => p.name)
+  "Preform & Jar Mould": PRODUCTS.filter((p) => p.category === "Preform & Jar Mould").map((p) => p.name),
+  "ISBM Mould": PRODUCTS.filter((p) => p.category === "ISBM Mould").map((p) => p.name),
+  "EBM Mould": PRODUCTS.filter((p) => p.category === "EBM Mould").map((p) => p.name)
 };
 
 export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = ({ data }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("Preform & Jar Mold");
-  const [selectedProduct, setSelectedProduct] = useState<string>("PET Preform Mold");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Preform & Jar Mould");
+  const [selectedProduct, setSelectedProduct] = useState<string>("PET Preform Mould");
   const [fileName, setFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -74,16 +84,34 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
       ];
 
   // Form State
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     name: "",
     companyName: "",
     email: "",
     mobileNumber: "",
     country: "India",
-    requirement: "New Tooling Development",
-    quantity: "1 Set",
+    requirement: requirementOptions[0] || "New Complete Mould Tooling",
+    quantity: "1",
     message: ""
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const resetQuoteForm = () => {
+    setFormData(initialFormData);
+    setFormErrors({});
+    setHasAttemptedSubmit(false);
+    setFileName(null);
+    setIsSubmitted(false);
+    if (CATEGORY_NAMES.length > 0) {
+      const defaultCat = CATEGORY_NAMES[0];
+      setSelectedCategory(defaultCat);
+      const defaultProducts = PRODUCTS_BY_CATEGORY[defaultCat];
+      if (defaultProducts && defaultProducts.length > 0) {
+        setSelectedProduct(defaultProducts[0]);
+      }
+    }
+  };
 
   const handleCategoryChange = (cat: string) => {
     setSelectedCategory(cat);
@@ -99,45 +127,84 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
     }
   };
 
-  const validateField = (value: string) => value.trim().length > 0;
-  const validateEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  // Field Validation Errors State
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  const isNameInvalid = hasAttemptedSubmit && !validateField(formData.name);
-  const isCompanyInvalid = hasAttemptedSubmit && !validateField(formData.companyName);
-  const isEmailInvalid = hasAttemptedSubmit && (!validateField(formData.email) || !validateEmail(formData.email));
-  const isPhoneInvalid = hasAttemptedSubmit && !validateField(formData.mobileNumber);
-  const isCountryInvalid = hasAttemptedSubmit && !validateField(formData.country);
+  const validateForm = (dataToValidate = formData) => {
+    const errs: Record<string, string> = {};
+
+    const nameErr = validateFullName(dataToValidate.name);
+    if (nameErr) errs.name = nameErr;
+
+    const companyErr = validateCompanyName(dataToValidate.companyName);
+    if (companyErr) errs.companyName = companyErr;
+
+    const emailErr = validateEmail(dataToValidate.email);
+    if (emailErr) errs.email = emailErr;
+
+    const phoneErr = validatePhone(dataToValidate.mobileNumber, true);
+    if (phoneErr) errs.mobileNumber = phoneErr;
+
+    const countryErr = validateCountry(dataToValidate.country);
+    if (countryErr) errs.country = countryErr;
+
+    const qtyErr = validateQuantity(dataToValidate.quantity);
+    if (qtyErr) errs.quantity = qtyErr;
+
+    const msgErr = validateProjectDetails(dataToValidate.message);
+    if (msgErr) errs.message = msgErr;
+
+    return errs;
+  };
+
+  const isNameInvalid = hasAttemptedSubmit && !!formErrors.name;
+  const isCompanyInvalid = hasAttemptedSubmit && !!formErrors.companyName;
+  const isEmailInvalid = hasAttemptedSubmit && !!formErrors.email;
+  const isPhoneInvalid = hasAttemptedSubmit && !!formErrors.mobileNumber;
+  const isCountryInvalid = hasAttemptedSubmit && !!formErrors.country;
+  const isQuantityInvalid = hasAttemptedSubmit && !!formErrors.quantity;
+  const isMessageInvalid = hasAttemptedSubmit && !!formErrors.message;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setHasAttemptedSubmit(true);
 
-    const hasErrors =
-      !validateField(formData.name) ||
-      !validateField(formData.companyName) ||
-      !validateField(formData.email) ||
-      !validateEmail(formData.email) ||
-      !validateField(formData.mobileNumber) ||
-      !validateField(formData.country);
+    const validationErrors = validateForm();
+    setFormErrors(validationErrors);
 
-    if (hasErrors) {
+    if (Object.keys(validationErrors).length > 0) {
       // Find first invalid input and smoothly scroll with ample room below the header
-      const firstInvalid = document.querySelector("#inquiry-form-section .border-rose-500, #inquiry-form-section input:invalid");
-      if (firstInvalid) {
-        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
-        (firstInvalid as HTMLElement).focus();
-      }
+      setTimeout(() => {
+        const firstInvalid = document.querySelector("#inquiry-form-section .border-rose-500, #inquiry-form-section input:invalid");
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+          (firstInvalid as HTMLElement).focus();
+        }
+      }, 50);
       return;
     }
 
     setIsSubmitting(true);
 
-    // Simulate submission
+    // Sanitize before submitting / saving
+    const sanitizedName = sanitizeInput(formData.name);
+    const sanitizedCompany = sanitizeInput(formData.companyName);
+    const sanitizedCountry = sanitizeInput(formData.country);
+    const sanitizedMessage = sanitizeInput(formData.message);
+
+    // Simulate submission with sanitized data
     setTimeout(() => {
+      setFormData(prev => ({
+        ...prev,
+        name: sanitizedName,
+        companyName: sanitizedCompany,
+        country: sanitizedCountry,
+        message: sanitizedMessage,
+      }));
       setIsSubmitting(false);
       setIsSubmitted(true);
       setHasAttemptedSubmit(false);
-    }, 1200);
+    }, 800);
   };
 
   return (
@@ -194,11 +261,8 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
 
               <button
                 type="button"
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setFileName(null);
-                }}
-                className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#0056b3] hover:bg-blue-800 text-white text-xs font-semibold uppercase tracking-wider transition-colors"
+                onClick={resetQuoteForm}
+                className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-[#0056b3] hover:bg-blue-800 text-white text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 Submit Another Inquiry
               </button>
@@ -235,7 +299,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     {isNameInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>Please enter your full name</span>
+                        <span>{formErrors.name || "Please enter your full name"}</span>
                       </p>
                     )}
                   </div>
@@ -259,7 +323,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     {isCompanyInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>Please enter your company name</span>
+                        <span>{formErrors.companyName || "Please enter your company name"}</span>
                       </p>
                     )}
                   </div>
@@ -283,7 +347,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     {isEmailInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>Please enter a valid corporate email</span>
+                        <span>{formErrors.email || "Please enter a valid corporate email"}</span>
                       </p>
                     )}
                   </div>
@@ -307,7 +371,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     {isPhoneInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>Please enter your contact phone number</span>
+                        <span>{formErrors.mobileNumber || "Please enter your contact phone number"}</span>
                       </p>
                     )}
                   </div>
@@ -331,7 +395,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     {isCountryInvalid && (
                       <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                        <span>Please enter your country or region</span>
+                        <span>{formErrors.country || "Please enter your country or region"}</span>
                       </p>
                     )}
                   </div>
@@ -395,7 +459,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                   </div>
 
                   {/* Quantity */}
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 scroll-mt-36">
                     <label className="block text-xs font-bold text-slate-700">
                       Target Quantity / Sets <span className="text-[#ff6b00]">*</span>
                     </label>
@@ -404,9 +468,19 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                       required
                       value={formData.quantity}
                       onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                      placeholder="e.g. 1 Set (48 Cavity)"
-                      className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                      placeholder="e.g. 1"
+                      className={`w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans focus:outline-none ${
+                        isQuantityInvalid
+                          ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                          : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                      }`}
                     />
+                    {isQuantityInvalid && (
+                      <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{formErrors.quantity || "Quantity must be a positive integer greater than zero"}</span>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -419,7 +493,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                 </h4>
 
                 {/* Message */}
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 scroll-mt-36">
                   <label className="block text-xs font-bold text-slate-700">
                     Detailed Tooling Requirements &amp; Machine Parameters
                   </label>
@@ -428,8 +502,18 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Specify container grammage, neck type (e.g. PCO 1881 / 28mm), resin (PET, HDPE, PP), machine make (Husky, ASB, Ferromatik, Fong Kee), desired cycle time, or any target delivery deadlines..."
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10 transition-all font-sans"
+                    className={`w-full px-4 py-3 rounded-xl text-xs sm:text-sm text-slate-900 transition-all font-sans focus:outline-none ${
+                      isMessageInvalid
+                        ? "bg-rose-50/70 border-2 border-rose-500 focus:border-rose-600 focus:ring-2 focus:ring-rose-500/20"
+                        : "bg-slate-50 border border-slate-200 focus:bg-white focus:border-[#0056b3] focus:ring-2 focus:ring-[#0056b3]/10"
+                    }`}
                   />
+                  {isMessageInvalid && (
+                    <p className="text-[11px] font-semibold text-rose-600 flex items-center gap-1 mt-1 animate-in fade-in">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{formErrors.message}</span>
+                    </p>
+                  )}
                 </div>
 
                 {/* File Upload Box */}

@@ -59,7 +59,7 @@ export const QualityTechnology: React.FC = () => {
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
               Quality Standards &<br />
-              <span className="text-[#0056b3]">Technology Highlights.</span>
+              <span className="text-[#0056b3]">Technology Highlights</span>
             </h2>
           </motion.div>
 
@@ -148,7 +148,7 @@ export const QualityTechnology: React.FC = () => {
                   Global Industrial Quality Standards
                 </h3>
                 <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                  Our Quality Management System enforces strict metallurgical traceability, cleanroom compliant mold assembly standards, and zero-defect flashless gating protocols across every PET, ISBM, and EBM tooling project.
+                  Our Quality Management System enforces strict metallurgical traceability, cleanroom compliant mould assembly standards, and zero-defect flashless gating protocols across every PET, ISBM, and EBM tooling project.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
@@ -195,7 +195,7 @@ export const QualityTechnology: React.FC = () => {
 
                   <div>
                     <div className="flex justify-between text-xs font-semibold text-slate-800 mb-1.5">
-                      <span>Mold Life Longevity</span>
+                      <span>Mould Life Longevity</span>
                       <span className="text-[#0056b3] font-semibold">5,000,000+ Shots</span>
                     </div>
                     <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -347,7 +347,7 @@ export const QualityTechnology: React.FC = () => {
                   Turnkey Trial Pressing (100T - 1200T)
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  We don't ship unproven molds. Our in-house test bay houses high-speed injection and blow molding trial presses ranging from 100-ton to 1200-ton clamping force, replicating your exact production environment.
+                  We don't ship unproven moulds. Our in-house test bay houses high-speed injection and blow molding trial presses ranging from 100-ton to 1200-ton clamping force, replicating your exact production environment.
                 </p>
 
                 <div className="space-y-2.5 pt-2 text-xs font-semibold text-slate-700">
@@ -422,7 +422,7 @@ export const QualityTechnology: React.FC = () => {
                 </div>
                 <h4 className="text-xl font-semibold text-slate-900">Conformal Cooling Channel Design</h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                  Advanced 3D curved conformal cooling channels following cavity geometry, reducing mold cycle time up to 30%.
+                  Advanced 3D curved conformal cooling channels following cavity geometry, reducing mould cycle time up to 30%.
                 </p>
                 <div className="pt-2 text-xs font-bold text-[#0056b3] flex items-center gap-1">
                   <span>30% Cycle Time Reduction</span>

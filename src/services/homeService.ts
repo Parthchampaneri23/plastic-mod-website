@@ -26,16 +26,29 @@ const ADMIN_API_URL = process.env.NEXT_PUBLIC_ADMIN_API_URL || "http://localhost
 
 export async function getDynamicHomeContent() {
   try {
-    const res = await fetch(ADMIN_API_URL, {
-      next: { revalidate: 10 }, // automatically revalidates every 10 seconds
+    // When executing in the client browser, route via internal Next.js proxy (/api/home) to prevent CORS or connection errors
+    const targetUrl = typeof window !== "undefined" ? "/api/home" : ADMIN_API_URL;
+    const res = await fetch(targetUrl, {
+      ...(typeof window === "undefined" ? { next: { revalidate: 10 } } : { cache: "no-store" as RequestCache }),
     });
     if (!res.ok) throw new Error("Failed to fetch dynamic home content");
     const json = await res.json();
     if (json.success && json.data) {
-      return json.data;
+      const data = json.data;
+      if (Array.isArray(data.heroSlides)) {
+        data.heroSlides = data.heroSlides.map((s: any) => ({
+          ...s,
+          primaryCtaLink: s.primaryCtaLink === "/products#catalog" ? "/products" : s.primaryCtaLink,
+          secondaryCtaLink: s.secondaryCtaLink === "/products#catalog" ? "/products" : s.secondaryCtaLink,
+        }));
+      }
+      return data;
     }
   } catch (err) {
-    console.warn("Using fallback static home data (admin backend offline or loading):", err);
+    // Silently fall back to static data if admin server is offline
+    if (process.env.NODE_ENV === "development" && typeof window === "undefined") {
+      console.warn("Using fallback static home data (admin backend offline or loading)");
+    }
   }
 
   // Graceful fallback to default home.ts data
@@ -54,9 +67,9 @@ export async function getDynamicHomeContent() {
     companyIntro: {
       badge: "Engineering Excellence Since 1994",
       heading: "About Patel Mould Industries",
-      paragraph1: "Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform molds, ISBM tooling, and Extrusion Blow Molds.",
+      paragraph1: "Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform moulds, ISBM tooling, and Extrusion Blow Moulds.",
       paragraph2: "Spanning three decades of Indian toolmaking craftsmanship, Patel Mould Industries operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.",
-      paragraph3: "We specialize in custom multi-cavity mold solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.",
+      paragraph3: "We specialize in custom multi-cavity mould solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.",
       image: "/Home/company image about.png",
     },
     topBar: {
@@ -91,7 +104,7 @@ export async function getDynamicHomeContent() {
     },
     footer: {
       logoImage: "/PMlogo.png",
-      companyBio: "Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Molds for the beverage, pharmaceutical, packaging, and personal care industries.",
+      companyBio: "Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Moulds for the beverage, pharmaceutical, packaging, and personal care industries.",
       phone: "91+ 7784758347",
       email: "sales@patelmould.com",
       address: "Patel Mould Park, Phase-IV GIDC, Gujarat, India",

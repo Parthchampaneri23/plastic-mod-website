@@ -14,6 +14,7 @@ interface ProductCategoriesProps {
     shortDesc: string;
     image: string;
     link?: string;
+    isActive?: boolean;
   }>;
   sectionInfo?: {
     badge?: string;
@@ -26,10 +27,17 @@ interface ProductCategoriesProps {
 }
 
 export const ProductCategories: React.FC<ProductCategoriesProps> = ({ categories, sectionInfo }) => {
-  const currentCategories = categories && categories.length > 0 ? categories : PRODUCT_CATEGORIES;
+  const rawCategories = categories && categories.length > 0 ? categories : PRODUCT_CATEGORIES;
+  const currentCategories = rawCategories
+    .filter((cat: any) => cat.isActive !== false)
+    .sort((a: any, b: any) => {
+      const orderA = a.order !== undefined ? a.order : 0;
+      const orderB = b.order !== undefined ? b.order : 0;
+      return orderA - orderB;
+    });
   const badge = sectionInfo?.badge || "PRODUCT CATEGORIES";
   const headlineDark = sectionInfo?.headlineDark || "Precision Moulds for";
-  const headlineBlue = sectionInfo?.headlineBlue || "Diverse Applications.";
+  const headlineBlue = sectionInfo?.headlineBlue || "Diverse Applications";
   const description =
     sectionInfo?.description ||
     "High-precision PET preform, ISBM, and EBM tooling engineered for 5M+ cycle tool life, rapid cycle times, and high-volume container production.";
@@ -104,14 +112,17 @@ export const ProductCategories: React.FC<ProductCategoriesProps> = ({ categories
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentCategories.map((category, index) => {
             const categorySlugMap: Record<string, string> = {
+              'preform-jar-mould': 'preform-jar',
               'preform-jar-mold': 'preform-jar',
+              'isbm-mould': 'isbm',
               'isbm-mold': 'isbm',
+              'ebm-mould': 'ebm',
               'ebm-mold': 'ebm',
             };
-            const categorySlug = categorySlugMap[category.id] || '';
+            const categorySlug = categorySlugMap[category.id] || (category.id ? category.id.replace(/-mould|-mold/, '') : '');
             const categoryUrl = ('link' in category && category.link) ? (category.link as string) : `/products?category=${categorySlug}#catalog`;
 
             return (

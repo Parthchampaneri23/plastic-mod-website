@@ -18,6 +18,7 @@ import {
 import { PRODUCT_CATEGORIES } from '@/data/content';
 import { PRODUCTS as DEFAULT_PRODUCTS } from '@/data/products';
 import { getDynamicProductsContent } from '@/services/productService';
+import { getDynamicHomeContent } from '@/services/homeService';
 import { Button } from './Button';
 
 export interface HeaderProps {
@@ -32,20 +33,60 @@ export interface HeaderProps {
     logoAlt?: string;
     ctaButtonText?: string;
     ctaButtonLink?: string;
+    links?: { id?: string; label: string; href: string; hasDropdown?: boolean }[];
     menuLinks?: { label: string; href: string; isMegaMenu?: boolean }[];
   };
 }
 
-export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
+const DEFAULT_NAV_LINKS = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Products', href: '/products', isMegaMenu: true },
+  { label: 'Manufacturing', href: '/manufacturing' },
+  { label: 'Infrastructure', href: '/infrastructure' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'Blogs', href: '/blogs' },
+  { label: 'Contact Us', href: '/contact' },
+];
+
+export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: initialNavbar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownCloseTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (dropdownCloseTimeoutRef.current) {
+      clearTimeout(dropdownCloseTimeoutRef.current);
+      dropdownCloseTimeoutRef.current = null;
+    }
+    setDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownCloseTimeoutRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 250);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (dropdownCloseTimeoutRef.current) {
+        clearTimeout(dropdownCloseTimeoutRef.current);
+      }
+    };
+  }, []);
   const [productsList, setProductsList] = useState<any[]>(DEFAULT_PRODUCTS);
   const [categoriesList, setCategoriesList] = useState<any[]>([
     { id: 'preform-jar', slug: 'preform-jar', name: 'Preform & Jar Moulds' },
     { id: 'isbm', slug: 'isbm', name: 'ISBM Moulds' },
     { id: 'ebm', slug: 'ebm', name: 'EBM Moulds' },
   ]);
+
+  // Support dynamic header data fetched internally if not supplied via props or to ensure freshness
+  const [dynamicHeaderData, setDynamicHeaderData] = useState<{
+    topBar?: any;
+    navbar?: any;
+  } | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -55,24 +96,75 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
           setProductsList(res.products);
         }
         if (res.categories && res.categories.length > 0) {
-          setCategoriesList(res.categories);
+          const sortedCats = res.categories
+            .filter((c: any) => c.isActive !== false)
+            .sort((a: any, b: any) => {
+              const orderA = a.order !== undefined ? a.order : 0;
+              const orderB = b.order !== undefined ? b.order : 0;
+              return orderA - orderB;
+            });
+          setCategoriesList(sortedCats);
         }
       }
     });
+
+    // If navbar or topBar props were omitted (e.g. on sub-pages), load them dynamically
+    if (!initialNavbar || !initialNavbar.menuLinks || !initialTopBar) {
+      getDynamicHomeContent().then((res) => {
+        if (isMounted && res) {
+          setDynamicHeaderData({
+            topBar: res.topBar,
+            navbar: res.navbar,
+          });
+        }
+      });
+    }
+
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [initialNavbar, initialTopBar]);
+
+  const activeTopBar = initialTopBar || dynamicHeaderData?.topBar;
+  const activeNavbar = initialNavbar || dynamicHeaderData?.navbar;
 
   // Defaults
-  const phone = topBar?.phone || "91+ 7784758347";
-  const email = topBar?.email || "sales@patelmould.com";
-  const address = topBar?.address || "Patel Mould Park, Phase-IV GIDC, Gujarat, India";
-  const mapsUrl = topBar?.mapsUrl || "https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India";
-  const logoImage = navbar?.logoImage || "/PMlogo.png";
-  const logoAlt = navbar?.logoAlt || "Patel Mould Industries";
-  const ctaText = navbar?.ctaButtonText || "Request a Quote";
-  const ctaLink = navbar?.ctaButtonLink || "/contact#inquiry-form-section";
+  const phone = activeTopBar?.phone || "91+ 7784758347";
+  const email = activeTopBar?.email || "sales@patelmould.com";
+  const address = activeTopBar?.address || "Patel Mould Park, Phase-IV GIDC, Gujarat, India";
+  const mapsUrl = activeTopBar?.mapsUrl || "https://www.google.com/maps/search/?api=1&query=Precision+Mould+Park+Phase+IV+GIDC+Vatva+Gujarat+India";
+  const logoImage = activeNavbar?.logoImage || "/PMlogo.png";
+  const logoAlt = activeNavbar?.logoAlt || "Patel Mould Industries";
+  const ctaText = activeNavbar?.ctaButtonText || "Request a Quote";
+  const ctaLink = activeNavbar?.ctaButtonLink || "/contact#inquiry-form-section";
+
+  // Normalize links from activeNavbar: accept either navbar.links or navbar.menuLinks (filtering out blank entries)
+  const navLinks: { label: string; href: string; isMegaMenu: boolean }[] = (() => {
+    if (Array.isArray(activeNavbar?.links) && activeNavbar.links.length > 0) {
+      const filtered = activeNavbar.links.filter((l: any) => l && l.label && l.label.trim() !== "");
+      if (filtered.length > 0) {
+        return filtered.map((l: any) => ({
+          label: l.label.trim(),
+          href: l.href || '/',
+          isMegaMenu: Boolean(l.hasDropdown || l.isMegaMenu || l.href === '/products'),
+        }));
+      }
+    }
+    if (Array.isArray(activeNavbar?.menuLinks) && activeNavbar.menuLinks.length > 0) {
+      const filtered = activeNavbar.menuLinks.filter((l: any) => l && l.label && l.label.trim() !== "");
+      if (filtered.length > 0) {
+        return filtered.map((l: any) => ({
+          label: l.label.trim(),
+          href: l.href || '/',
+          isMegaMenu: Boolean(l.isMegaMenu || l.href === '/products'),
+        }));
+      }
+    }
+    return DEFAULT_NAV_LINKS.map(l => ({
+      ...l,
+      isMegaMenu: Boolean(l.isMegaMenu || l.href === '/products'),
+    }));
+  })();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-sans text-slate-800">
-      {/* Mefron Dark Navy Top Utility Bar */}
+      {/* Dark Navy Top Utility Bar */}
       <div className="hidden xl:block bg-[#0b1f3a] border-b border-slate-800 text-xs py-2 text-slate-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           {/* Left: Contact Information */}
@@ -117,7 +209,7 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
         </div>
       </div>
 
-      {/* Main Navigation Header - Clean White Surface */}
+      {/* Main Navigation Header */}
       <nav className={`transition-all duration-300 ${isScrolled
         ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm py-1.5'
         : 'bg-white border-b border-slate-100 shadow-xs py-1.5'
@@ -134,111 +226,110 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
               />
             </Link>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="/about" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                About Us
-              </Link>
+            {/* Desktop Navigation Links (Dynamic from Admin CMS) */}
+            <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 flex-wrap justify-end">
+              {navLinks.map((link, idx) => {
+                if (link.isMegaMenu) {
+                  return (
+                    <div
+                      key={`nav-link-${idx}`}
+                      className="relative shrink-0 py-2 group"
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <Link
+                        href={link.href}
+                        className="flex items-center space-x-1 text-sm xl:text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors whitespace-nowrap cursor-pointer"
+                      >
+                        <span>{link.label}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-[#0056b3]' : ''}`} />
+                      </Link>
 
-              {/* Products Mega Menu Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setDropdownOpen(true)}
-                onMouseLeave={() => setDropdownOpen(false)}
-              >
-                <Link
-                  href="/products"
-                  className="flex items-center space-x-1 text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors py-2 cursor-pointer"
-                >
-                  <span>Products</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-[#0056b3]' : ''}`} />
-                </Link>
+                      {/* Mega Menu Dropdown Panel */}
+                      {dropdownOpen && (
+                        <div
+                          className="absolute top-full -left-20 w-[780px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 animate-in fade-in duration-200 z-50 pt-6 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-4 before:bg-transparent"
+                          onMouseEnter={handleMouseEnter}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          {/* Dynamic Categories Columns */}
+                          <div className={`grid grid-cols-${Math.min(categoriesList.length, 3)} gap-6`}>
+                            {categoriesList.map((cat) => {
+                              const catProducts = productsList.filter(
+                                (p) => p.categorySlug === cat.slug || p.category === cat.name
+                              );
 
-                {/* Mega Menu Dropdown Panel */}
-                {dropdownOpen && (
-                  <div className="absolute top-full -left-20 w-[780px] bg-white border border-slate-200 rounded-2xl shadow-2xl p-6 mt-1 animate-in fade-in duration-200 z-50">
-                    {/* Dynamic Categories Columns */}
-                    <div className={`grid grid-cols-${Math.min(categoriesList.length, 3)} gap-6`}>
-                      {categoriesList.map((cat) => {
-                        const catProducts = productsList.filter(
-                          (p) => p.categorySlug === cat.slug || p.category === cat.name
-                        );
+                              return (
+                                <div key={cat.id || cat.slug}>
+                                  <Link
+                                    href={`/products?category=${cat.slug}`}
+                                    className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
+                                    onClick={() => setDropdownOpen(false)}
+                                  >
+                                    <span>{cat.name}</span>
+                                    <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </Link>
+                                  <div className="space-y-1.5">
+                                    {catProducts.map((p) => (
+                                      <Link
+                                        key={p.slug}
+                                        href={`/products/${p.slug}`}
+                                        className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
+                                        onClick={() => setDropdownOpen(false)}
+                                      >
+                                        <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
+                                        <span>{p.name}</span>
+                                        <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
+                                      </Link>
+                                    ))}
+                                    {catProducts.length === 0 && (
+                                      <span className="text-xs text-slate-400 italic">No products listed</span>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
 
-                        return (
-                          <div key={cat.id || cat.slug}>
+                          {/* Footer Action */}
+                          <div className="pt-4 mt-5 border-t border-slate-100 bg-slate-50/80 -mx-6 -mb-6 p-4 rounded-b-2xl flex items-center justify-between px-6">
+                            <span className="text-xs text-slate-500 font-medium">Explore precision tooling configurations</span>
                             <Link
-                              href={`/products?category=${cat.slug}`}
-                              className="block text-sm font-bold text-[#0056b3] hover:text-blue-800 tracking-wider uppercase mb-3 border-b border-slate-100 pb-2 group flex items-center justify-between"
+                              href="/products"
+                              className="text-xs text-[#0056b3] hover:text-blue-800 font-bold flex items-center space-x-1"
                               onClick={() => setDropdownOpen(false)}
                             >
-                              <span>{cat.name}</span>
-                              <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              <span>View All Products</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
                             </Link>
-                            <div className="space-y-1.5">
-                              {catProducts.map((p) => (
-                                <Link
-                                  key={p.slug}
-                                  href={`/products/${p.slug}`}
-                                  className="group/item flex items-center text-xs font-semibold text-slate-700 hover:text-blue-600 transition-colors py-1"
-                                  onClick={() => setDropdownOpen(false)}
-                                >
-                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover/item:bg-blue-600 mr-2 transition-colors"></span>
-                                  <span>{p.name}</span>
-                                  <ArrowRight className="w-3 h-3 ml-auto opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-0.5 transition-all text-blue-600" />
-                                </Link>
-                              ))}
-                              {catProducts.length === 0 && (
-                                <span className="text-xs text-slate-400 italic">No products listed</span>
-                              )}
-                            </div>
                           </div>
-                        );
-                      })}
+                        </div>
+                      )}
                     </div>
+                  );
+                }
 
-                    {/* Footer Action */}
-                    <div className="pt-4 mt-5 border-t border-slate-100 bg-slate-50/80 -mx-6 -mb-6 p-4 rounded-b-2xl flex items-center justify-between px-6">
-                      <span className="text-xs text-slate-500 font-medium">Explore precision tooling configurations</span>
-                      <Link
-                        href="/products"
-                        className="text-xs text-[#0056b3] hover:text-blue-800 font-bold flex items-center space-x-1"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <span>View All Products</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <Link href="/manufacturing" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                Manufacturing
-              </Link>
-              <Link href="/infrastructure" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                Infrastructure
-              </Link>
-
-              <Link href="/industries" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                Industries
-              </Link>
-              <Link href="/blogs" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                Blogs
-              </Link>
-              <Link href="/contact" className="text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors">
-                Contact Us
-              </Link>
+                return (
+                  <Link
+                    key={`nav-link-${idx}`}
+                    href={link.href}
+                    className="text-sm xl:text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors whitespace-nowrap shrink-0"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Request Quote Button */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-4 shrink-0 ml-4">
               <Button href={ctaLink} variant="primary" size="md">
                 {ctaText}
               </Button>
             </div>
 
-            {/* Mobile Hamburger Button */}
-            <div className="flex md:hidden items-center">
+            {/* Mobile / Tablet Hamburger Button */}
+            <div className="flex lg:hidden items-center">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 rounded-md text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none"
@@ -250,98 +341,68 @@ export const Header: React.FC<HeaderProps> = ({ topBar, navbar }) => {
           </div>
         </div>
 
-        {/* Mobile Slide-down Menu */}
+        {/* Mobile / Tablet Slide-down Menu (Dynamic from Admin CMS) */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top duration-300 max-h-[80vh] overflow-y-auto">
-            <Link
-              href="/about"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About Us
-            </Link>
-
-            {/* Products Accordion Section */}
-            <div className="space-y-3 pl-2 border-l-2 border-blue-200">
-              <Link
-                href="/products"
-                className="block text-xs font-bold text-[#0056b3] uppercase tracking-wider py-1"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Products Catalog →
-              </Link>
-
-              {/* Preform & Jar */}
-              {categoriesList.map((cat) => {
-                const catProducts = productsList.filter(
-                  (p) => p.categorySlug === cat.slug || p.category === cat.name
-                );
-
+          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top duration-300 max-h-[80vh] overflow-y-auto">
+            {navLinks.map((link, idx) => {
+              if (link.isMegaMenu) {
                 return (
-                  <div key={cat.id || cat.slug} className="space-y-1 pl-2">
+                  <div key={`mobile-nav-${idx}`} className="space-y-3 pl-2 border-l-2 border-blue-200">
                     <Link
-                      href={`/products?category=${cat.slug}`}
-                      className="block text-xs font-bold text-slate-900 hover:text-blue-600"
+                      href={link.href}
+                      className="block text-xs font-bold text-[#0056b3] uppercase tracking-wider py-1"
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {cat.name}
+                      {link.label} Catalog →
                     </Link>
-                    {catProducts.map((p) => (
-                      <Link
-                        key={p.slug}
-                        href={`/products/${p.slug}`}
-                        className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        • {p.name}
-                      </Link>
-                    ))}
+
+                    {/* Preform & Jar / Categories */}
+                    {categoriesList.map((cat) => {
+                      const catProducts = productsList.filter(
+                        (p) => p.categorySlug === cat.slug || p.category === cat.name
+                      );
+
+                      return (
+                        <div key={cat.id || cat.slug} className="space-y-1 pl-2">
+                          <Link
+                            href={`/products?category=${cat.slug}`}
+                            className="block text-xs font-bold text-slate-900 hover:text-blue-600"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {cat.name}
+                          </Link>
+                          {catProducts.map((p) => (
+                            <Link
+                              key={p.slug}
+                              href={`/products/${p.slug}`}
+                              className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              • {p.name}
+                            </Link>
+                          ))}
+                        </div>
+                      );
+                    })}
                   </div>
                 );
-              })}
-            </div>
+              }
 
-            <Link
-              href="/manufacturing"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Manufacturing Capabilities
-            </Link>
-
-            <Link
-              href="/infrastructure"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Infrastructure &amp; Facilities
-            </Link>
-
-            <Link
-              href="/industries"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Industries
-            </Link>
-            <Link
-              href="/blogs"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Blogs
-            </Link>
-            <Link
-              href="/contact"
-              className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact Us
-            </Link>
+              return (
+                <Link
+                  key={`mobile-nav-${idx}`}
+                  href={link.href}
+                  className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
 
             <div className="pt-4 border-t border-slate-200">
-              <Button href="/contact#inquiry-form-section" variant="primary" size="md" className="w-full">
-                Request a Quote
+              <Button href={ctaLink} variant="primary" size="md" className="w-full">
+                {ctaText}
               </Button>
             </div>
           </div>

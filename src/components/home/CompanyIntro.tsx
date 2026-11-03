@@ -76,9 +76,9 @@ interface CompanyIntroProps {
 export const CompanyIntro: React.FC<CompanyIntroProps> = ({ intro, stats }) => {
   const currentBadge = intro?.badge || "Engineering Excellence Since 1994";
   const currentHeading = intro?.heading || "About Patel Mould Industries";
-  const currentP1 = intro?.paragraph1 || "Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform molds, ISBM tooling, and Extrusion Blow Molds.";
+  const currentP1 = intro?.paragraph1 || "Established in 1994 in Gujarat, Patel Mould Industries is one of India's most trusted manufacturers of high-precision PET preform moulds, ISBM tooling, and Extrusion Blow Moulds.";
   const currentP2 = intro?.paragraph2 || "Spanning three decades of Indian toolmaking craftsmanship, Patel Mould Industries operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.";
-  const currentP3 = intro?.paragraph3 || "We specialize in custom multi-cavity mold solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.";
+  const currentP3 = intro?.paragraph3 || "We specialize in custom multi-cavity mould solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.";
   const currentImage = intro?.image || "/Home/company image about.png";
   const currentStats = stats && stats.length > 0 ? stats : COMPANY_STATS;
 

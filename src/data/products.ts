@@ -14,7 +14,7 @@ export interface DetailedTechSpecs {
 export interface Product {
   slug: string;
   name: string;
-  category: 'Preform & Jar Mold' | 'ISBM Mold' | 'EBM Mold';
+  category: 'Preform & Jar Mould' | 'ISBM Mould' | 'EBM Mould';
   categorySlug: 'preform-jar' | 'isbm' | 'ebm';
   shortDescription: string;
   fullDescription: string;
@@ -30,33 +30,33 @@ export interface Product {
 
 export const CATEGORIES = [
   { id: 'all', label: 'ALL PRODUCTS', slug: '' },
-  { id: 'preform-jar', label: 'PREFORM & JAR MOULDS', slug: 'preform-jar', categoryName: 'Preform & Jar Mold' },
-  { id: 'isbm', label: 'ISBM MOULDS', slug: 'isbm', categoryName: 'ISBM Mold' },
-  { id: 'ebm', label: 'EBM MOULDS', slug: 'ebm', categoryName: 'EBM Mold' },
+  { id: 'preform-jar', label: 'PREFORM & JAR MOULDS', slug: 'preform-jar', categoryName: 'Preform & Jar Mould' },
+  { id: 'isbm', label: 'ISBM MOULDS', slug: 'isbm', categoryName: 'ISBM Mould' },
+  { id: 'ebm', label: 'EBM MOULDS', slug: 'ebm', categoryName: 'EBM Mould' },
 ] as const;
 
 export const PRODUCTS: Product[] = [
   // -------------------------------------------------------------------
-  // A. Preform & Jar Mold
+  // A. Preform & Jar Mould
   // -------------------------------------------------------------------
   {
-    slug: 'pet-preform-mold',
-    name: 'PET Preform Mold',
-    category: 'Preform & Jar Mold',
+    slug: 'pet-preform-mould',
+    name: 'PET Preform Mould',
+    category: 'Preform & Jar Mould',
     categorySlug: 'preform-jar',
     shortDescription: 'High-speed preform moulds built for smooth, reliable bottle production and seamless daily output.',
     overview: 'Engineered for high-volume beverage and packaging lines, our PET Preform Moulds feature balanced hot runner systems, micro-micron concentricity, and ultra-fast thermal cooling.',
     fullDescription: 'Our PET Preform Moulds are built using premium S136 stainless steel and advanced CAD/CAM 3D simulations. The optimized cooling channel geometry dramatically reduces cycle times while guaranteeing uniform wall thickness and zero neck flash across all preform cavities.',
-    image: '/product/pet-preform-mold.png',
+    image: '/product/pet-preform-mould.png',
     galleryImages: [
-      '/product/pet-preform-mold.png',
-      '/product/pet-preform-mold-detail-2.png',
-      '/product/pet-preform-mold-detail-3.png'
+      '/product/pet-preform-mould.png',
+      '/product/pet-preform-mould-detail-2.png',
+      '/product/pet-preform-mould-detail-3.png'
     ],
     keywords: ['PET', 'Preform', 'Packaging', 'High Volume'],
     application: 'Beverage & Packaging',
     specifications: [
-      { label: 'Mold Type', value: 'PET Preform' },
+      { label: 'Mould Type', value: 'PET Preform' },
       { label: 'Application', value: 'Beverage & Packaging' },
       { label: 'Cavity Configuration', value: 'Custom (Single to Multi-cavity)' },
       { label: 'Production', value: 'High Volume' },
@@ -77,23 +77,23 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    slug: 'pet-jar-mold',
-    name: 'PET Jar Mold',
-    category: 'Preform & Jar Mold',
+    slug: 'pet-jar-mould',
+    name: 'PET Jar Mould',
+    category: 'Preform & Jar Mould',
     categorySlug: 'preform-jar',
     shortDescription: 'Custom wide-mouth jar moulds offering sparkling clarity and perfect neck threading every time.',
     overview: 'Designed for wide-mouth packaging applications, our PET Jar Moulds deliver high cosmetic clarity, precise thread engagement, and reliable wall distribution.',
     fullDescription: 'Specifically crafted for wide-mouth food containers, cosmetics, and confectionery jars, these moulds incorporate high thermal conductivity inserts and precision neck split mechanisms to prevent deformation during rapid eject cycles.',
-    image: '/product/pet-jar-mold.png',
+    image: '/product/pet-jar-mould.png',
     galleryImages: [
-      '/product/pet-jar-mold.png',
-      '/product/pet-jar-mold-detail-2.png',
-      '/product/pet-jar-mold-detail-3.png'
+      '/product/pet-jar-mould.png',
+      '/product/pet-jar-mould-detail-2.png',
+      '/product/pet-jar-mould-detail-3.png'
     ],
     keywords: ['PET', 'Jar', 'Packaging'],
     application: 'Food, Beverage & Packaging',
     specifications: [
-      { label: 'Mold Type', value: 'PET Jar' },
+      { label: 'Mould Type', value: 'PET Jar' },
       { label: 'Application', value: 'Food, Beverage & Packaging' },
       { label: 'Cavity Configuration', value: 'Custom' },
       { label: 'Production', value: 'High Volume' },
@@ -114,23 +114,23 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    slug: 'high-cavitation-preform-mold',
-    name: 'High-Cavitation Preform Mold',
-    category: 'Preform & Jar Mold',
+    slug: 'high-cavitation-preform-mould',
+    name: 'High-Cavitation Preform Mould',
+    category: 'Preform & Jar Mould',
     categorySlug: 'preform-jar',
     shortDescription: 'Maximized multi-cavity tooling to boost your factory production rates with top-tier precision.',
     overview: 'High-cavitation tooling designed for continuous, round-the-clock preform manufacturing with balanced melt distribution and minimal energy consumption.',
     fullDescription: 'Engineered for major bottling plants requiring high output, this high-cavitation tooling setup integrates multi-zone digital thermal control, pneumatic shut-off valve gates, and ultra-durable mould base structures for 5M+ shot lifespan.',
-    image: '/product/high-cavitation-preform-mold.png',
+    image: '/product/high-cavitation-preform-mould.png',
     galleryImages: [
-      '/product/high-cavitation-preform-mold.png',
-      '/product/pet-preform-mold.png',
-      '/product/pet-jar-mold.png'
+      '/product/high-cavitation-preform-mould.png',
+      '/product/pet-preform-mould.png',
+      '/product/pet-jar-mould.png'
     ],
     keywords: ['High Cavitation', 'PET', 'Preform', 'Production'],
     application: 'Beverage Packaging',
     specifications: [
-      { label: 'Mold Type', value: 'High-Cavitation Preform' },
+      { label: 'Mould Type', value: 'High-Cavitation Preform' },
       { label: 'Application', value: 'Beverage Packaging' },
       { label: 'Cavity Configuration', value: 'High Cavitation Custom' },
       { label: 'Production', value: 'High Volume' },
@@ -152,26 +152,26 @@ export const PRODUCTS: Product[] = [
   },
 
   // -------------------------------------------------------------------
-  // B. ISBM Mold
+  // B. ISBM Mould
   // -------------------------------------------------------------------
   {
-    slug: 'isbm-bottle-mold',
-    name: 'ISBM Bottle Mold',
-    category: 'ISBM Mold',
+    slug: 'isbm-bottle-mould',
+    name: 'ISBM Bottle Mould',
+    category: 'ISBM Mould',
     categorySlug: 'isbm',
     shortDescription: 'Single-stage stretch blow moulds delivering crystal-clear bottle finish and uniform wall strength.',
     overview: 'Single-stage Injection Stretch Blow Moulding (ISBM) tooling engineered for pharmaceutical, cosmetic, and premium spirit bottle production.',
     fullDescription: 'Our ISBM Bottle Moulds are built for single-stage processing where preform injection and bottle blowing occur in one seamless machine cycle. This eliminates preform handling scratches and produces optic-grade clarity with precise neck dimensional tolerances.',
-    image: '/product/isbm-bottle-mold.png',
+    image: '/product/isbm-bottle-mould.png',
     galleryImages: [
-      '/product/isbm-bottle-mold.png',
-      '/product/isbm-container-mold.png',
-      '/product/multi-cavity-isbm-mold.png'
+      '/product/isbm-bottle-mould.png',
+      '/product/isbm-container-mould.png',
+      '/product/multi-cavity-isbm-mould.png'
     ],
     keywords: ['ISBM', 'PET Bottle', 'Bottle', 'Packaging'],
     application: 'PET Bottles',
     specifications: [
-      { label: 'Mold Type', value: 'ISBM' },
+      { label: 'Mould Type', value: 'ISBM' },
       { label: 'Application', value: 'PET Bottles' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Production', value: 'High Volume' },
@@ -192,23 +192,23 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    slug: 'isbm-container-mold',
-    name: 'ISBM Container Mold',
-    category: 'ISBM Mold',
+    slug: 'isbm-container-mould',
+    name: 'ISBM Container Mould',
+    category: 'ISBM Mould',
     categorySlug: 'isbm',
     shortDescription: 'Flexible container tooling designed for custom shapes, cosmetics, and delicate packaging needs.',
     fullDescription: 'Crafted for complex geometric packaging such as oval shampoo bottles, square personal care containers, and liquor flasks, our ISBM Container Moulds incorporate specialized stretch rod geometry to ensure uniform wall thickness.',
     overview: 'Custom ISBM tooling designed to handle asymmetric shapes, sharp radii, and special bottle neck designs with high structural integrity.',
-    image: '/product/isbm-container-mold.png',
+    image: '/product/isbm-container-mould.png',
     galleryImages: [
-      '/product/isbm-container-mold.png',
-      '/product/isbm-bottle-mold.png',
-      '/product/multi-cavity-isbm-mold.png'
+      '/product/isbm-container-mould.png',
+      '/product/isbm-bottle-mould.png',
+      '/product/multi-cavity-isbm-mould.png'
     ],
     keywords: ['ISBM', 'Container', 'Packaging', 'Custom Tooling'],
     application: 'Containers',
     specifications: [
-      { label: 'Mold Type', value: 'ISBM' },
+      { label: 'Mould Type', value: 'ISBM' },
       { label: 'Application', value: 'Containers' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Design', value: 'Application Specific' },
@@ -223,29 +223,29 @@ export const PRODUCTS: Product[] = [
     features: [
       'Custom complex geometry capability',
       'Seamless parting line match',
-      'Integrated bottom mold pinch mechanics',
+      'Integrated bottom mould pinch mechanics',
       'Optimized venting channels',
       'Zero distortion cooling jacket',
     ],
   },
   {
-    slug: 'multi-cavity-isbm-mold',
-    name: 'Multi-Cavity ISBM Mold',
-    category: 'ISBM Mold',
+    slug: 'multi-cavity-isbm-mould',
+    name: 'Multi-Cavity ISBM Mould',
+    category: 'ISBM Mould',
     categorySlug: 'isbm',
     shortDescription: 'High-density multi-cavity ISBM tools crafted for efficient, cost-effective bottle manufacturing.',
     overview: 'High-density multi-cavity ISBM moulds designed to maximize output per machine hour while lowering cost per container.',
     fullDescription: 'Designed for high-capacity FMCG packaging lines, our Multi-Cavity ISBM Moulds ensure cavity-to-cavity volume consistency and tight weight distribution for high-speed automated capping lines.',
-    image: '/product/multi-cavity-isbm-mold.png',
+    image: '/product/multi-cavity-isbm-mould.png',
     galleryImages: [
-      '/product/multi-cavity-isbm-mold.png',
-      '/product/isbm-bottle-mold.png',
-      '/product/isbm-container-mold.png'
+      '/product/multi-cavity-isbm-mould.png',
+      '/product/isbm-bottle-mould.png',
+      '/product/isbm-container-mould.png'
     ],
     keywords: ['ISBM', 'Multi-Cavity', 'High Volume', 'Bottle'],
     application: 'Bottle & Container Packaging',
     specifications: [
-      { label: 'Mold Type', value: 'Multi-Cavity ISBM' },
+      { label: 'Mould Type', value: 'Multi-Cavity ISBM' },
       { label: 'Application', value: 'Bottle & Container Packaging' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Production', value: 'High Volume' },
@@ -261,32 +261,32 @@ export const PRODUCTS: Product[] = [
       'High cavitation density for maximum yield',
       'Precise cavity-to-cavity weight uniformity',
       'Durable heat-treated aluminum & steel inserts',
-      'Fast mold changeover design',
+      'Fast mould changeover design',
       'Enhanced cooling circuit channels',
     ],
   },
 
   // -------------------------------------------------------------------
-  // C. EBM Mold
+  // C. EBM Mould
   // -------------------------------------------------------------------
   {
-    slug: 'ebm-bottle-mold',
-    name: 'EBM Bottle Mold',
-    category: 'EBM Mold',
+    slug: 'ebm-bottle-mould',
+    name: 'EBM Bottle Mould',
+    category: 'EBM Mould',
     categorySlug: 'ebm',
     shortDescription: 'Durable extrusion blow moulds engineered for crisp bottle contours and clean flash separation.',
     overview: 'Precision Extrusion Blow Moulding (EBM) tooling for HDPE, PP, and PVC bottles with clean pinch-off edges and rapid thermal response.',
     fullDescription: 'Engineered with beryllium copper pinch-offs and high thermal conductivity aluminum or steel cavities, our EBM Bottle Moulds guarantee clean flash separation and smooth bottle bottoms for leak-free liquid packaging.',
-    image: '/product/ebm-bottle-mold.png',
+    image: '/product/ebm-bottle-mould.png',
     galleryImages: [
-      '/product/ebm-bottle-mold.png',
-      '/product/ebm-container-mold.png',
-      '/product/ebm-industrial-packaging-mold.png'
+      '/product/ebm-bottle-mould.png',
+      '/product/ebm-container-mould.png',
+      '/product/ebm-industrial-packaging-mould.png'
     ],
     keywords: ['EBM', 'Bottle', 'Packaging'],
     application: 'Bottles',
     specifications: [
-      { label: 'Mold Type', value: 'EBM' },
+      { label: 'Mould Type', value: 'EBM' },
       { label: 'Application', value: 'Bottles' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Production', value: 'High Volume' },
@@ -307,23 +307,23 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
-    slug: 'ebm-container-mold',
-    name: 'EBM Container Mold',
-    category: 'EBM Mold',
+    slug: 'ebm-container-mould',
+    name: 'EBM Container Mould',
+    category: 'EBM Mould',
     categorySlug: 'ebm',
     shortDescription: 'Versatile EBM moulds for household, personal care, and chemical containers with custom handleware.',
     overview: 'Tailored EBM tooling for containers featuring integrated handleware, view-stripe parison lines, and multi-layer wall structures.',
     fullDescription: 'Our EBM Container Moulds accommodate complex handle geometry, auto-trimming flash features, and calibrated blow pin mechanisms, making them ideal for household chemicals, agrochemicals, and personal care products.',
-    image: '/product/ebm-container-mold.png',
+    image: '/product/ebm-container-mould.png',
     galleryImages: [
-      '/product/ebm-container-mold.png',
-      '/product/ebm-bottle-mold.png',
-      '/product/ebm-industrial-packaging-mold.png'
+      '/product/ebm-container-mould.png',
+      '/product/ebm-bottle-mould.png',
+      '/product/ebm-industrial-packaging-mould.png'
     ],
     keywords: ['EBM', 'Container', 'Industrial', 'Packaging'],
     application: 'Containers',
     specifications: [
-      { label: 'Mold Type', value: 'EBM' },
+      { label: 'Mould Type', value: 'EBM' },
       { label: 'Application', value: 'Containers' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Design', value: 'Application Specific' },
@@ -339,28 +339,28 @@ export const PRODUCTS: Product[] = [
       'Handleware pinch-off & blowing integration',
       'Multi-cavity extrusion blow alignment',
       'Engineered for HDPE / PP / PVC materials',
-      'Robust mold base frame',
+      'Robust mould base frame',
       'Integrated view-line channel support',
     ],
   },
   {
-    slug: 'ebm-industrial-packaging-mold',
-    name: 'EBM Industrial Packaging Mold',
-    category: 'EBM Mold',
+    slug: 'ebm-industrial-packaging-mould',
+    name: 'EBM Industrial Packaging Mould',
+    category: 'EBM Mould',
     categorySlug: 'ebm',
     shortDescription: 'Heavy-duty industrial blow moulds built for drums, Jerry cans, and chemical container durability.',
     overview: 'Heavy-duty large format EBM moulds designed for Jerry cans, industrial drums, and chemical carboys requiring high drop-test impact resistance.',
     fullDescription: 'Built with heavy-duty structural steel plates and high-wear alloy inserts, these industrial EBM moulds produce robust containers that pass stringent UN drop tests, stacking load requirements, and chemical compatibility standards.',
-    image: '/product/ebm-industrial-packaging-mold.png',
+    image: '/product/ebm-industrial-packaging-mould.png',
     galleryImages: [
-      '/product/ebm-industrial-packaging-mold.png',
-      '/product/ebm-container-mold.png',
-      '/product/ebm-bottle-mold.png'
+      '/product/ebm-industrial-packaging-mould.png',
+      '/product/ebm-container-mould.png',
+      '/product/ebm-bottle-mould.png'
     ],
     keywords: ['EBM', 'Industrial', 'Packaging', 'Custom Tooling'],
     application: 'Industrial Packaging',
     specifications: [
-      { label: 'Mold Type', value: 'EBM' },
+      { label: 'Mould Type', value: 'EBM' },
       { label: 'Application', value: 'Industrial Packaging' },
       { label: 'Configuration', value: 'Custom' },
       { label: 'Production', value: 'High Volume' },

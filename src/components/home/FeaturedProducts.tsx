@@ -53,8 +53,8 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ featuredProd
             className="lg:col-span-7"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-              Featured Mold Products.<br />
-              <span className="text-[#0056b3]">Flagship Tooling Series.</span>
+              Featured Mould Products<br />
+              <span className="text-[#0056b3]">Flagship Tooling Series</span>
             </h2>
           </motion.div>
 
@@ -70,7 +70,7 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ featuredProd
             <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-              Explore flagship high-performance tooling solutions engineered for <strong className="text-slate-900 font-medium">each of our 3 core mold categories</strong> with guaranteed <strong className="text-[#0056b3] font-medium">5M+ cycle tool life</strong>.
+              Explore flagship high-performance tooling solutions engineered for <strong className="text-slate-900 font-medium">each of our 3 core mould categories</strong> with guaranteed <strong className="text-[#0056b3] font-medium">5M+ cycle tool life</strong>.
             </p>
           </motion.div>
         </div>

@@ -52,7 +52,7 @@ export const Industries: React.FC<IndustriesProps> = ({ industries }) => {
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
               Industries &<br />
-              <span className="text-[#0056b3]">Global Applications.</span>
+              <span className="text-[#0056b3]">Global Applications</span>
             </h2>
           </motion.div>
 
@@ -68,7 +68,7 @@ export const Industries: React.FC<IndustriesProps> = ({ industries }) => {
             <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
             <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-              Precision plastic mold engineering serving <strong className="text-slate-900 font-medium">multinational FMCG</strong>, beverage packaging, pharmaceutical, and <strong className="text-[#0056b3] font-medium">heavy-duty industrial sectors</strong>.
+              Precision plastic mould engineering serving <strong className="text-slate-900 font-medium">multinational FMCG</strong>, beverage packaging, pharmaceutical, and <strong className="text-[#0056b3] font-medium">heavy-duty industrial sectors</strong>.
             </p>
           </motion.div>
         </div>

@@ -14,8 +14,8 @@ import { getDynamicHomeContent } from '@/services/homeService';
 
 export const metadata = {
   title: 'About Patel Mould Industries | 30+ Years Precision Plastic Mould Manufacturer',
-  description: 'Learn about Patel Mould Industries — leading Indian manufacturer of high-cavitation PET preform molds, ISBM tooling, and Extrusion Blow Molds with 5-axis CNC sub-micron precision.',
-  keywords: 'About Patel Mould, plastic mold manufacturer India, PET preform mold maker, ISBM tooling company, mold manufacturing facility Gujarat',
+  description: 'Learn about Patel Mould Industries — leading Indian manufacturer of high-cavitation PET preform moulds, ISBM tooling, and Extrusion Blow Moulds with 5-axis CNC sub-micron precision.',
+  keywords: 'About Patel Mould, plastic mould manufacturer India, PET preform mould maker, ISBM tooling company, mould manufacturing facility Gujarat',
 };
 
 export default async function AboutPage() {
@@ -52,7 +52,7 @@ export default async function AboutPage() {
         faqs={aboutData?.faqsSection?.faqs && aboutData.faqsSection.faqs.length > 0 ? aboutData.faqsSection.faqs : ABOUT_FAQS}
         badge={aboutData?.faqsSection?.badge || "COMPANY HERITAGE & CREDENTIALS"}
         title={aboutData?.faqsSection?.title || "Frequently Asked Questions"}
-        subtitle={aboutData?.faqsSection?.subtitle || "Learn more about our 30+ year tooling journey, engineering accreditations, international mold shipping, and client IP protection."}
+        subtitle={aboutData?.faqsSection?.subtitle || "Learn more about our 30+ year tooling journey, engineering accreditations, international mould shipping, and client IP protection."}
       />
 
       {/* 9. FOOTER */}

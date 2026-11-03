@@ -53,7 +53,7 @@ export const Infrastructure: React.FC<InfrastructureProps> = ({ facilities }) =>
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
               Infrastructure &<br />
-              <span className="text-[#0056b3]">Modern Machinery.</span>
+              <span className="text-[#0056b3]">Modern Machinery</span>
             </h2>
           </motion.div>
 

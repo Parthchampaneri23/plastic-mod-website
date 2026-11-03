@@ -16,9 +16,9 @@ import { Footer } from '@/components/Footer';
 import { getDynamicHomeContent } from '@/services/homeService';
 
 export const metadata = {
-  title: 'Plastic Mold Tooling | High-Precision Preform, ISBM & EBM Molds Manufacturer',
-  description: 'ISO 9001:2015 certified high-cavitation PET preform molds, ISBM, and Extrusion Blow Molding (EBM) tooling engineered with sub-micron precision for packaging, beverage, and pharma.',
-  keywords: 'plastic injection mold, PET preform mold, ISBM mold, EBM mold, blow molding tooling, precision mold manufacturer, CNC machining, EDM tooling',
+  title: 'Plastic Mould Tooling | High-Precision Preform, ISBM & EBM Moulds Manufacturer',
+  description: 'ISO 9001:2015 certified high-cavitation PET preform moulds, ISBM, and Extrusion Blow Molding (EBM) tooling engineered with sub-micron precision for packaging, beverage, and pharma.',
+  keywords: 'plastic injection mould, PET preform mould, ISBM mould, EBM mould, blow molding tooling, precision mould manufacturer, CNC machining, EDM tooling',
 };
 
 export default async function Home() {

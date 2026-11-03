@@ -104,7 +104,7 @@ export const PRODUCT_CATEGORIES: CoreProductCategory[] = [
 export const QUICK_LINKS: NavLinkItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Products Catalog", href: "/products#catalog" },
+  { label: "Products Catalog", href: "/products" },
   { label: "Manufacturing Capabilities", href: "/about#capabilities" },
   { label: "Infrastructure & Facilities", href: "/about#infrastructure" },
   { label: "Quality Assurance", href: "/about#quality-technology" },

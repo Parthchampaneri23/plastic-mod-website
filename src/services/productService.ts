@@ -66,9 +66,9 @@ export async function getDynamicProductsContent(): Promise<DynamicProductsData> 
       backgroundImage: "/product/product banner.png",
     },
     categories: [
-      { id: "preform-jar", slug: "preform-jar", name: "Preform & Jar Mold", label: "PREFORM & JAR MOULDS" },
-      { id: "isbm", slug: "isbm", name: "ISBM Mold", label: "ISBM MOULDS" },
-      { id: "ebm", slug: "ebm", name: "EBM Mold", label: "EBM MOULDS" },
+      { id: "preform-jar", slug: "preform-jar", name: "Preform & Jar Mould", label: "PREFORM & JAR MOULDS" },
+      { id: "isbm", slug: "isbm", name: "ISBM Mould", label: "ISBM MOULDS" },
+      { id: "ebm", slug: "ebm", name: "EBM Mould", label: "EBM MOULDS" },
     ],
     products: DEFAULT_PRODUCTS.map((p) => ({
       ...p,

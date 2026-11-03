@@ -28,7 +28,14 @@ function ProductsContent() {
           setProducts(res.products);
         }
         if (res.categories && res.categories.length > 0) {
-          setCategories(res.categories);
+          const sortedCats = res.categories
+            .filter((c: any) => c.isActive !== false)
+            .sort((a: any, b: any) => {
+              const orderA = a.order !== undefined ? a.order : 0;
+              const orderB = b.order !== undefined ? b.order : 0;
+              return orderA - orderB;
+            });
+          setCategories(sortedCats);
         }
       }
     });

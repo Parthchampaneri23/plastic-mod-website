@@ -41,11 +41,11 @@ export const ManufacturingCapabilities: React.FC<ManufacturingCapabilitiesProps>
   const itemDelays = [0.05, 0.12, 0.19, 0.26, 0.33, 0.4];
 
   const badge = sectionInfo?.badge || 'MANUFACTURING CAPABILITIES';
-  const headlineDark = sectionInfo?.headlineDark || 'Precision Technology.';
-  const headlineBlue = sectionInfo?.headlineBlue || 'Engineering Expertise.';
+  const headlineDark = sectionInfo?.headlineDark || 'Precision Technology';
+  const headlineBlue = sectionInfo?.headlineBlue || 'Engineering Expertise';
   const description =
     sectionInfo?.description ||
-    'Advanced tooling technology, specialized toolmaker craftsmanship, and state-of-the-art in-house machinery engineered to deliver high-precision molds with consistent cycle times and zero-defect output.';
+    'Advanced tooling technology, specialized toolmaker craftsmanship, and state-of-the-art in-house machinery engineered to deliver high-precision moulds with consistent cycle times and zero-defect output.';
   const pill1 = sectionInfo?.pill1Text || 'Sub-Micron CNC Precision';
   const pill2 = sectionInfo?.pill2Text || '100% In-House Trial Testing';
   const showcaseImage = sectionInfo?.showcaseImage || '/Home/capablities.png';

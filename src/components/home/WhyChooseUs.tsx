@@ -91,7 +91,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ whyChooseUs }) => {
       id: "proof-5",
       num: "05",
       title: "Customized Solutions",
-      desc: "DFM-driven customized mold engineering",
+      desc: "DFM-driven customized mould engineering",
       icon: <SlidersHorizontal className="w-4 h-4" />,
       delay: 0.45
     },
@@ -162,8 +162,8 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ whyChooseUs }) => {
               className="lg:col-span-7"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-                Precision Tooling.<br />
-                <span className="text-[#0056b3]">Built for Performance.</span>
+                Precision Tooling<br />
+                <span className="text-[#0056b3]">Built for Performance</span>
               </h2>
             </motion.div>
 
@@ -179,7 +179,7 @@ export const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ whyChooseUs }) => {
               <div className="absolute left-0 top-1 bottom-1 w-1 rounded-full bg-gradient-to-b from-[#0056b3] via-[#0056b3] to-[#ff6b00]" />
 
               <p className="text-slate-700 text-sm sm:text-base font-normal leading-relaxed">
-                From sub-micron machining to rigorous quality control, every mold is engineered around <strong className="text-slate-900 font-medium">±0.005mm accuracy</strong>, maximum durability, and <strong className="text-[#0056b3] font-medium">dependable production performance</strong>.
+                From sub-micron machining to rigorous quality control, every mould is engineered around <strong className="text-slate-900 font-medium">±0.005mm accuracy</strong>, maximum durability, and <strong className="text-[#0056b3] font-medium">dependable production performance</strong>.
               </p>
 
               {/* Micro Technical Highlight Pills */}

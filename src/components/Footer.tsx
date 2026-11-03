@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   MapPin,
@@ -9,6 +9,7 @@ import {
   ArrowUp,
   ChevronRight
 } from 'lucide-react';
+import { getDynamicHomeContent } from '@/services/homeService';
 
 export interface FooterProps {
   footer?: {
@@ -29,13 +30,31 @@ export interface FooterProps {
   };
 }
 
-export const Footer: React.FC<FooterProps> = ({ footer }) => {
+export const Footer: React.FC<FooterProps> = ({ footer: initialFooter }) => {
+  const [dynamicFooter, setDynamicFooter] = useState<any>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!initialFooter) {
+      getDynamicHomeContent().then((res) => {
+        if (isMounted && res?.footer) {
+          setDynamicFooter(res.footer);
+        }
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [initialFooter]);
+
+  const footer = initialFooter || dynamicFooter;
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const logoImage = footer?.logoImage || "/PMlogo.png";
-  const companyBio = footer?.companyBio || "Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Molds for the beverage, pharmaceutical, packaging, and personal care industries.";
+  const companyBio = footer?.companyBio || footer?.description || "Patel Mould Industries is an manufacturer specializing in high-speed, multi-cavity PET preform, ISBM, and Extrusion Blow Moulds for the beverage, pharmaceutical, packaging, and personal care industries.";
   const phone = footer?.phone || "91+ 7784758347";
   const email = footer?.email || "sales@patelmould.com";
   const address = footer?.address || "Patel Mould Park, Phase-IV GIDC, Gujarat, India";
@@ -210,19 +229,19 @@ export const Footer: React.FC<FooterProps> = ({ footer }) => {
               <li>
                 <Link href="/products?category=preform-jar#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>Preform &amp; Jar Mold</span>
+                  <span>Preform &amp; Jar Mould</span>
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=isbm#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>ISBM Mold</span>
+                  <span>ISBM Mould</span>
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=ebm#catalog" className="hover:text-white transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-[#ff6b00] transition-transform group-hover:translate-x-1 shrink-0" />
-                  <span>EBM Mold</span>
+                  <span>EBM Mould</span>
                 </Link>
               </li>
             </ul>
@@ -266,7 +285,20 @@ export const Footer: React.FC<FooterProps> = ({ footer }) => {
         {/* Bottom copyright & legal */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 space-y-4 sm:space-y-0">
           <div>
-            {copyrightText}
+            {copyrightText.includes("Patel Mould Industries") ? (
+              <>
+                {copyrightText.split("Patel Mould Industries")[0]}
+                <Link
+                  href="/"
+                  className="font-medium text-slate-300 hover:text-[#ff6b00] hover:underline cursor-pointer transition-colors"
+                >
+                  Patel Mould Industries
+                </Link>
+                {copyrightText.split("Patel Mould Industries")[1]}
+              </>
+            ) : (
+              copyrightText
+            )}
           </div>
 
           <div className="flex space-x-6">
