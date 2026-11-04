@@ -32,6 +32,7 @@ export default async function GalleryPage() {
         {/* 3. Interactive Gallery with Featured Collections, Filters, Uniform Grid & Lightbox */}
         <GalleryContainer
           intro={data.intro}
+          categories={data.categories}
           featuredCollections={data.featuredCollections}
           items={data.items}
         />

@@ -17,6 +17,7 @@ import {
   GALLERY_CATEGORIES,
   GalleryItem,
   GalleryCategory,
+  IGalleryCategoryItem,
 } from '@/data/gallery';
 import {
   GalleryIntroData,
@@ -27,40 +28,59 @@ import { FeaturedCollections } from './FeaturedCollections';
 
 interface GalleryContainerProps {
   intro?: GalleryIntroData;
+  categories?: IGalleryCategoryItem[];
   featuredCollections?: FeaturedCollectionItem[];
   items?: GalleryItem[];
 }
 
 export const GalleryContainer: React.FC<GalleryContainerProps> = ({
   intro,
+  categories = [],
   featuredCollections = [],
   items = [],
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>('All Images');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const galleryItems = items && items.length > 0 ? items : [];
+  // Only show active items (isActive !== false), sorted by order if defined
+  const publishedItems = useMemo(() => {
+    return (items || [])
+      .filter((item) => item.isActive !== false)
+      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  }, [items]);
+
+  // Determine active filter categories list
+  const activeCategoriesList = useMemo(() => {
+    if (categories && categories.length > 0) {
+      const activeCats = categories
+        .filter((c) => c.isActive !== false)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        .map((c) => c.name);
+      return ['All Images', ...activeCats];
+    }
+    return GALLERY_CATEGORIES;
+  }, [categories]);
 
   // Filter items based on active category
   const filteredItems = useMemo(() => {
     if (selectedCategory === 'All Images') {
-      return galleryItems;
+      return publishedItems;
     }
-    return galleryItems.filter((item) => item.category === selectedCategory);
-  }, [selectedCategory, galleryItems]);
+    return publishedItems.filter((item) => item.category === selectedCategory);
+  }, [selectedCategory, publishedItems]);
 
   // Count items per category
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {
-      'All Images': galleryItems.length,
+      'All Images': publishedItems.length,
     };
-    GALLERY_CATEGORIES.forEach((cat) => {
+    activeCategoriesList.forEach((cat) => {
       if (cat !== 'All Images') {
-        counts[cat] = galleryItems.filter((i) => i.category === cat).length;
+        counts[cat] = publishedItems.filter((i) => i.category === cat).length;
       }
     });
     return counts;
-  }, [galleryItems]);
+  }, [publishedItems, activeCategoriesList]);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -132,7 +152,7 @@ export const GalleryContainer: React.FC<GalleryContainerProps> = ({
 
             {/* Horizontally scrollable on mobile */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
-              {GALLERY_CATEGORIES.map((category) => {
+              {activeCategoriesList.map((category) => {
                 const isActive = selectedCategory === category;
                 const count = categoryCounts[category] || 0;
 

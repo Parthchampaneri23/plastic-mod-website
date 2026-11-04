@@ -1,8 +1,10 @@
 import {
   GALLERY_ITEMS,
   GALLERY_CATEGORIES,
+  DEFAULT_GALLERY_CATEGORIES_LIST,
   GalleryItem,
   GalleryCategory,
+  IGalleryCategoryItem,
 } from "@/data/gallery";
 
 const ADMIN_GALLERY_URL =
@@ -36,6 +38,7 @@ export interface FeaturedCollectionItem {
 export interface DynamicGalleryData {
   heroBanner: GalleryHeroBannerData;
   intro: GalleryIntroData;
+  categories: IGalleryCategoryItem[];
   featuredCollections: FeaturedCollectionItem[];
   items: GalleryItem[];
 }
@@ -55,6 +58,7 @@ export const STATIC_GALLERY_FALLBACK: DynamicGalleryData = {
     description:
       "Explore the Patel Mould Industries manufacturing facility, high-speed 5-axis CNC machinery, spark EDM toolroom, precision PET preform molds, and Zeiss 3D CMM quality inspection in Gujarat, India.",
   },
+  categories: DEFAULT_GALLERY_CATEGORIES_LIST,
   featuredCollections: [
     {
       title: "Inside Our Facility",
@@ -98,6 +102,10 @@ export async function getDynamicGalleryContent(): Promise<DynamicGalleryData> {
       return {
         heroBanner: json.data.heroBanner || STATIC_GALLERY_FALLBACK.heroBanner,
         intro: json.data.intro || STATIC_GALLERY_FALLBACK.intro,
+        categories:
+          json.data.categories?.length > 0
+            ? json.data.categories
+            : STATIC_GALLERY_FALLBACK.categories,
         featuredCollections:
           json.data.featuredCollections?.length > 0
             ? json.data.featuredCollections
@@ -120,19 +128,20 @@ export async function getDynamicGalleryItem(slug: string): Promise<{
   relatedItems: GalleryItem[];
 }> {
   const data = await getDynamicGalleryContent();
-  const item = data.items.find((i) => i.slug === slug) || null;
+  const activeItems = (data.items || []).filter((i) => i.isActive !== false);
+  const item = activeItems.find((i) => i.slug === slug) || null;
 
   if (!item) {
     return { item: null, relatedItems: [] };
   }
 
-  // Related items from same category
-  const relatedItems = data.items
+  // Related items from same category (active only)
+  const relatedItems = activeItems
     .filter((i) => i.category === item.category && i.slug !== item.slug)
     .slice(0, 3);
 
   if (relatedItems.length < 3) {
-    const extra = data.items
+    const extra = activeItems
       .filter((i) => i.slug !== item.slug && !relatedItems.some((r) => r.slug === i.slug))
       .slice(0, 3 - relatedItems.length);
     relatedItems.push(...extra);

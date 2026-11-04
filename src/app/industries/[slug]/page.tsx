@@ -14,6 +14,7 @@ import {
   getDynamicIndustryBySlug,
   getDynamicIndustriesContent,
 } from "@/services/industriesService";
+import { getDynamicProductsContent } from "@/services/productService";
 
 interface IndustryPageProps {
   params: Promise<{
@@ -71,10 +72,20 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
     notFound();
   }
 
+  // Fetch dynamic products to support dynamic product additions/edits
+  const dynamicProductsData = await getDynamicProductsContent();
+  const allAvailableProducts =
+    dynamicProductsData?.products && dynamicProductsData.products.length > 0
+      ? dynamicProductsData.products
+      : PRODUCTS;
+
+  // Helper function to normalize slugs (treat 'mould' and 'mold' equally)
+  const normalizeSlug = (s: string) => (s || "").toLowerCase().replace(/mould/g, "mold").trim();
+
   // Find related products matching the industry's relatedProductSlugs
-  const relatedProductSlugs = industry.relatedProductSlugs || [];
-  const relatedProducts = PRODUCTS.filter((prod) =>
-    relatedProductSlugs.includes(prod.slug)
+  const relatedProductSlugs = (industry.relatedProductSlugs || []).map(normalizeSlug);
+  const relatedProducts = allAvailableProducts.filter((prod) =>
+    relatedProductSlugs.includes(normalizeSlug(prod.slug))
   );
 
   return (

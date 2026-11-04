@@ -24,6 +24,10 @@ export const IndustryGridSection: React.FC<IndustryGridSectionProps> = ({
     gridData?.description ||
     "From high-speed beverage bottling preforms to leak-proof chemical drums and cleanroom pharmaceutical containers, Patel Mould Industries engineers tailored tooling systems meeting the exacting standards of Indian and global manufacturers.";
 
+  const activeIndustries = React.useMemo(() => {
+    return (industries || []).filter((ind) => ind.isActive !== false);
+  }, [industries]);
+
   return (
     <section className="py-13 sm:py-13 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,7 +60,7 @@ export const IndustryGridSection: React.FC<IndustryGridSectionProps> = ({
 
         {/* Industry Showcase Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
-          {industries.map((industry, index) => (
+          {activeIndustries.map((industry, index) => (
             <IndustryCard
               key={industry.id || industry.slug}
               industry={industry}

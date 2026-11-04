@@ -204,6 +204,37 @@ export default async function GalleryDetailPage({ params }: GalleryDetailPagePro
                     </div>
                   )}
 
+                  {/* Technical Specifications Section */}
+                  {item.specifications && item.specifications.length > 0 && (
+                    <div className="space-y-3 pt-1">
+                      <div className="flex items-center gap-2">
+                        <Layers className="w-4 h-4 text-[#0056b3]" />
+                        <h3 className="text-xs font-mono font-bold text-slate-900 uppercase tracking-wider">
+                          Technical Specifications
+                        </h3>
+                      </div>
+                      <div className="rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+                        <table className="min-w-full divide-y divide-slate-200 text-xs">
+                          <tbody className="bg-white divide-y divide-slate-100">
+                            {item.specifications.map((spec, idx) => (
+                              <tr
+                                key={idx}
+                                className={idx % 2 === 0 ? "bg-slate-50/50" : "bg-white"}
+                              >
+                                <td className="py-2.5 px-4 font-bold text-slate-700 whitespace-nowrap w-1/3">
+                                  {spec.label}
+                                </td>
+                                <td className="py-2.5 px-4 text-slate-600 font-medium font-mono">
+                                  {spec.value}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
 
                 </div>
               </div>

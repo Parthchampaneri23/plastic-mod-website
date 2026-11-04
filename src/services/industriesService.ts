@@ -23,6 +23,7 @@ export interface DynamicIndustryGridSection {
 export interface DynamicIndustryItem extends IndustryItem {
   faqs?: FAQItem[];
   order?: number;
+  isActive?: boolean;
 }
 
 export interface DynamicIndustriesData {
@@ -74,7 +75,8 @@ export async function getDynamicIndustryBySlug(slug: string): Promise<{
   allIndustries: DynamicIndustryItem[];
 }> {
   const content = await getDynamicIndustriesContent();
-  const allIndustries = content.industries || STATIC_INDUSTRIES_FALLBACK.industries;
+  const rawIndustries = content.industries || STATIC_INDUSTRIES_FALLBACK.industries;
+  const allIndustries = rawIndustries.filter((item) => item.isActive !== false);
   const industry = allIndustries.find((item) => item.slug === slug) || null;
 
   return {
