@@ -14,14 +14,18 @@ interface ContactHeroBannerProps {
 export const ContactHeroBanner: React.FC<ContactHeroBannerProps> = ({ data }) => {
   const shouldReduceMotion = useReducedMotion();
 
-  const titlePart1 = data?.titlePart1 || "Contact";
-  const titleHighlight = data?.titleHighlight || "Our Team";
+  const titlePart1 = data?.titlePart1 !== undefined ? data.titlePart1 : "Contact";
+  const titleHighlight = data?.titleHighlight !== undefined ? data.titleHighlight : "Our Team";
   const breadcrumbHome = data?.breadcrumbHome || "Home";
   const breadcrumbCurrent = data?.breadcrumbCurrent || "Contact Us";
   const bannerImage = data?.bannerImage || "/contact/contact-banner.jpg";
 
+  const hasHighlight = Boolean(titleHighlight && titleHighlight.trim().length > 0);
+  const cleanPrefix = titlePart1.trim();
+  const cleanHighlight = titleHighlight ? titleHighlight.trim() : "";
+
   return (
-    <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
+    <section className="relative w-full min-h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Indian Tooling Campus Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -47,12 +51,17 @@ export const ContactHeroBanner: React.FC<ContactHeroBannerProps> = ({ data }) =>
             initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
+            className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight sm:leading-none break-words"
           >
-            {titlePart1}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">
-              {titleHighlight}
-            </span>
+            {cleanPrefix}
+            {hasHighlight && (
+              <>
+                {" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00] inline-block sm:inline">
+                  {cleanHighlight}
+                </span>
+              </>
+            )}
           </motion.h1>
 
           {/* Breadcrumb Navigation */}

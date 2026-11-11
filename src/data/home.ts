@@ -32,6 +32,8 @@ export interface Capability {
   machineBadge: string;
   specifications: string[];
   image?: string;
+  isActive?: boolean;
+  order?: number;
 }
 
 export interface WhyChooseUsFeature {
@@ -76,6 +78,9 @@ export interface FeaturedProduct {
   image: string;
   specifications: { label: string; value: string }[];
   tag: string;
+  slug?: string;
+  shortDesc?: string;
+  link?: string;
 }
 
 export interface ClientLogo {

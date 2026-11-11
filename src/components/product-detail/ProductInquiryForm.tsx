@@ -134,8 +134,12 @@ export default function ProductInquiryForm({ product }: ProductInquiryFormProps)
           fullName: formData.name,
           email: formData.email,
           phone: formData.phone,
+          companyName: formData.company,
+          quantity: formData.quantity,
+          product: product.name,
           moldCategory: product.category || 'Mould Inquiry',
           projectDetails: formData.message,
+          source: `Product Detail Page - ${product.name}`,
         }),
       });
 
@@ -167,19 +171,9 @@ export default function ProductInquiryForm({ product }: ProductInquiryFormProps)
       });
       setTouched({});
       setErrors({});
-    } catch {
-      // Fallback
-      setSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        quantity: 'Custom',
-        message: '',
-      });
-      setTouched({});
-      setErrors({});
+    } catch (err: any) {
+      console.error('Error submitting product inquiry:', err);
+      setServerError('An unexpected network error occurred while submitting your inquiry. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

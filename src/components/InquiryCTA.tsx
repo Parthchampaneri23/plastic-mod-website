@@ -99,7 +99,10 @@ export const InquiryCTA: React.FC = () => {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: 'Home Page - Request Technical Quotation',
+        }),
       });
 
       const resData = await res.json();
@@ -146,15 +149,15 @@ export const InquiryCTA: React.FC = () => {
             <div className="lg:col-span-6 space-y-6">
               <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#ff6b00] bg-white/10 border border-white/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b00] animate-pulse"></span>
-                Rapid 24-Hour Quote Turnaround
+                READY TO ELEVATE YOUR TOOLING?
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white">
-                Have a Mould Requirement?
+                Let&apos;s Engineer Your Next High-Performance Mold
               </h2>
 
               <p className="text-base text-slate-200 leading-relaxed font-normal">
-                Connect with our senior tooling engineers today. Send us your 2D/3D container drawings or preform specs for a free DFM review and detailed quote within 24 hours.
+                Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.
               </p>
 
               <div className="space-y-3 pt-2">

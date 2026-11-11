@@ -22,13 +22,17 @@ interface AboutHeroProps {
 
 export const AboutHero: React.FC<AboutHeroProps> = ({ hero }) => {
   const bgImg = hero?.backgroundImage || "/About/about banner.png";
-  const prefix = hero?.titlePrefix || hero?.title || "About";
-  const highlight = hero?.titleHighlight || hero?.highlightText || "Us";
+  const prefix = hero?.titlePrefix !== undefined ? hero.titlePrefix : (hero?.title || "About");
+  const highlight = hero?.titleHighlight !== undefined ? hero.titleHighlight : (hero?.highlightText || "Us");
   const breadcrumbHome = hero?.breadcrumbHome || hero?.breadcrumbHomeText || "Home";
   const breadcrumbCurrent = hero?.breadcrumbCurrent || hero?.breadcrumbCurrentText || "About Us";
 
+  const hasHighlight = Boolean(highlight && highlight.trim().length > 0);
+  const cleanPrefix = prefix ? prefix.trim() : "";
+  const cleanHighlight = highlight ? highlight.trim() : "";
+
   return (
-    <section className="relative w-full h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
+    <section className="relative w-full min-h-[260px] sm:h-[340px] md:h-[380px] pt-28 sm:pt-32 pb-8 flex items-center overflow-hidden bg-slate-950">
       {/* 1. Background Banner Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -55,9 +59,17 @@ export const AboutHero: React.FC<AboutHeroProps> = ({ hero }) => {
             initial={{ opacity: 0, x: -15 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-none"
+            className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight sm:leading-none break-words"
           >
-            {prefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00]">{highlight}</span>
+            {cleanPrefix}
+            {hasHighlight && (
+              <>
+                {" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-[#ff6b00] inline-block sm:inline">
+                  {cleanHighlight}
+                </span>
+              </>
+            )}
           </motion.h1>
 
           {/* Breadcrumb Navigation Below Title */}

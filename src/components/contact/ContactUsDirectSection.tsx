@@ -123,7 +123,7 @@ export const ContactUsDirectSection: React.FC<ContactUsDirectSectionProps> = ({ 
   const isSubjectInvalid = hasAttemptedSubmit && !validateField(formData.subject);
   const isMessageInvalid = hasAttemptedSubmit && !validateField(formData.message);
 
-  const handleQuickContact = (e: React.FormEvent) => {
+  const handleQuickContact = async (e: React.FormEvent) => {
     e.preventDefault();
     setHasAttemptedSubmit(true);
 
@@ -141,6 +141,23 @@ export const ContactUsDirectSection: React.FC<ContactUsDirectSectionProps> = ({ 
         (firstInvalid as HTMLElement).focus();
       }
       return;
+    }
+
+    try {
+      await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          subject: formData.subject,
+          moldCategory: formData.subject || 'Direct Message / General Contact',
+          projectDetails: `[Subject: ${formData.subject}]\n\n${formData.message}`,
+          source: 'Contact Us - Direct Message Desk',
+        }),
+      });
+    } catch (err) {
+      console.error('Error submitting direct contact message to /api/inquiry:', err);
     }
 
     setMsgSent(true);

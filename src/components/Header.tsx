@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import {
   ChevronDown,
+  ChevronRight,
   Menu,
   X,
   Phone,
@@ -49,10 +51,28 @@ const DEFAULT_NAV_LINKS = [
 ];
 
 export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: initialNavbar }) => {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownCloseTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  // Helper to determine if a route is currently active
+  const isRouteActive = (href: string) => {
+    if (!pathname) return false;
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
+
+  // Synchronize mobile products expansion state with current page
+  useEffect(() => {
+    if (pathname && pathname.startsWith('/products')) {
+      setMobileProductsOpen(true);
+    } else {
+      setMobileProductsOpen(false);
+    }
+  }, [pathname]);
 
   const handleMouseEnter = () => {
     if (dropdownCloseTimeoutRef.current) {
@@ -136,7 +156,9 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
   const logoImage = activeNavbar?.logoImage || "/PMlogo.png";
   const logoAlt = activeNavbar?.logoAlt || "Patel Mould Industries";
   const ctaText = activeNavbar?.ctaButtonText || "Request a Quote";
-  const ctaLink = activeNavbar?.ctaButtonLink || "/contact#inquiry-form-section";
+  const rawCtaLink = activeNavbar?.ctaButtonLink || "/#inquiry-section";
+  // If the link is an anchor on the home page (e.g. #inquiry-section or #quote-section), ensure cross-page navigation works from any page
+  const ctaLink = rawCtaLink.startsWith("#") ? `/${rawCtaLink}` : rawCtaLink;
 
   // Normalize links from activeNavbar: accept either navbar.links or navbar.menuLinks (filtering out blank entries)
   const navLinks: { label: string; href: string; isMegaMenu: boolean }[] = (() => {
@@ -229,6 +251,7 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
             {/* Desktop Navigation Links (Dynamic from Admin CMS) */}
             <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 flex-wrap justify-end">
               {navLinks.map((link, idx) => {
+                const isActive = isRouteActive(link.href);
                 if (link.isMegaMenu) {
                   return (
                     <div
@@ -239,10 +262,14 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
                     >
                       <Link
                         href={link.href}
-                        className="flex items-center space-x-1 text-sm xl:text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors whitespace-nowrap cursor-pointer"
+                        className={`flex items-center space-x-1 text-sm xl:text-base font-semibold transition-colors whitespace-nowrap cursor-pointer ${
+                          isActive
+                            ? 'text-[#0056b3] font-bold'
+                            : 'text-slate-700 hover:text-[#0056b3]'
+                        }`}
                       >
                         <span>{link.label}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-[#0056b3]' : ''}`} />
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${dropdownOpen ? 'rotate-180 text-[#0056b3]' : isActive ? 'text-[#0056b3]' : ''}`} />
                       </Link>
 
                       {/* Mega Menu Dropdown Panel */}
@@ -313,7 +340,11 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
                   <Link
                     key={`nav-link-${idx}`}
                     href={link.href}
-                    className="text-sm xl:text-base font-semibold text-slate-700 hover:text-[#0056b3] transition-colors whitespace-nowrap shrink-0"
+                    className={`text-sm xl:text-base font-semibold transition-colors whitespace-nowrap shrink-0 relative ${
+                      isActive
+                        ? 'text-[#0056b3] font-bold after:content-[""] after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-0.5 after:bg-[#0056b3] after:rounded-full'
+                        : 'text-slate-700 hover:text-[#0056b3]'
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -343,47 +374,93 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
 
         {/* Mobile / Tablet Slide-down Menu (Dynamic from Admin CMS) */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 animate-in slide-in-from-top duration-300 max-h-[80vh] overflow-y-auto">
+          <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top duration-300 max-h-[80vh] overflow-y-auto">
             {navLinks.map((link, idx) => {
+              const isActive = isRouteActive(link.href);
+
               if (link.isMegaMenu) {
                 return (
-                  <div key={`mobile-nav-${idx}`} className="space-y-3 pl-2 border-l-2 border-blue-200">
-                    <Link
-                      href={link.href}
-                      className="block text-xs font-bold text-[#0056b3] uppercase tracking-wider py-1"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {link.label} Catalog →
-                    </Link>
+                  <div key={`mobile-nav-${idx}`} className="rounded-xl border border-slate-100 overflow-hidden bg-slate-50/50">
+                    <div className="flex items-center justify-between px-3 py-2.5">
+                      <Link
+                        href={link.href}
+                        className={`text-sm font-bold flex items-center gap-1.5 transition-colors ${
+                          isActive
+                            ? 'text-[#0056b3]'
+                            : 'text-slate-800 hover:text-[#0056b3]'
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <span>{link.label}</span>
+                        {isActive && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
+                        )}
+                      </Link>
 
-                    {/* Preform & Jar / Categories */}
-                    {categoriesList.map((cat) => {
-                      const catProducts = productsList.filter(
-                        (p) => p.categorySlug === cat.slug || p.category === cat.name
-                      );
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMobileProductsOpen(!mobileProductsOpen);
+                        }}
+                        className="p-1 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-200/60 focus:outline-none"
+                        aria-label="Toggle products dropdown"
+                      >
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 ${
+                            mobileProductsOpen ? 'rotate-180 text-[#0056b3]' : ''
+                          }`}
+                        />
+                      </button>
+                    </div>
 
-                      return (
-                        <div key={cat.id || cat.slug} className="space-y-1 pl-2">
-                          <Link
-                            href={`/products?category=${cat.slug}`}
-                            className="block text-xs font-bold text-slate-900 hover:text-blue-600"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {cat.name}
-                          </Link>
-                          {catProducts.map((p) => (
-                            <Link
-                              key={p.slug}
-                              href={`/products/${p.slug}`}
-                              className="block text-xs text-slate-600 hover:text-blue-600 pl-2 py-0.5"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              • {p.name}
-                            </Link>
-                          ))}
-                        </div>
-                      );
-                    })}
+                    {/* Preform & Jar / Categories Collapsible Section */}
+                    {mobileProductsOpen && (
+                      <div className="space-y-3 px-3 pb-3 pt-1 border-t border-slate-200/60 bg-white">
+                        <Link
+                          href={link.href}
+                          className="inline-block text-xs font-bold text-[#0056b3] uppercase tracking-wider py-1 hover:underline"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          All {link.label} Catalog →
+                        </Link>
+
+                        {categoriesList.map((cat) => {
+                          const catProducts = productsList.filter(
+                            (p) => p.categorySlug === cat.slug || p.category === cat.name
+                          );
+
+                          return (
+                            <div key={cat.id || cat.slug} className="space-y-1 pl-2 border-l-2 border-blue-100">
+                              <Link
+                                href={`/products?category=${cat.slug}`}
+                                className="block text-xs font-bold text-slate-900 hover:text-blue-600"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {cat.name}
+                              </Link>
+                              {catProducts.map((p) => {
+                                const isProductActive = pathname === `/products/${p.slug}`;
+                                return (
+                                  <Link
+                                    key={p.slug}
+                                    href={`/products/${p.slug}`}
+                                    className={`block text-xs pl-2 py-0.5 transition-colors ${
+                                      isProductActive
+                                        ? 'text-[#0056b3] font-bold'
+                                        : 'text-slate-600 hover:text-blue-600'
+                                    }`}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                  >
+                                    • {p.name}
+                                  </Link>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 );
               }
@@ -392,16 +469,40 @@ export const Header: React.FC<HeaderProps> = ({ topBar: initialTopBar, navbar: i
                 <Link
                   key={`mobile-nav-${idx}`}
                   href={link.href}
-                  className="block py-2 text-base font-semibold text-slate-700 hover:text-[#0056b3]"
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                    isActive
+                      ? 'bg-blue-50/80 text-[#0056b3] font-bold border-l-4 border-[#0056b3]'
+                      : 'text-slate-700 hover:bg-slate-50 hover:text-[#0056b3]'
+                  }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0056b3]"></span>
+                  )}
                 </Link>
               );
             })}
 
-            <div className="pt-4 border-t border-slate-200">
-              <Button href={ctaLink} variant="primary" size="md" className="w-full">
+            <div className="pt-3 border-t border-slate-200">
+              <Button
+                href={ctaLink}
+                variant="primary"
+                size="md"
+                className="w-full"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (ctaLink.includes('#')) {
+                    const hash = ctaLink.split('#')[1];
+                    setTimeout(() => {
+                      const el = document.getElementById(hash);
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }
+                }}
+              >
                 {ctaText}
               </Button>
             </div>

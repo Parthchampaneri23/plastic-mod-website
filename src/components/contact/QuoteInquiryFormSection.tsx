@@ -165,7 +165,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
   const isQuantityInvalid = hasAttemptedSubmit && !!formErrors.quantity;
   const isMessageInvalid = hasAttemptedSubmit && !!formErrors.message;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setHasAttemptedSubmit(true);
 
@@ -192,8 +192,27 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
     const sanitizedCountry = sanitizeInput(formData.country);
     const sanitizedMessage = sanitizeInput(formData.message);
 
-    // Simulate submission with sanitized data
-    setTimeout(() => {
+    try {
+      await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: sanitizedName,
+          companyName: sanitizedCompany,
+          email: formData.email,
+          phone: formData.mobileNumber,
+          country: sanitizedCountry,
+          requirement: formData.requirement,
+          moldCategory: selectedCategory,
+          product: selectedProduct,
+          quantity: formData.quantity,
+          projectDetails: sanitizedMessage,
+          source: 'Contact Us - Request a Quote Form',
+        }),
+      });
+    } catch (err) {
+      console.error('Error submitting quote inquiry to /api/inquiry:', err);
+    } finally {
       setFormData(prev => ({
         ...prev,
         name: sanitizedName,
@@ -204,7 +223,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
       setIsSubmitting(false);
       setIsSubmitted(true);
       setHasAttemptedSubmit(false);
-    }, 800);
+    }
   };
 
   return (

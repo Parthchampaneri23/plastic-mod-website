@@ -45,7 +45,7 @@ export async function getDynamicHomeContent() {
       return data;
     }
   } catch (err) {
-    // Silently fall back to static data if admin server is offline
+    // Silently fall back to static data if admin server is offline or loading
     if (process.env.NODE_ENV === "development" && typeof window === "undefined") {
       console.warn("Using fallback static home data (admin backend offline or loading)");
     }
@@ -82,7 +82,7 @@ export async function getDynamicHomeContent() {
       logoImage: "/PMlogo.png",
       logoAlt: "Patel Mould Industries",
       ctaButtonText: "Request a Quote",
-      ctaButtonLink: "#inquiry-section",
+      ctaButtonLink: "/#inquiry-section",
       menuLinks: [
         { label: "About Us", href: "/about" },
         { label: "Products", href: "/products", isMegaMenu: true },
@@ -117,6 +117,22 @@ export async function getDynamicHomeContent() {
         instagram: "https://instagram.com",
         youtube: "https://youtube.com",
       },
+    },
+    inquiryCta: {
+      badge: "READY TO ELEVATE YOUR TOOLING?",
+      title: "Let's Engineer Your Next",
+      highlightTitle: "High-Performance Mold",
+      description: "Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.",
+      features: [
+        "Free Design for Manufacturability (DFM) Assessment",
+        "Guaranteed Mold Cycle Time Estimate",
+        "Strict Non-Disclosure Agreement (NDA) Protection",
+      ],
+      phone: "+91 98250 12345",
+      email: "info@patelmould.com",
+      address: "GIDC Industrial Estate, Phase 4, Vatva, Ahmedabad, Gujarat 382445, India",
+      formTitle: "Request Technical Quotation",
+      buttonText: "Request a Quote / Send Inquiry",
     },
   };
 }

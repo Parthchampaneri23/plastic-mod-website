@@ -80,7 +80,11 @@ export const CompanyIntro: React.FC<CompanyIntroProps> = ({ intro, stats }) => {
   const currentP2 = intro?.paragraph2 || "Spanning three decades of Indian toolmaking craftsmanship, Patel Mould Industries operates a 15,000 m² state-of-the-art facility equipped with 5-axis CNC machining, mirror EDMs, and Zeiss 3D CMM quality inspection labs.";
   const currentP3 = intro?.paragraph3 || "We specialize in custom multi-cavity mould solutions engineered for zero-flash production, rapid cycle times, and guaranteed 5M+ shot tool life — supporting premier beverage bottlers, FMCG brands, and pharmaceutical manufacturers across India and globally.";
   const currentImage = intro?.image || "/Home/company image about.png";
-  const currentStats = stats && stats.length > 0 ? stats : COMPANY_STATS;
+  const rawStats = stats && stats.length > 0 ? stats : COMPANY_STATS;
+  // Filter out dummy/temporary metrics like "New Metric" and display clean primary counters
+  const currentStats = rawStats
+    .filter((s) => s && s.label && !s.label.toLowerCase().includes("new metric"))
+    .slice(0, 4);
 
   return (
     <section id="company-intro" className="py-13 bg-white relative overflow-hidden border-b border-slate-200">

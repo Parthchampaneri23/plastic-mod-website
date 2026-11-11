@@ -87,7 +87,7 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ featuredProd
               className="h-full"
             >
               <Link
-                href={`/products/${product.slug}#details`}
+                href={('link' in product && product.link) ? (product.link as string) : `/products/${product.slug || 'pet-preform-mold'}#details`}
                 className="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl hover:border-[#0056b3] transition-all duration-500 flex flex-col justify-between group h-full block cursor-pointer"
               >
                 <div>

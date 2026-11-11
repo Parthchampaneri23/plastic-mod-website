@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongodb";
+import mongoose from "mongoose";
 
 const ADMIN_API_URL =
   process.env.ADMIN_API_URL ||
@@ -6,25 +8,36 @@ const ADMIN_API_URL =
   "http://localhost:3001/api/home";
 
 export async function GET() {
+  // First attempt to fetch from Admin CMS API endpoint
   try {
     const res = await fetch(ADMIN_API_URL, {
       cache: "no-store",
     });
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { success: false, error: "Failed to fetch from admin API" },
-        { status: res.status }
-      );
+    if (res.ok) {
+      const data = await res.json();
+      return NextResponse.json(data);
     }
-
-    const data = await res.json();
-    return NextResponse.json(data);
-  } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message || "Admin service unavailable" },
-      { status: 503 }
-    );
+  } catch (apiError: any) {
+    // Admin API fetch failed (offline, timeout, etc.) -> fall back to direct DB read
   }
+
+  // Fallback: direct MongoDB query
+  try {
+    if (process.env.MONGODB_URI) {
+      await connectDB();
+      const homeDoc = await mongoose.connection.collection("homepage_content").findOne({});
+      if (homeDoc) {
+        return NextResponse.json({ success: true, data: homeDoc });
+      }
+    }
+  } catch (dbError: any) {
+    console.error("MongoDB direct query error in /api/home:", dbError);
+  }
+
+  return NextResponse.json(
+    { success: false, error: "Admin service and database unavailable" },
+    { status: 503 }
+  );
 }
 

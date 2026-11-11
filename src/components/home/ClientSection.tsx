@@ -28,9 +28,24 @@ export const ClientSection: React.FC<ClientSectionProps> = ({
     ? indianTestimonials
     : INDIAN_TESTIMONIALS;
 
-  const logoImages = (clientLogoImages && clientLogoImages.length > 0)
+  const rawLogoImages = (clientLogoImages && clientLogoImages.length > 0)
     ? clientLogoImages
     : CLIENT_LOGO_IMAGES;
+
+  // Filter out any accidentally uploaded dashboard screenshots, mock images, or non-logo entries
+  const logoImages = rawLogoImages.filter((logo) => {
+    if (!logo || !logo.image) return false;
+    const img = String(logo.image).toLowerCase();
+    if (
+      img.includes('screenshot') ||
+      img.includes('dashboard') ||
+      img.includes('screen') ||
+      img.includes('media_')
+    ) {
+      return false;
+    }
+    return true;
+  });
 
   // Testimonials Slider State
   const [testimonialIndex, setTestimonialIndex] = useState(0);

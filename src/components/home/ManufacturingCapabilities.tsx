@@ -14,6 +14,8 @@ interface ManufacturingCapabilitiesProps {
     shortDesc: string;
     machineBadge?: string;
     specifications?: string[];
+    isActive?: boolean;
+    order?: number;
   }>;
   sectionInfo?: {
     badge?: string;
@@ -30,8 +32,20 @@ export const ManufacturingCapabilities: React.FC<ManufacturingCapabilitiesProps>
   capabilities,
   sectionInfo,
 }) => {
-  const currentCapabilities =
+  const allCapabilities =
     capabilities && capabilities.length > 0 ? capabilities : CAPABILITIES;
+  // Filter out capabilities that are explicitly disabled (isActive === false) and sort by custom order if specified
+  const activeCapabilitiesList = allCapabilities
+    .filter((c) => c.isActive !== false)
+    .sort((a, b) => {
+      const orderA = typeof a.order === 'number' ? a.order : 999;
+      const orderB = typeof b.order === 'number' ? b.order : 999;
+      return orderA - orderB;
+    });
+
+  const currentCapabilities =
+    activeCapabilitiesList.length > 0 ? activeCapabilitiesList : allCapabilities;
+
   const [activeId, setActiveId] = useState<string>(
     currentCapabilities[0]?.id || 'cnc-machining'
   );

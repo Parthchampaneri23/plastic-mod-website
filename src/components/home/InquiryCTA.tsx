@@ -48,12 +48,12 @@ export const InquiryCTA: React.FC<InquiryCTAProps> = ({ inquiryCta }) => {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const badge = inquiryCta?.badge || "Rapid 24-Hour Quote Turnaround";
-  const title = inquiryCta?.title || "Have a Mould Requirement?";
-  const highlightTitle = inquiryCta?.highlightTitle;
-  const description = inquiryCta?.description || "Connect with our senior tooling engineers today. Send us your 2D/3D container drawings or preform specs for a free DFM review and detailed quote within 24 hours.";
-  const phone = inquiryCta?.phone || "91+ 7784758347";
-  const email = inquiryCta?.email || "quotes@plastic-mould.com";
+  const badge = inquiryCta?.badge || "READY TO ELEVATE YOUR TOOLING?";
+  const title = inquiryCta?.title || "Let's Engineer Your Next";
+  const highlightTitle = inquiryCta?.highlightTitle || "High-Performance Mold";
+  const description = inquiryCta?.description || "Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.";
+  const phone = inquiryCta?.phone || "+91 98250 12345";
+  const email = inquiryCta?.email || "info@patelmould.com";
   const formTitle = inquiryCta?.formTitle || "Request Technical Quotation";
   const buttonText = inquiryCta?.buttonText || "Request a Quote / Send Inquiry";
 
@@ -124,7 +124,10 @@ export const InquiryCTA: React.FC<InquiryCTAProps> = ({ inquiryCta }) => {
       const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          source: 'Home Page - Request Technical Quotation',
+        }),
       });
 
       const resData = await res.json();

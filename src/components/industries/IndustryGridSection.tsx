@@ -25,7 +25,13 @@ export const IndustryGridSection: React.FC<IndustryGridSectionProps> = ({
     "From high-speed beverage bottling preforms to leak-proof chemical drums and cleanroom pharmaceutical containers, Patel Mould Industries engineers tailored tooling systems meeting the exacting standards of Indian and global manufacturers.";
 
   const activeIndustries = React.useMemo(() => {
-    return (industries || []).filter((ind) => ind.isActive !== false);
+    return (industries || []).filter(
+      (ind) =>
+        ind.isActive !== false &&
+        ind.name &&
+        !ind.name.toLowerCase().includes("new industry application") &&
+        ind.slug !== "new-industry-application"
+    );
   }, [industries]);
 
   return (

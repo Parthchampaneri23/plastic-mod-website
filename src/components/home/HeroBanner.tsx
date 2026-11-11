@@ -75,7 +75,12 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ slides }) => {
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-white leading-[1.15] tracking-tight">
-              {slide.title}
+              {slide.title
+                ? slide.title
+                    .replace(/\bNew\s+/gi, '')
+                    .replace(/\s*#\d+\b/g, '')
+                    .trim()
+                : ''}
               {slide.highlightText && (
                 <span className="text-[#ff6b00] block mt-1 underline decoration-blue-500/40 underline-offset-4">
                   {slide.highlightText}

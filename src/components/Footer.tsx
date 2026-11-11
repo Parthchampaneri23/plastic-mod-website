@@ -283,8 +283,8 @@ export const Footer: React.FC<FooterProps> = ({ footer: initialFooter }) => {
         </div>
 
         {/* Bottom copyright & legal */}
-        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 space-y-4 sm:space-y-0">
-          <div>
+        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-400 gap-4">
+          <div className="text-center sm:text-left">
             {copyrightText.includes("Patel Mould Industries") ? (
               <>
                 {copyrightText.split("Patel Mould Industries")[0]}
@@ -299,6 +299,18 @@ export const Footer: React.FC<FooterProps> = ({ footer: initialFooter }) => {
             ) : (
               copyrightText
             )}
+          </div>
+
+          <div className="text-center text-slate-400">
+            <span>Designed and Developed by </span>
+            <a
+              href="https://rndtechnosoft.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-slate-300 hover:text-[#ff6b00] hover:underline transition-colors"
+            >
+              RnD Technosoft
+            </a>
           </div>
 
           <div className="flex space-x-6">
