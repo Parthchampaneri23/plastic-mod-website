@@ -11,14 +11,14 @@ import { getDynamicContactContent } from "@/services/contactService";
 export const metadata: Metadata = {
   title: "Contact Us & Request a Quote | Patel Mould Industries",
   description:
-    "Get in touch with Patel Mould Industries in Gujarat, India. Request technical quotations for PET preform molds, ISBM tooling, and EBM molds. View plant location, WhatsApp support, and direct contact numbers.",
+    "Get in touch with Patel Mould Industries in Gujarat, India. Request technical quotations for PET preform moulds, ISBM tooling, and EBM moulds. View plant location, WhatsApp support, and direct contact numbers.",
   keywords: [
-    "contact plastic mold manufacturer",
-    "request a quote PET preform mold",
+    "contact plastic mould manufacturer",
+    "request a quote PET preform mould",
     "Patel Mould Industries contact",
-    "mold manufacturer Gujarat address",
-    "ISBM mold quotation India",
-    "EBM mold RFQ"
+    "mould manufacturer Gujarat address",
+    "ISBM mould quotation India",
+    "EBM mould RFQ"
   ],
   openGraph: {
     title: "Contact Us & Request a Quote | Patel Mould Industries",

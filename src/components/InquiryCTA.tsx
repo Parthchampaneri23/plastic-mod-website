@@ -153,11 +153,11 @@ export const InquiryCTA: React.FC = () => {
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight text-white">
-                Let&apos;s Engineer Your Next High-Performance Mold
+                Let&apos;s Engineer Your Next High-Performance Mould
               </h2>
 
               <p className="text-base text-slate-200 leading-relaxed font-normal">
-                Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.
+                Whether you need a 96-cavity PET preform mould, custom ISBM container tooling, or high-volume EBM moulds, our engineering specialists are ready to discuss your specifications.
               </p>
 
               <div className="space-y-3 pt-2">

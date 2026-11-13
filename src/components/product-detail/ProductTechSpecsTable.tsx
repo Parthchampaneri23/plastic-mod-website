@@ -11,7 +11,7 @@ interface ProductTechSpecsTableProps {
 
 export default function ProductTechSpecsTable({ techSpecs }: ProductTechSpecsTableProps) {
   const standardRows = [
-    { label: 'Mold Type', value: techSpecs.moldType },
+    { label: 'Mould Type', value: techSpecs.moldType },
     { label: 'Cavity Details', value: techSpecs.cavityDetails },
     { label: 'Material & Hardness', value: techSpecs.material },
     { label: 'Machine Compatibility', value: techSpecs.machineCompatibility },

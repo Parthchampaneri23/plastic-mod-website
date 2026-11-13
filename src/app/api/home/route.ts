@@ -8,11 +8,16 @@ const ADMIN_API_URL =
   "http://localhost:3001/api/home";
 
 export async function GET() {
-  // First attempt to fetch from Admin CMS API endpoint
+  // First attempt to fetch from Admin CMS API endpoint with a tight timeout
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1200);
+
     const res = await fetch(ADMIN_API_URL, {
+      signal: controller.signal,
       cache: "no-store",
     });
+    clearTimeout(timeout);
 
     if (res.ok) {
       const data = await res.json();

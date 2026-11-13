@@ -250,9 +250,15 @@ export const STATIC_QUALITY_FALLBACK: DynamicQualityData = {
 
 export async function getDynamicQualityContent(): Promise<DynamicQualityData> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_QUALITY_URL, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic quality content");
     const json = await res.json();
     if (json.success && json.data) {

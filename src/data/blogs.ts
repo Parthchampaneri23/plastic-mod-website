@@ -141,7 +141,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     id: 'blog-2',
     slug: 'mold-steel-selection-stavax-vs-2316-vs-p20',
-    title: 'Tool Steel Selection for Plastic Molds: STAVAX ESR vs DIN 1.2316 vs P20',
+    title: 'Tool Steel Selection for Plastic Moulds: STAVAX ESR vs DIN 1.2316 vs P20',
     shortTitle: 'Tool Steel Selection: STAVAX vs DIN 1.2316 vs P20',
     category: 'Materials & Metallurgy',
     categorySlug: 'materials',
@@ -151,32 +151,32 @@ export const BLOG_POSTS: BlogPost[] = [
       name: 'Ketan Patel',
       role: 'Director of Tooling & Quality Assurance',
     },
-    summary: 'A metallurgical breakdown comparing corrosion resistance, polishability, toughness, and longevity of European tool steels for abrasive and high-volume packaging molds.',
+    summary: 'A metallurgical breakdown comparing corrosion resistance, polishability, toughness, and longevity of European tool steels for abrasive and high-volume packaging moulds.',
     image: '/blogs/mold-steel-selection.jpg',
     featured: false,
     tags: ['Tool Steel', 'STAVAX ESR', 'DIN 1.2316', 'P20', 'Corrosion Resistance', 'Polishability'],
     tableOfContents: [
-      { id: 'why-steel-matters', label: '1. Why Tool Steel Determines Mold ROI' },
+      { id: 'why-steel-matters', label: '1. Why Tool Steel Determines Mould ROI' },
       { id: 'steel-comparison', label: '2. Comparative Metallurgy: Properties Breakdown' },
       { id: 'polishing-mirror-finish', label: '3. Polishability & SPI A-1 Mirror Finishing' },
       { id: 'corrosive-resins', label: '4. Combating Corrosive Polymers (PVC, PET, Recycled rPET)' },
-      { id: 'selection-matrix', label: '5. Selection Matrix by Mold Application' },
+      { id: 'selection-matrix', label: '5. Selection Matrix by Mould Application' },
     ],
     content: {
       introduction: [
-        'Selecting the right tool steel is the single most consequential engineering decision in plastic injection and blow mold design. Steel selection directly dictates mold lifespan, resistance to abrasive wear from recycled plastics, maintenance cycles, and the surface finish achievable on finished bottles and closures.',
+        'Selecting the right tool steel is the single most consequential engineering decision in plastic injection and blow mould design. Steel selection directly dictates mould lifespan, resistance to abrasive wear from recycled plastics, maintenance cycles, and the surface finish achievable on finished bottles and closures.',
         'In Indian manufacturing conditions—where high ambient humidity, fluctuating chilled water chemistry, and aggressive production schedules test tooling limits—inferior steels lead to premature pitting, stress cracking, and expensive downtime.',
       ],
       keyTakeaways: [
         'STAVAX ESR provides the highest corrosion resistance and SPI A-1 diamond polishability for medical and optical PET containers.',
-        'DIN 1.2316 offers excellent pre-hardened corrosion resistance ideal for extrusion blow mold cavities and corrosive PVC.',
-        'P20+Ni remains the cost-effective champion for large mold bases and non-critical support bolster plates.',
+        'DIN 1.2316 offers excellent pre-hardened corrosion resistance ideal for extrusion blow mould cavities and corrosive PVC.',
+        'P20+Ni remains the cost-effective champion for large mould bases and non-critical support bolster plates.',
       ],
       sections: [
         {
-          heading: '1. Why Tool Steel Determines Mold ROI',
+          heading: '1. Why Tool Steel Determines Mould ROI',
           body: [
-            'While tool steel typically represents only 12% to 18% of the total manufacturing cost of a high-precision mold, steel failures account for over 70% of premature mold refurbishments. A mould made with substandard alloy will lose its edge sharpness and cavity luster within the first 500,000 cycles.',
+            'While tool steel typically represents only 12% to 18% of the total manufacturing cost of a high-precision mould, steel failures account for over 70% of premature mould refurbishments. A mould made with substandard alloy will lose its edge sharpness and cavity luster within the first 500,000 cycles.',
             'Electroslag Remelted (ESR) steels undergo secondary refining that strips out non-metallic inclusions, providing unmatched microscopic purity and isotropic mechanical properties across all axes.',
           ],
         },

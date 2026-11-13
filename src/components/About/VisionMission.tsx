@@ -349,8 +349,8 @@ export const VisionMission: React.FC<VisionMissionProps> = ({ visionMission }) =
   const vision = visionMission?.vision || {
     tag: (visionMission as any)?.visionTitle || "OUR VISION",
     title: (visionMission as any)?.visionTitle || "Global Leadership in High-Cavitation Tooling",
-    quote: (visionMission as any)?.visionQuote || '"To be global leaders in high-cavitation plastic mold engineering, setting world-class standards for precision, sustainability, and tool durability."',
-    description: (visionMission as any)?.visionDescription || "We aspire to continually push the boundaries of PET preform, ISBM, and blow mold technology — enabling manufacturers across 50+ countries to produce flawless packaging with zero-defect consistency and energy-efficient cycle times.",
+    quote: (visionMission as any)?.visionQuote || '"To be global leaders in high-cavitation plastic mould engineering, setting world-class standards for precision, sustainability, and tool durability."',
+    description: (visionMission as any)?.visionDescription || "We aspire to continually push the boundaries of PET preform, ISBM, and blow mould technology — enabling manufacturers across 50+ countries to produce flawless packaging with zero-defect consistency and energy-efficient cycle times.",
   };
 
   const mission = visionMission?.mission || {

@@ -38,10 +38,10 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({
             badge: '±0.002mm Tolerance',
           },
           {
-            title: 'Engineered Mold Solutions',
+            title: 'Engineered Mould Solutions',
             tagline: 'High-Cavitation & ISBM Tooling',
             description:
-              'Discover balanced hot runner preform molds up to 96 cavities, single-stage ISBM systems, and rugged EBM jerry can canisters.',
+              'Discover balanced hot runner preform moulds up to 96 cavities, single-stage ISBM systems, and rugged EBM jerry can canisters.',
             image: '/product/high-cavitation-preform-mold.png',
             category: 'Products' as GalleryCategory,
             badge: 'Up to 96 Cavities',

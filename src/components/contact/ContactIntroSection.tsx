@@ -24,7 +24,7 @@ export const ContactIntroSection: React.FC<ContactIntroSectionProps> = ({ data }
     "Based in Gujarat’s renowned industrial engineering corridor, Patel Mould Industries partners with plastic converters, beverage corporations, pharmaceutical packagers, and FMCG brands across India and 14+ countries globally.";
   const secondaryParagraph =
     data?.secondaryParagraph ||
-    "Whether you are planning a high-cavity PET preform conversion system, an ISBM pharmaceutical container project, or heavy-duty extrusion blow molds, our tooling engineers offer direct DFM review, moldflow thermal balancing, and rapid quotations.";
+    "Whether you are planning a high-cavity PET preform conversion system, an ISBM pharmaceutical container project, or heavy-duty extrusion blow moulds, our tooling engineers offer direct DFM review, moldflow thermal balancing, and rapid quotations.";
   const image = data?.image || "/contact/contact-office.jpg";
 
   const trustBadges =

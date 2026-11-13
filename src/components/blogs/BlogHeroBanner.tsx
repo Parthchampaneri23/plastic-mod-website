@@ -30,7 +30,7 @@ export const BlogHeroBanner: React.FC<BlogHeroBannerProps> = ({ data }) => {
       <div className="absolute inset-0 z-0">
         <Image
           src={bannerImage}
-          alt="Patel Mould Industries Technical Engineering Knowledge Hub and Mold Manufacturing Facility"
+          alt="Patel Mould Industries Technical Engineering Knowledge Hub and Mould Manufacturing Facility"
           fill
           priority
           sizes="100vw"

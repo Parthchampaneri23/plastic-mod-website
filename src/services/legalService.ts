@@ -341,9 +341,14 @@ export async function getDynamicLegalContent(
       : defaultTermsAndConditionsContent;
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(`${ADMIN_LEGAL_URL}?type=${type}`, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
 
     if (!res.ok) {
       console.warn(

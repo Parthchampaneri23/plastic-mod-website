@@ -140,9 +140,15 @@ export interface DynamicAboutContent {
 
 export async function getDynamicAboutContent(): Promise<DynamicAboutContent | null> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_ABOUT_URL, {
-      next: { revalidate: 10 },
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic about content");
     const json = await res.json();
     if (json.success && json.data) {

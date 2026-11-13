@@ -76,11 +76,11 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
   const requirementOptions = data?.requirementOptions?.length
     ? data.requirementOptions
     : [
-        "New Complete Mold Tooling",
-        "Mold Cavity & Core Replacement",
+        "New Complete Mould Tooling",
+        "Mould Cavity & Core Replacement",
         "Neck Split & Conversion Kit",
         "Hot Runner System Overhaul",
-        "Mold Flow Analysis & DFM Only",
+        "Mould Flow Analysis & DFM Only",
       ];
 
   // Form State
@@ -265,7 +265,7 @@ export const QuoteInquiryFormSection: React.FC<QuoteInquiryFormSectionProps> = (
                 <p className="text-sm text-slate-600 leading-relaxed">
                   {successMessage || (
                     <>
-                      Thank you, <strong className="text-slate-900">{formData.name || "Valued Client"}</strong>. Your mold specification for{" "}
+                      Thank you, <strong className="text-slate-900">{formData.name || "Valued Client"}</strong>. Your mould specification for{" "}
                       <strong className="text-[#0056b3]">{selectedProduct}</strong> has been assigned to our senior toolroom engineering team in Gujarat.
                     </>
                   )}

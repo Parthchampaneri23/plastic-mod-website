@@ -541,7 +541,7 @@ export const ABOUT_FAQS: FAQItem[] = [
   },
   {
     question: "What is your core manufacturing specialization?",
-    answer: "We specialize in high-cavitation PET preform moulds (up to 96 cavities), single-stage ISBM bottle moulds for ASB and Aoki platforms, Extrusion Blow Molds (EBM) with beryllium copper pinch-offs, and custom wide-mouth jar tooling."
+    answer: "We specialize in high-cavitation PET preform moulds (up to 96 cavities), single-stage ISBM bottle moulds for ASB and Aoki platforms, Extrusion Blow Moulds (EBM) with beryllium copper pinch-offs, and custom wide-mouth jar tooling."
   },
   {
     question: "What certifications and quality management systems are in place?",

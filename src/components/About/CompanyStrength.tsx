@@ -82,7 +82,7 @@ export const CompanyStrength: React.FC<CompanyStrengthProps> = ({ companyStrengt
   const eyebrow = companyStrength?.eyebrow || companyStrength?.badge || "OUR STRENGTH";
   const headingPrefix = companyStrength?.headingPrefix || companyStrength?.heading || "Built on Experience.";
   const headingHighlight = companyStrength?.headingHighlight || companyStrength?.highlightHeading || "Powered by Expertise.";
-  const description = companyStrength?.description || "Over three decades of specialized mold making crafted into four core pillars of tooling superiority.";
+  const description = companyStrength?.description || "Over three decades of specialized mould making crafted into four core pillars of tooling superiority.";
   const featuredImage = companyStrength?.image || "/About/Aboutstrenght.png";
 
   const stagesList = companyStrength?.strengths && companyStrength.strengths.length > 0

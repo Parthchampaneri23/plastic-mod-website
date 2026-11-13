@@ -58,9 +58,15 @@ export const STATIC_BLOGS_FALLBACK: DynamicBlogsData = {
 
 export async function getDynamicBlogsContent(): Promise<DynamicBlogsData> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_BLOGS_URL, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic blogs content");
     const json = await res.json();
     if (json.success && json.data) {

@@ -30,7 +30,7 @@ export interface ProcessStep {
 
 export const MANUFACTURING_OVERVIEW_STATS = [
   { value: '30+', label: 'Years Experience', detail: 'Tooling mastery established since 1994' },
-  { value: '1,500+', label: 'Molds Delivered', detail: 'Built for diverse global industries' },
+  { value: '1,500+', label: 'Moulds Delivered', detail: 'Built for diverse global industries' },
   { value: '100%', label: 'Quality Tested', detail: '100% pre-dispatch trial validation' },
   { value: '25+', label: 'Cities Served', detail: 'Trusted partner across India & overseas' },
 ];
@@ -46,7 +46,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
   },
   {
     step: '02',
-    title: 'Mold Design',
+    title: 'Mould Design',
     subtitle: 'Full 3D CAD & MoldFlow Simulation',
     description: 'State-of-the-art MoldFlow injection simulation, conformal cooling channel routing, and complete parametric 3D assembly generation.',
     details: ['Full 3D CAD parametric stack layout', 'Cooling thermal simulation & cycle reduction', 'Gate vestige & fill balance simulation', 'Complete BOM & tooling blueprint'],
@@ -78,7 +78,7 @@ export const PROCESS_STEPS: ProcessStep[] = [
   },
   {
     step: '06',
-    title: 'Mold Assembly',
+    title: 'Mould Assembly',
     subtitle: 'Master Toolmaker Hand Fitting & Bluing',
     description: 'Meticulous benching, optical bluing check, hot runner manifold integration, and smooth slider cam alignment by senior Gujarati toolmakers.',
     details: ['100% bluing contact verification (>85% contact area)', 'Multi-zone hot runner manifold thermal wiring & seal check', 'Hydraulic / pneumatic stripper stroke calibration', 'Smooth ejection plate cycle balancing'],
@@ -94,11 +94,11 @@ export const PROCESS_STEPS: ProcessStep[] = [
   },
   {
     step: '08',
-    title: 'Mold Trial',
+    title: 'Mould Trial',
     subtitle: 'In-House Injection Molding Machine Testing',
     description: 'Real-world production trial run on in-house KraussMaffei & Haitian injection presses to evaluate cycle times, part aesthetics, and gate quality.',
     details: ['T0 / T1 production trial runs with customer resin', 'Dry-cycle timing & fast ejection testing', 'Preform weight variation check across all cavities (CV < 0.2%)', 'Drop impact & optical haze inspection of samples'],
-    deliverable: 'Sample Mold Trial Report & Qualified First Article Samples',
+    deliverable: 'Sample Mould Trial Report & Qualified First Article Samples',
   },
   {
     step: '09',
@@ -349,10 +349,10 @@ export const PRODUCTION_CAPACITY_DATA = {
   onTimeDelivery: '98.6%',
   exportCountries: '18+ Countries',
   metrics: [
-    { label: 'PET Preform Mold Sets / Year', value: '140+ Sets', progress: 85 },
-    { label: 'ISBM Single-Stage Mold Sets / Year', value: '70+ Sets', progress: 75 },
-    { label: 'Extrusion Blow Molds (EBM) / Year', value: '60+ Sets', progress: 70 },
-    { label: 'Standard Mold Lead Time (T0)', value: '35 - 45 Days', progress: 90 },
+    { label: 'PET Preform Mould Sets / Year', value: '140+ Sets', progress: 85 },
+    { label: 'ISBM Single-Stage Mould Sets / Year', value: '70+ Sets', progress: 75 },
+    { label: 'Extrusion Blow Moulds (EBM) / Year', value: '60+ Sets', progress: 70 },
+    { label: 'Standard Mould Lead Time (T0)', value: '35 - 45 Days', progress: 90 },
   ],
 };
 

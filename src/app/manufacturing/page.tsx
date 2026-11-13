@@ -18,8 +18,7 @@ export const metadata = {
   keywords: 'Plastic mould manufacturing India, CNC precision machining Gujarat, PET preform mould maker, EDM spark erosion, mould design CAD simulation, Zeiss CMM inspection',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0; // immediate dynamic reflection of admin updates
+export const revalidate = 60;
 
 export default async function ManufacturingPage() {
   const data = await getDynamicManufacturingContent();

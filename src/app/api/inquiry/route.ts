@@ -76,7 +76,7 @@ export async function POST(request: Request) {
       console.error('Direct MongoDB save from website encountered error:', dbErr);
     }
 
-    // 2. Also forward to Admin CMS API endpoint if reachable (or if direct save did not run)
+    // 2. Also forward to Admin CMS API endpoint if reachable (with tight timeout to prevent slow UX)
     let adminForwardSuccess = false;
     try {
       const adminUrl =
@@ -85,11 +85,17 @@ export async function POST(request: Request) {
         process.env.NEXT_PUBLIC_ADMIN_INQUIRIES_URL ||
         'http://localhost:3001/api/inquiries';
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 1500);
+
       const forwardRes = await fetch(adminUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(sanitizedData),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
+
       if (forwardRes.ok) {
         adminForwardSuccess = true;
       }

@@ -139,9 +139,15 @@ export const STATIC_INFRASTRUCTURE_FALLBACK: DynamicInfrastructureData = {
 
 export async function getDynamicInfrastructureContent(): Promise<DynamicInfrastructureData> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_INFRASTRUCTURE_URL, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic infrastructure content");
     const json = await res.json();
     if (json.success && json.data) {

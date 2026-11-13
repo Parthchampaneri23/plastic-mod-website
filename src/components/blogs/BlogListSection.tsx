@@ -70,7 +70,7 @@ export const BlogListSection: React.FC<BlogListSectionProps> = ({
   const headingHighlight = intro?.headingHighlight || "Gujarat Toolroom";
   const description =
     intro?.description ||
-    "Authoritative, deeply technical articles written by our senior mold engineers and toolmakers on cycle time optimization, tool steels, pharmaceutical ISBM tooling, and extrusion blow mold engineering.";
+    "Authoritative, deeply technical articles written by our senior mould engineers and toolmakers on cycle time optimization, tool steels, pharmaceutical ISBM tooling, and extrusion blow mould engineering.";
 
   return (
     <div className="py-13 sm:py-13">

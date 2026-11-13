@@ -49,9 +49,9 @@ export const InquiryCTA: React.FC<InquiryCTAProps> = ({ inquiryCta }) => {
   const [serverError, setServerError] = useState<string | null>(null);
 
   const badge = inquiryCta?.badge || "READY TO ELEVATE YOUR TOOLING?";
-  const title = inquiryCta?.title || "Let's Engineer Your Next";
-  const highlightTitle = inquiryCta?.highlightTitle || "High-Performance Mold";
-  const description = inquiryCta?.description || "Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.";
+  const title = inquiryCta?.title || "Let's Engineer Your Next High-Performance Mould";
+  const highlightTitle = inquiryCta?.highlightTitle;
+  const description = inquiryCta?.description || "Whether you need a 96-cavity PET preform mould, custom ISBM container tooling, or high-volume EBM moulds, our engineering specialists are ready to discuss your specifications.";
   const phone = inquiryCta?.phone || "+91 98250 12345";
   const email = inquiryCta?.email || "info@patelmould.com";
   const formTitle = inquiryCta?.formTitle || "Request Technical Quotation";
@@ -179,7 +179,8 @@ export const InquiryCTA: React.FC<InquiryCTAProps> = ({ inquiryCta }) => {
               </span>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white">
-                {title}{highlightTitle ? ` ${highlightTitle}` : ""}
+                {title}
+                {highlightTitle && !title.includes(highlightTitle) ? ` ${highlightTitle}` : ""}
               </h2>
 
               <p className="text-base text-slate-200 leading-relaxed font-normal">

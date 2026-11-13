@@ -28,9 +28,15 @@ export async function getDynamicHomeContent() {
   try {
     // When executing in the client browser, route via internal Next.js proxy (/api/home) to prevent CORS or connection errors
     const targetUrl = typeof window !== "undefined" ? "/api/home" : ADMIN_API_URL;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(targetUrl, {
-      ...(typeof window === "undefined" ? { next: { revalidate: 10 } } : { cache: "no-store" as RequestCache }),
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic home content");
     const json = await res.json();
     if (json.success && json.data) {
@@ -120,9 +126,8 @@ export async function getDynamicHomeContent() {
     },
     inquiryCta: {
       badge: "READY TO ELEVATE YOUR TOOLING?",
-      title: "Let's Engineer Your Next",
-      highlightTitle: "High-Performance Mold",
-      description: "Whether you need a 96-cavity PET preform mold, custom ISBM container tooling, or high-volume EBM molds, our engineering specialists are ready to discuss your specifications.",
+      title: "Let's Engineer Your Next High-Performance Mould",
+      description: "Whether you need a 96-cavity PET preform mould, custom ISBM container tooling, or high-volume EBM moulds, our engineering specialists are ready to discuss your specifications.",
       features: [
         "Free Design for Manufacturability (DFM) Assessment",
         "Guaranteed Mold Cycle Time Estimate",

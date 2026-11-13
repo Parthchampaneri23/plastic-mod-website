@@ -227,9 +227,15 @@ export const STATIC_CONTACT_FALLBACK: DynamicContactData = {
 
 export async function getDynamicContactContent(): Promise<DynamicContactData> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_CONTACT_URL, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic contact content");
     const json = await res.json();
     if (json.success && json.data) {

@@ -43,9 +43,15 @@ export async function getDynamicProductsContent(): Promise<DynamicProductsData> 
     const targetUrl =
       typeof window !== "undefined" ? "/api/products" : ADMIN_PRODUCTS_URL;
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(targetUrl, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic products content");
     const json = await res.json();
     if (json.success && json.data) {

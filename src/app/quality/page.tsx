@@ -61,7 +61,7 @@ export default async function QualityPage() {
         {/* Section 5: Final Pre-Dispatch Inspection */}
         <FinalInspectionSection data={data.finalInspection} />
 
-        {/* Section 6: Mold Testing Journey */}
+        {/* Section 6: Mould Testing Journey */}
         <MoldTestingJourneySection data={data.moldTesting} />
 
         {/* Section 7: Measurement Equipment Categories */}

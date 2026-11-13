@@ -9,10 +9,10 @@ import { getDynamicBlogsContent } from "@/services/blogsService";
 export const metadata: Metadata = {
   title: "Mould Engineering Blogs & Technical Articles | Patel Mould Industries",
   description:
-    "Explore authoritative technical articles, tool steel guides, PET preform cycle optimization insights, cleanroom ISBM tooling standards, and extrusion blow mold engineering by Patel Mould Industries.",
+    "Explore authoritative technical articles, tool steel guides, PET preform cycle optimization insights, cleanroom ISBM tooling standards, and extrusion blow mould engineering by Patel Mould Industries.",
   keywords: [
     "plastic mould blog",
-    "PET preform mold engineering",
+    "PET preform mould engineering",
     "tool steel STAVAX DIN 1.2316",
     "ISBM cleanroom tooling",
     "extrusion blow mould design",

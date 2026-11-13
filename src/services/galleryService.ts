@@ -93,9 +93,15 @@ export const STATIC_GALLERY_FALLBACK: DynamicGalleryData = {
 
 export async function getDynamicGalleryContent(): Promise<DynamicGalleryData> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1500);
+
     const res = await fetch(ADMIN_GALLERY_URL, {
-      cache: "no-store",
+      signal: controller.signal,
+      next: { revalidate: 60 },
     });
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("Failed to fetch dynamic gallery content");
     const json = await res.json();
     if (json.success && json.data) {

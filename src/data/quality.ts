@@ -117,7 +117,7 @@ export const QUALITY_PROCESS_STAGES: QualityProcessStage[] = [
   },
   {
     step: "05",
-    title: "Mold Testing & Approval",
+    title: "Mould Testing & Approval",
     description:
       "Functional assembly testing and sample validation to verify dry cycling, ejection mechanism, and mould trial behavior.",
     detail: "Trial observations & documented adjustments before dispatch.",

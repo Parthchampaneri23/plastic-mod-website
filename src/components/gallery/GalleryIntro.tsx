@@ -23,7 +23,7 @@ export const GalleryIntro: React.FC = () => {
             </h2>
 
             <p className="text-slate-600 text-sm sm:text-base font-normal leading-relaxed">
-              From advanced manufacturing equipment to precision-engineered molds and finished products, explore the facilities, processes, and craftsmanship that define Patel Mould Industries.
+              From advanced manufacturing equipment to precision-engineered moulds and finished products, explore the facilities, processes, and craftsmanship that define Patel Mould Industries.
             </p>
           </div>
 

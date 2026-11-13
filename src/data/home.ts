@@ -113,7 +113,7 @@ export interface StatItem {
 export const HERO_SLIDES: HeroSlide[] = [
   {
     id: "hero-1",
-    subtitle: "PRECISION MOLD MANUFACTURING",
+    subtitle: "PRECISION MOULD MANUFACTURING",
     title: "Precision Moulds",
     highlightText: "Built to Perform",
     description: "High-precision mould solutions built for accuracy, durability and performance.",
@@ -126,7 +126,7 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     id: "hero-2",
-    subtitle: "ADVANCED MOLD SOLUTIONS",
+    subtitle: "ADVANCED MOULD SOLUTIONS",
     title: "Moulds Built for Every",
     highlightText: "Production Needs",
     description: "Preform, ISBM, and EBM tooling built for high-speed production.",

@@ -105,7 +105,7 @@ const COMPANY_3_STATS = [
     subtext: 'High Cavitation',
     badgeText: 'HIGH CAVITATION',
     tagColor: 'bg-orange-50 text-[#ff6b00] border-orange-200',
-    title: '1,500+ Molds Delivered Worldwide',
+    title: '1,500+ Moulds Delivered Worldwide',
     detail: 'Custom PET preform, ISBM, and EBM tooling engineered for zero-defect production and rapid cycle times.',
     icon: <Sparkles className="w-5 h-5 text-[#ff6b00]" />,
   },
@@ -492,7 +492,7 @@ export const AboutCompanyIntro: React.FC<AboutCompanyIntroProps> = ({ companyInt
   const headingPrefix = companyIntro?.headingPrefix || "Built on Precision.";
   const headingHighlight = companyIntro?.headingHighlight || "Driven by Experience.";
   const paragraph1 = companyIntro?.paragraph1 || "Founded in 1994, Patel Mould Industries has grown into a precision tooling partner specializing in high-cavitation PET preform, ISBM and extrusion blow moulds. With advanced machining, EDM and inspection capabilities, we engineer tooling for demanding high-volume production environments.";
-  const paragraph2 = companyIntro?.paragraph2 || "Operating out of a 15,000 m² state-of-the-art facility in Gujarat, our master toolmakers and design engineers combine 30+ years of tooling craft with sub-micron 5-axis CNC machining and Zeiss 3D CMM metrology to deliver zero-defect mold performance worldwide.";
+  const paragraph2 = companyIntro?.paragraph2 || "Operating out of a 15,000 m² state-of-the-art facility in Gujarat, our master toolmakers and design engineers combine 30+ years of tooling craft with sub-micron 5-axis CNC machining and Zeiss 3D CMM metrology to deliver zero-defect mould performance worldwide.";
   const mainImage = companyIntro?.mainImage || "/About/about company.png";
 
   const statsList = companyIntro?.stats && companyIntro.stats.length > 0
